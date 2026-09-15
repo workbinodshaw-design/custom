@@ -1,26 +1,95 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-brand-dark: #1C1A17; /* Deep Charcoal */
+  --color-brand-darkHover: #2C2A27; 
+  --color-brand-gray: #8C8984; /* Warm grey for secondary text */
+  --color-brand-line: #D9D6D0; /* Very light warm grey for dividers */
+  --color-brand-bg: #F5F4F0; /* The beautiful warm beige background */
+  
+  --font-serif: var(--font-serif), serif;
+  --font-sans: var(--font-sans), sans-serif;
+  --font-cursive: var(--font-cursive), cursive;
+  --font-tangerine: var(--font-tangerine), cursive;
+  --font-imperial: var(--font-imperial), cursive;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@keyframes slowFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  background-color: var(--color-brand-bg);
+  color: var(--color-brand-dark);
+  overflow-x: hidden;
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-cursive {
+  font-family: var(--font-cursive);
+}
+
+.reveal-up {
+  opacity: 0; transform: translateY(20px);
+}
+.animations-ready .reveal-up {
+  animation: slowFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+
+.dark-btn { 
+  background-color: var(--color-brand-dark); 
+  color: white; 
+  transition: all 0.3s ease; 
+  border-radius: 9999px; /* Pill shape */
+}
+.dark-btn:hover { 
+  background-color: var(--color-brand-darkHover); 
+}
+
+.search-divider { width: 1px; height: 30px; background-color: var(--color-brand-line); margin: 0 16px; }
+
+.custom-select { appearance: none; background: transparent; border: none; outline: none; width: 100%; font-weight: 500; color: var(--color-brand-dark); cursor: pointer; font-family: var(--font-sans); }
+.custom-input { border: none; outline: none; width: 100%; font-weight: 500; color: var(--color-brand-dark); background: transparent; font-family: var(--font-sans); }
+.custom-input::placeholder { color: #B0ADA8; font-weight: 400; }
+
+.pill-toggle {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.pill {
+  font-size: 10.5px;
+  font-weight: 500;
+  padding: 4px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--color-brand-gray);
+}
+.pill.active {
+  border: 1px solid var(--color-brand-dark);
+  color: var(--color-brand-dark);
+}
+.pill:hover:not(.active) {
+  color: var(--color-brand-dark);
 }
