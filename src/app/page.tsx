@@ -4,6 +4,9 @@ import { Search, Globe, ChevronDown, ChevronRight, ChevronLeft, MapPin, Users, T
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
+import desktopBg from "../../public/tailorfind-bg.jpg";
+import mobileBg from "../../public/tailorfind-mobile-bg.jpg";
+
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [showLoader, setShowLoader] = useState(true);
@@ -52,31 +55,27 @@ export default function Home() {
           <span className="text-[5.5px] md:text-[6.5px] font-semibold tracking-[0.22em] uppercase mt-1.5 text-[#A09D98]">Exceptional Tailors. Everywhere.</span>
         </div>
 
-        {/* Desktop Links */}
-        <div className="hidden lg:flex items-center gap-12 text-[12px] font-medium text-brand-dark ml-20">
-          <a href="#" className="hover:text-brand-gray transition">Discover</a>
-          <a href="#" className="hover:text-brand-gray transition">Bespoke</a>
-          <a href="#" className="hover:text-brand-gray transition">Atelier</a>
-          <a href="#" className="hover:text-brand-gray transition">For Tailors</a>
-          <a href="#" className="hover:text-brand-gray transition">About</a>
+        {/* Nav Links */}
+        <div className="hidden lg:flex items-center gap-10">
+          <a href="#" className="text-[11px] font-bold text-brand-dark tracking-widest uppercase hover:opacity-70 transition">Discover</a>
+          <a href="#" className="text-[11px] font-bold text-brand-dark tracking-widest uppercase hover:opacity-70 transition">Bespoke</a>
+          <a href="#" className="text-[11px] font-bold text-brand-dark tracking-widest uppercase hover:opacity-70 transition">Atelier</a>
+          <a href="#" className="text-[11px] font-bold text-brand-dark tracking-widest uppercase hover:opacity-70 transition">For Tailors</a>
+          <a href="#" className="text-[11px] font-bold text-brand-dark tracking-widest uppercase hover:opacity-70 transition">About</a>
         </div>
 
-        {/* Actions */}
-        <div className="flex items-center gap-4 md:gap-6 text-[12px] font-medium text-brand-dark">
-          <div className="flex items-center gap-1.5 cursor-pointer hover:text-brand-gray transition">
-            <Globe className="w-3.5 h-3.5" />
-            EN
-            <ChevronDown className="w-3 h-3 ml-[-2px] text-brand-gray" />
+        {/* Right Actions */}
+        <div className="flex items-center gap-6">
+          <div className="hidden md:flex items-center gap-1.5 cursor-pointer hover:opacity-70 transition">
+            <Globe className="w-3.5 h-3.5 text-brand-dark" />
+            <span className="text-[10px] font-bold tracking-widest text-brand-dark uppercase">EN</span>
+            <ChevronDown className="w-3 h-3 text-brand-dark" />
           </div>
-          
-          <div className="hidden md:block w-[1px] h-4 bg-[#D9D6D0]"></div>
-          <a href="#" className="hidden md:block hover:text-brand-gray transition">Sign In</a>
-          <button className="hidden md:flex dark-btn px-6 py-2.5 items-center gap-2 text-[11px] font-medium tracking-wide ml-2">
-            Find a Tailor &rarr;
+          <a href="#" className="hidden md:block text-[11px] font-bold text-brand-dark tracking-widest uppercase hover:opacity-70 transition ml-2">Sign In</a>
+          <button className="dark-btn px-6 py-2.5 flex items-center gap-2 text-[10px] font-bold tracking-widest uppercase">
+            Find a Tailor <ChevronRight className="w-3 h-3" />
           </button>
-          
-          {/* Mobile Menu Icon */}
-          <div className="md:hidden ml-2 cursor-pointer">
+          <div className="lg:hidden ml-2">
             <Menu className="w-6 h-6 text-brand-dark" />
           </div>
         </div>
@@ -91,7 +90,7 @@ export default function Home() {
           {/* Desktop Image */}
           <div className="hidden md:block absolute inset-0 w-full h-full">
             <Image 
-              src="/tailorfind-bg.jpg" 
+              src={desktopBg} 
               alt="Bespoke Suit Background" 
               fill
               className="object-cover object-center"
@@ -104,7 +103,7 @@ export default function Home() {
           {/* Mobile Image */}
           <div className="block md:hidden absolute inset-0 w-full h-full">
             <Image 
-              src="/tailorfind-mobile-bg.jpg" 
+              src={mobileBg} 
               alt="Bespoke Mannequin" 
               fill
               className="object-cover object-[center_top]"
