@@ -367,7 +367,7 @@ export default function Home() {
       </section>
 
       {/* 4. FEATURED TAILORS */}
-      <section className="w-full bg-[#F9F9F9] py-20 relative z-20">
+      <section className="w-full bg-[#F9F9F9] pt-12 pb-2 lg:py-20 relative z-20">
         <div className="max-w-[1700px] mx-auto px-6 lg:px-16">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-8">
             <div>
@@ -386,7 +386,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex overflow-x-auto gap-4 md:gap-5 pb-8 pt-2 -mx-6 px-6 lg:mx-0 lg:px-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] lg:grid lg:grid-cols-4 lg:gap-6 lg:pb-0 lg:overflow-visible">
+          <div className="flex overflow-x-auto gap-4 md:gap-5 pb-6 pt-2 -mx-6 px-6 lg:mx-0 lg:px-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] lg:grid lg:grid-cols-4 lg:gap-6 lg:pb-0 lg:overflow-visible">
             {[
               { name: "Blackline Bespoke", rating: "4.9", rev: "128", loc: "Chicago, IL", dist: "2.3 km", price: "$899", img: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35", av: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d" },
               { name: "The Modern Stitch", rating: "4.7", rev: "96", loc: "New York, NY", dist: "4.8 km", price: "$699", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf", av: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e" },
@@ -490,7 +490,7 @@ export default function Home() {
       </section>
 
       {/* 6. POPULAR DESTINATIONS */}
-      <section className="w-full bg-[#F9F9F9] py-20 relative z-20">
+      <section className="w-full bg-[#F9F9F9] pt-12 pb-2 lg:py-20 relative z-20">
         <div className="max-w-[1700px] mx-auto px-6 lg:px-16">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
             <div>
