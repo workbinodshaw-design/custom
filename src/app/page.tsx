@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Play, ShieldCheck, Calendar, Globe, MapPin, Target, Users, Search, ChevronDown, ChevronRight, ChevronLeft, Menu, SlidersHorizontal, Mouse } from "lucide-react";
+import { Play, ShieldCheck, Calendar, Globe, MapPin, Target, Users, Search, ChevronDown, ChevronRight, ChevronLeft, Menu, SlidersHorizontal, Mouse, X } from "lucide-react";
 import Image from "next/image";
 
 import desktopBg from "../../public/tailorfind-bg.jpg";
@@ -13,6 +13,7 @@ export default function Home() {
   const [showLoader, setShowLoader] = useState(true);
   const [langOpen, setLangOpen] = useState(false);
   const [selectedLang, setSelectedLang] = useState("EN");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     // Trigger the split curtain reveal animation
@@ -54,7 +55,7 @@ export default function Home() {
       <motion.nav initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }} className="absolute top-0 left-0 w-full z-50 flex justify-between items-center px-6 lg:px-16 pt-8 pb-4">
         {/* Logo */}
         <div className="flex items-center gap-3">
-          <img src="https://cdn-icons-png.flaticon.com/128/3004/3004381.png" alt="Logo" className="w-10 h-10 filter invert-[0.8] sepia-[1] saturate-[3] hue-rotate-[10deg] brightness-[0.9] contrast-[1.2]" />
+          <img src="https://cdn-icons-png.flaticon.com/128/3004/3004381.png" alt="Logo" className="w-10 h-10 filter invert opacity-90" />
           <div className="flex flex-col leading-none">
             <span className="font-serif text-[28px] md:text-[34px] text-white tracking-normal leading-[0.9]">TailorFind</span>
             <span className="text-[5.5px] md:text-[6px] font-semibold tracking-[0.3em] uppercase mt-1 text-white/50">Exceptional Tailors. Everywhere.</span>
@@ -103,14 +104,61 @@ export default function Home() {
           <button className="hidden md:flex bg-[#D4AF37] text-black px-6 py-2.5 items-center gap-2 text-[13px] font-bold rounded-full shadow-lg hover:bg-[#CFA972] transition">
             Find a Tailor &rarr;
           </button>
-          <div className="lg:hidden ml-1">
+          <div className="lg:hidden ml-1 cursor-pointer" onClick={() => setMobileMenuOpen(true)}>
             <Menu className="w-6 h-6 text-white" />
           </div>
         </div>
-      </motion.nav>
+        </motion.nav>
+
+        {/* Mobile Menu Backdrop & Popup */}
+        {mobileMenuOpen && (
+          <div className="fixed inset-0 z-[200] bg-black/60 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setMobileMenuOpen(false)}>
+            {/* Premium Modal */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="w-full max-w-[340px] bg-[#111] border border-white/10 shadow-2xl rounded-3xl flex flex-col px-6 py-8 relative overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Decorative premium glow */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[100px] bg-[#D4AF37] opacity-20 blur-[60px] pointer-events-none rounded-full"></div>
+
+              <div className="flex justify-between items-center w-full mb-8 relative z-10">
+                <span className="font-serif text-[22px] text-white">Menu</span>
+                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center cursor-pointer hover:bg-white/20 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                  <X className="w-4 h-4 text-white" />
+                </div>
+              </div>
+              
+              <div className="flex flex-col gap-4 text-[15px] font-medium text-white/70 relative z-10">
+                <a href="#" className="hover:text-white transition-colors flex items-center justify-between group py-2 border-b border-white/5">
+                  Find a Tailor <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
+                </a>
+                <a href="#" className="hover:text-white transition-colors flex items-center justify-between group py-2 border-b border-white/5">
+                  Services <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
+                </a>
+                <a href="#" className="hover:text-white transition-colors flex items-center justify-between group py-2 border-b border-white/5">
+                  Locations <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
+                </a>
+                <a href="#" className="hover:text-white transition-colors flex items-center justify-between group py-2 border-b border-white/5">
+                  How It Works <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
+                </a>
+                <a href="#" className="hover:text-white transition-colors flex items-center justify-between group py-2">
+                  For Tailors <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
+                </a>
+              </div>
+
+              <div className="mt-8 flex flex-col gap-3 relative z-10">
+                <button className="bg-[#D4AF37] text-black w-full py-3.5 rounded-xl text-[14px] font-bold shadow-[0_4px_15px_rgba(212,175,55,0.25)] hover:bg-[#CFA972] transition-colors">Find a Tailor</button>
+                <button className="bg-transparent border border-white/20 text-white w-full py-3.5 rounded-xl text-[14px] font-bold hover:bg-white/5 transition-colors">Sign In</button>
+              </div>
+            </motion.div>
+          </div>
+        )}
 
       {/* 2. DARK HERO SECTION */}
-      <section className="relative w-full pt-[120px] md:pt-[160px] pb-10 md:pb-24 overflow-hidden bg-[#0A1010]">
+      <section className="relative w-full pt-[120px] md:pt-[160px] pb-10 md:pb-24 overflow-hidden bg-[#0A0A0A]">
         
         {/* Background Image Parallax */}
         <motion.div 
@@ -122,10 +170,10 @@ export default function Home() {
           <img 
             src="https://images.unsplash.com/photo-1593032465175-481ac7f401a0?w=2000&q=80" 
             alt="Suit Background" 
-            className="w-full h-full object-cover object-[center_top] opacity-90"
+            className="w-full h-full object-cover object-[center_top] opacity-80"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-transparent opacity-80"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-80"></div>
         </motion.div>
 
         {/* Hero Content Wrapper */}
@@ -134,118 +182,118 @@ export default function Home() {
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center w-full relative">
             
             {/* Main Hero Text (Left) */}
-            <div className="w-full max-w-[800px] flex flex-col relative z-10">
-              <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1.2, delay: 0.2 }} viewport={{ once: true }} className="flex items-center gap-4 mb-5 md:mb-6 mt-8 md:mt-0">
-                <p className="text-white font-bold tracking-[0.25em] text-[9px] md:text-[10px] uppercase">Tailoring a better you</p>
-                <div className="w-12 h-[1px] bg-[#C6A87C]"></div>
-              </motion.div>
-              
-              <motion.h1 initial={{ opacity: 0, y: 80, filter: 'blur(10px)' }} whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ duration: 1.2, delay: 0.4 }} viewport={{ once: true }} className="font-serif flex flex-col mb-4 md:mb-6">
-                <span className="text-[52px] md:text-[85px] text-white leading-[1.05]">Find the</span>
-                <span className="text-[52px] md:text-[85px] text-[#CFA972] italic leading-[1.05]">Perfect</span>
-                <span className="text-[52px] md:text-[85px] text-white leading-[1.05]">Custom Tailor</span>
-                <span className="text-[32px] md:text-[50px] text-white/95 leading-[1.05] mt-1 md:mt-2">Near You</span>
-              </motion.h1>
-              <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1.2, delay: 0.6 }} viewport={{ once: true }} className="text-white/80 text-[14px] md:text-[18px] max-w-[500px] pr-[90px] md:pr-0 leading-[1.5] mb-8">
-                Discover trusted bespoke, made-to-measure and custom tailoring professionals around the world.
-              </motion.p>
+              <div className="w-full max-w-[800px] flex flex-col relative z-10">
+                <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1.2, delay: 0.2 }} viewport={{ once: true }} className="flex items-center gap-4 mb-4 md:mb-6 mt-8 md:mt-0">
+                  <p className="text-[#D4AF37] font-medium tracking-[0.3em] text-[9px] md:text-[10px] uppercase">Tailoring a better you</p>
+                  <div className="w-10 h-[1px] bg-[#D4AF37]/50"></div>
+                </motion.div>
+                
+                <motion.h1 initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }} whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ duration: 1.2, delay: 0.4 }} viewport={{ once: true }} className="font-serif flex flex-col mb-4 md:mb-6">
+                  <span className="text-[46px] md:text-[75px] text-white leading-[1.05] tracking-tight">Find the</span>
+                  <span className="text-[46px] md:text-[75px] text-[#D4AF37] italic leading-[1.05] tracking-tight pr-2">Perfect</span>
+                  <span className="text-[46px] md:text-[75px] text-white leading-[1.05] tracking-tight">Custom Tailor</span>
+                  <span className="text-[32px] md:text-[45px] text-white/70 leading-[1.05] tracking-wide mt-1 md:mt-2 font-light">Near You</span>
+                </motion.h1>
+                <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1.2, delay: 0.6 }} viewport={{ once: true }} className="text-white/70 text-[14px] md:text-[16px] max-w-[500px] pr-[90px] md:pr-0 leading-[1.6] mb-8 font-light">
+                  Discover trusted bespoke, made-to-measure and custom tailoring professionals around the world.
+                </motion.p>
 
               {/* Watch Our Story (Left on Mobile) */}
-              <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.7 }} viewport={{ once: true }} className="flex items-center gap-4 cursor-pointer group mb-2 lg:mb-0">
-                <div className="w-12 h-12 md:w-14 md:h-14 rounded-full border border-[#CFA972] flex items-center justify-center transition hover:bg-[#CFA972]/10">
-                  <Play className="w-4 h-4 md:w-5 md:h-5 text-[#CFA972] fill-current" />
+              <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.7 }} viewport={{ once: true }} className="flex items-center gap-4 cursor-pointer group mb-2 lg:mb-0">
+                <div className="w-11 h-11 md:w-12 md:h-12 rounded-full border border-white/20 flex items-center justify-center transition group-hover:bg-white/10 backdrop-blur-sm">
+                  <Play className="w-3.5 h-3.5 md:w-4 md:h-4 text-white fill-white ml-0.5" />
                 </div>
-                <span className="text-[12px] md:text-[13px] font-medium text-white leading-tight">Watch<br/>Our Story</span>
+                <span className="text-[11px] md:text-[12px] font-medium tracking-wide text-white uppercase leading-tight">Watch<br/>Our Story</span>
               </motion.div>
             </div>
 
             {/* Floating Right Text (Mobile & Desktop) */}
-            <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1.2, delay: 0.8 }} viewport={{ once: true }} className="absolute right-0 bottom-[15px] md:bottom-0 lg:bottom-auto lg:top-auto lg:relative lg:flex flex-col items-end gap-16 z-0">
-              <div className="flex flex-col items-end gap-4 text-right">
-                <span className="text-[8px] md:text-[10px] font-bold tracking-[0.4em] text-white/80 uppercase">More<br/>Than A Suit</span>
-                <div className="w-10 md:w-12 h-[1px] md:h-[2px] bg-[#CFA972]"></div>
-                <span className="text-[8px] md:text-[10px] font-bold tracking-[0.4em] text-white/80 uppercase">A Better You</span>
+            <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1.2, delay: 0.8 }} viewport={{ once: true }} className="absolute right-0 bottom-[15px] md:bottom-0 lg:bottom-auto lg:top-auto lg:relative lg:flex flex-col items-end gap-16 z-0">
+              <div className="flex flex-col items-end gap-3 text-right opacity-80">
+                <span className="text-[7.5px] md:text-[9px] font-medium tracking-[0.5em] text-white uppercase">More<br/>Than A Suit</span>
+                <div className="w-8 md:w-10 h-[1px] bg-white/40"></div>
+                <span className="text-[7.5px] md:text-[9px] font-medium tracking-[0.5em] text-white uppercase">A Better You</span>
               </div>
             </motion.div>
           </div>
 
           {/* Search Area */}
-          <motion.div initial={{ opacity: 0, y: 80, filter: 'blur(10px)' }} whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ duration: 1.2, delay: 0.5 }} viewport={{ once: true, amount: 0.2 }} className="w-full max-w-[1200px] mt-8 md:mt-16 z-20">
+          <motion.div initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }} whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ duration: 1.2, delay: 0.5 }} viewport={{ once: true, amount: 0.2 }} className="w-full max-w-[1200px] mt-8 md:mt-16 z-20">
             
             {/* Tabs (Scrollable on mobile) */}
             <div className="flex items-center gap-1 md:gap-2 mb-0 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] w-full">
-              <button className="bg-white text-black px-6 py-3.5 rounded-t-[12px] text-[12px] md:text-[13px] font-bold flex items-center gap-2 shrink-0">
-                <Search className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#CFA972]" /> Find a Tailor
+              <button className="bg-white text-black px-6 py-3.5 rounded-t-[14px] text-[12px] md:text-[13px] font-bold flex items-center gap-2 shrink-0 relative z-10">
+                <Search className="w-3.5 h-3.5 md:w-4 md:h-4 text-black" /> Find a Tailor
               </button>
-              <button className="bg-black/40 backdrop-blur-md border border-white/10 border-b-0 text-white px-6 py-3.5 rounded-t-[12px] text-[12px] md:text-[13px] font-medium hover:text-white transition flex items-center gap-2 shrink-0">
+              <button className="bg-white/5 backdrop-blur-md border border-white/10 border-b-0 text-white/80 px-6 py-3.5 rounded-t-[14px] text-[12px] md:text-[13px] font-medium hover:text-white transition flex items-center gap-2 shrink-0">
                 <Calendar className="w-3.5 h-3.5 md:w-4 md:h-4 opacity-70" /> Book a Home Visit
               </button>
-              <button className="bg-black/40 backdrop-blur-md border border-white/10 border-b-0 text-white px-6 py-3.5 rounded-t-[12px] text-[12px] md:text-[13px] font-medium hover:text-white transition flex items-center gap-2 shrink-0">
+              <button className="bg-white/5 backdrop-blur-md border border-white/10 border-b-0 text-white/80 px-6 py-3.5 rounded-t-[14px] text-[12px] md:text-[13px] font-medium hover:text-white transition flex items-center gap-2 shrink-0">
                 <Globe className="w-3.5 h-3.5 md:w-4 md:h-4 opacity-70" /> Virtual Consultation
               </button>
             </div>
 
             {/* 4-Column Search Pill */}
-            <div className="w-full bg-white rounded-b-[20px] rounded-tr-[20px] md:rounded-tr-none shadow-2xl p-3 md:p-0 flex flex-col md:flex-row items-stretch md:items-center border border-white/20">
+            <div className="w-full bg-white rounded-b-[20px] rounded-tr-[20px] md:rounded-tr-none shadow-2xl p-0 flex flex-col md:flex-row items-stretch md:items-center">
               
               {/* Column 1 */}
-              <div className="flex-1 flex flex-col px-5 py-4 md:py-3 border-b md:border-b-0 md:border-r border-[#EAEAEA] w-full min-w-0">
+              <div className="flex-1 flex flex-col px-6 py-4 md:py-3 border-b md:border-b-0 md:border-r border-gray-100 w-full min-w-0">
                 <div className="flex items-center justify-between cursor-pointer group w-full">
                   <div className="flex items-center gap-4">
-                    <img src="https://cdn-icons-png.flaticon.com/128/3004/3004381.png" alt="Suit" className="w-6 h-6 opacity-80" />
+                    <img src="https://cdn-icons-png.flaticon.com/128/3004/3004381.png" alt="Suit" className="w-5 h-5 opacity-70" />
                     <div className="flex flex-col">
-                      <span className="text-[11px] font-medium text-gray-500 mb-0.5">What are you looking for?</span>
-                      <span className="text-[14px] text-black font-semibold">Custom Suit</span>
+                      <span className="text-[9px] font-bold tracking-wider uppercase text-gray-400 mb-0.5">Looking for</span>
+                      <span className="text-[14px] text-black font-medium">Custom Suit</span>
                     </div>
                   </div>
-                  <ChevronDown className="w-4 h-4 text-black font-bold" strokeWidth={2.5} />
+                  <ChevronDown className="w-3.5 h-3.5 text-gray-400 font-bold" strokeWidth={2.5} />
                 </div>
               </div>
 
               {/* Column 2 */}
-              <div className="flex-[1.2] flex flex-col px-5 py-4 md:py-3 border-b md:border-b-0 md:border-r border-[#EAEAEA] w-full min-w-0">
+              <div className="flex-[1.2] flex flex-col px-6 py-4 md:py-3 border-b md:border-b-0 md:border-r border-gray-100 w-full min-w-0">
                  <div className="flex items-center gap-4 w-full">
-                    <MapPin className="w-6 h-6 text-black shrink-0" strokeWidth={1.5} />
+                    <MapPin className="w-5 h-5 text-gray-400 shrink-0" strokeWidth={1.5} />
                     <div className="flex flex-col w-full justify-center">
-                      <span className="text-[11px] font-medium text-gray-500 mb-0.5">Your Location</span>
-                      <input type="text" placeholder="Enter city, ZIP or address" className="text-[14px] font-medium text-black bg-transparent outline-none w-full placeholder:text-gray-400" />
-                      <p className="text-[10px] text-[#4285F4] flex items-center gap-1 mt-1 font-semibold cursor-pointer hover:underline">
-                         <Target className="w-2.5 h-2.5" /> Use my current location
+                      <span className="text-[9px] font-bold tracking-wider uppercase text-gray-400 mb-0.5">Location</span>
+                      <input type="text" placeholder="City, ZIP or address" className="text-[14px] font-medium text-black bg-transparent outline-none w-full placeholder:text-gray-300" />
+                      <p className="text-[9px] text-[#D4AF37] flex items-center gap-1 mt-1 font-semibold cursor-pointer hover:underline uppercase tracking-wide">
+                         <Target className="w-2.5 h-2.5" /> Use my location
                       </p>
                     </div>
                   </div>
               </div>
 
               {/* Column 3 */}
-              <div className="flex-[0.8] flex flex-col px-5 py-4 md:py-3 border-b md:border-b-0 md:border-r border-[#EAEAEA] w-full min-w-0">
+              <div className="flex-[0.8] flex flex-col px-6 py-4 md:py-3 border-b md:border-b-0 md:border-r border-gray-100 w-full min-w-0">
                 <div className="flex items-center justify-between cursor-pointer group w-full">
                   <div className="flex items-center gap-4">
-                    <Target className="w-6 h-6 text-black" strokeWidth={1.5} />
+                    <Target className="w-5 h-5 text-gray-400" strokeWidth={1.5} />
                     <div className="flex flex-col">
-                      <span className="text-[11px] font-medium text-gray-500 mb-0.5">Search Radius</span>
-                      <span className="text-[14px] text-black font-semibold">40 km</span>
+                      <span className="text-[9px] font-bold tracking-wider uppercase text-gray-400 mb-0.5">Radius</span>
+                      <span className="text-[14px] text-black font-medium">40 km</span>
                     </div>
                   </div>
-                  <ChevronDown className="w-4 h-4 text-black font-bold" strokeWidth={2.5} />
+                  <ChevronDown className="w-3.5 h-3.5 text-gray-400 font-bold" strokeWidth={2.5} />
                 </div>
               </div>
 
               {/* Column 4 */}
-              <div className="flex-1 flex flex-col px-5 py-4 md:py-3 w-full min-w-0">
+              <div className="flex-1 flex flex-col px-6 py-4 md:py-3 w-full min-w-0">
                 <div className="flex items-center justify-between cursor-pointer group w-full">
                   <div className="flex items-center gap-4">
-                    <Users className="w-6 h-6 text-black" strokeWidth={1.5} />
+                    <Users className="w-5 h-5 text-gray-400" strokeWidth={1.5} />
                     <div className="flex flex-col">
-                      <span className="text-[11px] font-medium text-gray-500 mb-0.5">Fitting Preference</span>
-                      <span className="text-[14px] text-black font-semibold">Home Visit</span>
+                      <span className="text-[9px] font-bold tracking-wider uppercase text-gray-400 mb-0.5">Fitting</span>
+                      <span className="text-[14px] text-black font-medium">Home Visit</span>
                     </div>
                   </div>
-                  <ChevronDown className="w-4 h-4 text-black font-bold" strokeWidth={2.5} />
+                  <ChevronDown className="w-3.5 h-3.5 text-gray-400 font-bold" strokeWidth={2.5} />
                 </div>
               </div>
 
               {/* Action Button */}
-              <button className="bg-[#C19B64] hover:bg-[#A67D42] text-black h-[56px] px-8 flex items-center justify-center gap-2 text-[15px] font-bold rounded-xl mt-4 md:mt-0 md:rounded-l-none md:rounded-r-[20px] shadow-sm shrink-0 w-full md:w-auto transition-colors">
+              <button className="bg-black hover:bg-gray-900 text-white h-[56px] px-8 flex items-center justify-center gap-2 text-[14px] font-bold rounded-xl mt-4 mb-4 mx-4 md:m-0 md:rounded-l-none md:rounded-r-[20px] shadow-sm shrink-0 w-auto md:w-auto transition-colors">
                 Find Tailors &rarr;
               </button>
             </div>
