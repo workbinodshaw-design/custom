@@ -1,24 +1,18 @@
 import type { Metadata } from "next";
-import { Bodoni_Moda, Montserrat, Pinyon_Script, Tangerine, Imperial_Script } from "next/font/google";
+import { Playfair_Display, Manrope, Tangerine } from "next/font/google";
 import "./globals.css";
 
-const bodoni = Bodoni_Moda({
+const playfair = Playfair_Display({
   variable: "--font-serif",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   style: ["normal", "italic"],
 });
 
-const montserrat = Montserrat({
+const manrope = Manrope({
   variable: "--font-sans",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
-});
-
-const cursive = Pinyon_Script({
-  variable: "--font-cursive",
-  subsets: ["latin"],
-  weight: ["400"],
 });
 
 const tangerine = Tangerine({
@@ -27,17 +21,13 @@ const tangerine = Tangerine({
   weight: ["400", "700"],
 });
 
-const imperial = Imperial_Script({
-  variable: "--font-imperial",
-  subsets: ["latin"],
-  weight: ["400"],
-});
-
-
 export const metadata: Metadata = {
-  title: "TailorFind | Exceptional Tailors. Everywhere.",
+  title: "TailorFind | Premium Custom Tailoring",
   description: "Find the perfect custom tailor near you.",
 };
+
+import SmoothScroll from "../components/SmoothScroll";
+
 
 export default function RootLayout({
   children,
@@ -47,9 +37,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${montserrat.variable} ${bodoni.variable} ${cursive.variable} ${tangerine.variable} ${imperial.variable} antialiased bg-[#F5F4F0] text-[#1C1A17]`}
+        className={`${manrope.variable} ${playfair.variable} antialiased bg-[#F5F4F0] text-[#1C1A17]`}
       >
-        {children}
+        
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );

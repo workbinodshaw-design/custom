@@ -1,8 +1,9 @@
 "use client";
 
-import { Search, Globe, ChevronDown, ChevronRight, ChevronLeft, MapPin, Users, Target, Menu, SlidersHorizontal, Mouse } from "lucide-react";
-import Image from "next/image";
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Play, ShieldCheck, Calendar, Globe, MapPin, Target, Users, Search, ChevronDown, ChevronRight, ChevronLeft, Menu, SlidersHorizontal, Mouse } from "lucide-react";
+import Image from "next/image";
 
 import desktopBg from "../../public/tailorfind-bg.jpg";
 import mobileBg from "../../public/tailorfind-mobile-bg.jpg";
@@ -10,6 +11,8 @@ import mobileBg from "../../public/tailorfind-mobile-bg.jpg";
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [showLoader, setShowLoader] = useState(true);
+  const [langOpen, setLangOpen] = useState(false);
+  const [selectedLang, setSelectedLang] = useState("EN");
 
   useEffect(() => {
     // Trigger the split curtain reveal animation
@@ -48,169 +51,232 @@ export default function Home() {
       )}
 
       {/* 1. TOP NAVIGATION */}
-      <nav className="absolute top-0 left-0 w-full z-50 flex justify-between items-center px-6 lg:px-16 pt-8 pb-4 reveal-up">
+      <motion.nav initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }} className="absolute top-0 left-0 w-full z-50 flex justify-between items-center px-6 lg:px-16 pt-8 pb-4">
         {/* Logo */}
         <div className="flex items-center gap-3">
-          <img src="https://cdn-icons-png.flaticon.com/128/3004/3004381.png" alt="Logo" className="w-8 h-8 filter invert brightness-0" />
+          <img src="https://cdn-icons-png.flaticon.com/128/3004/3004381.png" alt="Logo" className="w-10 h-10 filter invert-[0.8] sepia-[1] saturate-[3] hue-rotate-[10deg] brightness-[0.9] contrast-[1.2]" />
           <div className="flex flex-col leading-none">
-            <span className="font-serif text-[28px] md:text-[32px] text-white tracking-normal">TailorFind</span>
-            <span className="text-[5.5px] md:text-[6.5px] font-semibold tracking-[0.22em] uppercase mt-1.5 text-white/60">Exceptional Tailors. Everywhere.</span>
+            <span className="font-serif text-[28px] md:text-[34px] text-white tracking-normal leading-[0.9]">TailorFind</span>
+            <span className="text-[5.5px] md:text-[6px] font-semibold tracking-[0.3em] uppercase mt-1 text-white/50">Exceptional Tailors. Everywhere.</span>
           </div>
         </div>
         
         {/* Nav Links */}
-        <div className="hidden lg:flex items-center gap-8">
-          <a href="#" className="text-[12px] font-semibold text-white tracking-wide hover:opacity-70 transition">Find a Tailor</a>
-          <a href="#" className="text-[12px] font-semibold text-white tracking-wide hover:opacity-70 transition">Services</a>
-          <a href="#" className="text-[12px] font-semibold text-white tracking-wide hover:opacity-70 transition">Locations</a>
-          <a href="#" className="text-[12px] font-semibold text-white tracking-wide hover:opacity-70 transition">How It Works</a>
-          <a href="#" className="text-[12px] font-semibold text-white tracking-wide hover:opacity-70 transition">For Tailors</a>
-          <a href="#" className="text-[12px] font-semibold text-white tracking-wide hover:opacity-70 transition">About</a>
+        <div className="hidden lg:flex items-center gap-10">
+          <div className="flex flex-col">
+            <a href="#" className="text-[12px] font-semibold text-white tracking-wide hover:opacity-70 transition">Find a Tailor</a>
+            <div className="h-[2px] w-full bg-[#C6A87C] mt-1.5"></div>
+          </div>
+          <a href="#" className="text-[12px] font-medium text-white tracking-wide hover:opacity-70 transition">Services</a>
+          <a href="#" className="text-[12px] font-medium text-white tracking-wide hover:opacity-70 transition">Locations</a>
+          <a href="#" className="text-[12px] font-medium text-white tracking-wide hover:opacity-70 transition">How It Works</a>
+          <a href="#" className="text-[12px] font-medium text-white tracking-wide hover:opacity-70 transition">For Tailors</a>
+          <a href="#" className="text-[12px] font-medium text-white tracking-wide hover:opacity-70 transition">About</a>
         </div>
         
         {/* Right Actions */}
-        <div className="flex items-center gap-6">
-          <div className="hidden md:flex items-center gap-1.5 cursor-pointer hover:opacity-70 transition">
-            <Globe className="w-3.5 h-3.5 text-white" />
-            <span className="text-[12px] font-semibold text-white">EN</span>
-            <ChevronDown className="w-3 h-3 text-white" />
+        <div className="flex items-center gap-4 md:gap-6">
+          <div className="relative">
+            <div onClick={() => setLangOpen(!langOpen)} className="flex items-center gap-1.5 cursor-pointer hover:opacity-70 transition">
+              <Globe className="w-3.5 h-3.5 md:w-4 md:h-4 text-white" />
+              <span className="text-[11px] md:text-[12px] font-medium text-white">{selectedLang}</span>
+              <ChevronDown className="w-3 h-3 text-white" />
+            </div>
+            
+            {/* Dropdown Menu */}
+            {langOpen && (
+              <div className="absolute top-full mt-4 right-0 w-[120px] bg-[#111111]/90 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl py-2 flex flex-col z-50">
+                {['EN', 'FR', 'ES', 'IT'].map(lang => (
+                  <button 
+                    key={lang}
+                    onClick={() => { setSelectedLang(lang); setLangOpen(false); }}
+                    className={`text-left px-4 py-2 text-[12px] font-medium transition ${selectedLang === lang ? 'text-[#CFA972] bg-white/5' : 'text-white hover:bg-white/10'}`}
+                  >
+                    {lang === 'EN' ? 'English' : lang === 'FR' ? 'Français' : lang === 'ES' ? 'Español' : 'Italiano'}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
-          <a href="#" className="hidden md:block text-[13px] font-semibold text-white hover:opacity-70 transition ml-2">Sign In</a>
-          <button className="gold-btn px-6 py-2.5 flex items-center gap-2 text-[12px] font-semibold rounded-full shadow-lg">
+          <div className="hidden md:block w-[1px] h-4 bg-white/30"></div>
+          <a href="#" className="hidden md:block text-[13px] font-medium text-white hover:opacity-70 transition">Sign In</a>
+          <button className="hidden md:flex bg-[#D4AF37] text-black px-6 py-2.5 items-center gap-2 text-[13px] font-bold rounded-full shadow-lg hover:bg-[#CFA972] transition">
             Find a Tailor &rarr;
           </button>
-          <div className="lg:hidden ml-2">
+          <div className="lg:hidden ml-1">
             <Menu className="w-6 h-6 text-white" />
           </div>
         </div>
-      </nav>
+      </motion.nav>
 
       {/* 2. DARK HERO SECTION */}
-      <section className="relative w-full min-h-[900px] flex items-center pt-[140px] pb-12 overflow-hidden bg-[#111]">
+      <section className="relative w-full pt-[120px] md:pt-[160px] pb-10 md:pb-24 overflow-hidden bg-[#0A1010]">
         
-        {/* Background Image */}
-        <div className="absolute inset-0 w-full h-full z-0">
+        {/* Background Image Parallax */}
+        <motion.div 
+          initial={{ scale: 1.1, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+          className="absolute inset-0 w-full h-full z-0"
+        >
           <img 
-            src="https://images.unsplash.com/photo-1593032465175-481ac7f401a0?w=1800&q=80" 
-            alt="Tuxedo Background" 
-            className="w-full h-full object-cover object-[center_top] opacity-80"
+            src="https://images.unsplash.com/photo-1593032465175-481ac7f401a0?w=2000&q=80" 
+            alt="Suit Background" 
+            className="w-full h-full object-cover object-[center_top] opacity-90"
           />
-          {/* Gradients to fade edges into dark */}
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-black/50"></div>
-        </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-transparent opacity-80"></div>
+        </motion.div>
 
         {/* Hero Content Wrapper */}
-        <div className="relative z-20 w-full max-w-[1700px] mx-auto flex flex-col h-full px-6 lg:px-16 pt-16">
+        <div className="relative z-20 w-full max-w-[1700px] mx-auto flex flex-col px-5 lg:px-16">
           
-          {/* Main Hero Text */}
-          <div className="w-full max-w-[700px] flex flex-col reveal-up delay-1">
-            <p className="text-white/70 font-semibold tracking-[0.3em] text-[10px] uppercase mb-4">Tailoring a better you</p>
-            <h1 className="font-serif text-[50px] md:text-[65px] text-white leading-[1.1] mb-6">
-              Find the Perfect Custom Tailor Near You
-            </h1>
-            <p className="text-white/80 text-[15px] md:text-[18px] max-w-[500px] mb-10 leading-[1.5]">
-              Discover trusted bespoke, made-to-measure and custom tailoring professionals around the world.
-            </p>
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center w-full relative">
+            
+            {/* Main Hero Text (Left) */}
+            <div className="w-full max-w-[800px] flex flex-col relative z-10">
+              <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1.2, delay: 0.2 }} viewport={{ once: true }} className="flex items-center gap-4 mb-5 md:mb-6 mt-8 md:mt-0">
+                <p className="text-white font-bold tracking-[0.25em] text-[9px] md:text-[10px] uppercase">Tailoring a better you</p>
+                <div className="w-12 h-[1px] bg-[#C6A87C]"></div>
+              </motion.div>
+              
+              <motion.h1 initial={{ opacity: 0, y: 80, filter: 'blur(10px)' }} whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ duration: 1.2, delay: 0.4 }} viewport={{ once: true }} className="font-serif flex flex-col mb-4 md:mb-6">
+                <span className="text-[52px] md:text-[85px] text-white leading-[1.05]">Find the</span>
+                <span className="text-[52px] md:text-[85px] text-[#CFA972] italic leading-[1.05]">Perfect</span>
+                <span className="text-[52px] md:text-[85px] text-white leading-[1.05]">Custom Tailor</span>
+                <span className="text-[32px] md:text-[50px] text-white/95 leading-[1.05] mt-1 md:mt-2">Near You</span>
+              </motion.h1>
+              <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1.2, delay: 0.6 }} viewport={{ once: true }} className="text-white/80 text-[14px] md:text-[18px] max-w-[500px] pr-[90px] md:pr-0 leading-[1.5] mb-8">
+                Discover trusted bespoke, made-to-measure and custom tailoring professionals around the world.
+              </motion.p>
+
+              {/* Watch Our Story (Left on Mobile) */}
+              <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.7 }} viewport={{ once: true }} className="flex items-center gap-4 cursor-pointer group mb-2 lg:mb-0">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-full border border-[#CFA972] flex items-center justify-center transition hover:bg-[#CFA972]/10">
+                  <Play className="w-4 h-4 md:w-5 md:h-5 text-[#CFA972] fill-current" />
+                </div>
+                <span className="text-[12px] md:text-[13px] font-medium text-white leading-tight">Watch<br/>Our Story</span>
+              </motion.div>
+            </div>
+
+            {/* Floating Right Text (Mobile & Desktop) */}
+            <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1.2, delay: 0.8 }} viewport={{ once: true }} className="absolute right-0 bottom-[15px] md:bottom-0 lg:bottom-auto lg:top-auto lg:relative lg:flex flex-col items-end gap-16 z-0">
+              <div className="flex flex-col items-end gap-4 text-right">
+                <span className="text-[8px] md:text-[10px] font-bold tracking-[0.4em] text-white/80 uppercase">More<br/>Than A Suit</span>
+                <div className="w-10 md:w-12 h-[1px] md:h-[2px] bg-[#CFA972]"></div>
+                <span className="text-[8px] md:text-[10px] font-bold tracking-[0.4em] text-white/80 uppercase">A Better You</span>
+              </div>
+            </motion.div>
           </div>
 
           {/* Search Area */}
-          <div className="w-full max-w-[1100px] reveal-up delay-2 mt-4">
+          <motion.div initial={{ opacity: 0, y: 80, filter: 'blur(10px)' }} whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ duration: 1.2, delay: 0.5 }} viewport={{ once: true, amount: 0.2 }} className="w-full max-w-[1200px] mt-8 md:mt-16 z-20">
             
-            {/* Tabs */}
-            <div className="flex items-center gap-2 mb-2">
-              <button className="bg-white text-brand-dark px-6 py-3 rounded-t-lg text-[13px] font-semibold border-b-2 border-brand-gold">
-                Find a Tailor
+            {/* Tabs (Scrollable on mobile) */}
+            <div className="flex items-center gap-1 md:gap-2 mb-0 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] w-full">
+              <button className="bg-white text-black px-6 py-3.5 rounded-t-[12px] text-[12px] md:text-[13px] font-bold flex items-center gap-2 shrink-0">
+                <Search className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#CFA972]" /> Find a Tailor
               </button>
-              <button className="bg-black/20 backdrop-blur-md text-white px-6 py-3 rounded-t-lg text-[13px] font-medium hover:bg-black/40 transition">
-                Book a Home Visit
+              <button className="bg-black/40 backdrop-blur-md border border-white/10 border-b-0 text-white px-6 py-3.5 rounded-t-[12px] text-[12px] md:text-[13px] font-medium hover:text-white transition flex items-center gap-2 shrink-0">
+                <Calendar className="w-3.5 h-3.5 md:w-4 md:h-4 opacity-70" /> Book a Home Visit
               </button>
-              <button className="bg-black/20 backdrop-blur-md text-white px-6 py-3 rounded-t-lg text-[13px] font-medium hover:bg-black/40 transition">
-                Virtual Consultation
+              <button className="bg-black/40 backdrop-blur-md border border-white/10 border-b-0 text-white px-6 py-3.5 rounded-t-[12px] text-[12px] md:text-[13px] font-medium hover:text-white transition flex items-center gap-2 shrink-0">
+                <Globe className="w-3.5 h-3.5 md:w-4 md:h-4 opacity-70" /> Virtual Consultation
               </button>
             </div>
 
             {/* 4-Column Search Pill */}
-            <div className="w-full bg-white rounded-b-xl rounded-tr-xl shadow-2xl p-3 flex flex-col md:flex-row items-center border border-white/20">
+            <div className="w-full bg-white rounded-b-[20px] rounded-tr-[20px] md:rounded-tr-none shadow-2xl p-3 md:p-0 flex flex-col md:flex-row items-stretch md:items-center border border-white/20">
               
               {/* Column 1 */}
-              <div className="flex-1 flex flex-col px-5 py-2 border-r border-[#EAEAEA] w-full min-w-0">
-                <div className="flex items-center gap-2 mb-1 text-brand-dark">
-                  <img src="https://cdn-icons-png.flaticon.com/128/3004/3004381.png" alt="Suit" className="w-4 h-4 opacity-70" />
-                  <label className="text-[11px] font-bold text-brand-dark">What are you looking for?</label>
-                </div>
-                <div className="flex items-center justify-between cursor-pointer group mt-1">
-                  <span className="text-[15px] text-brand-gray group-hover:text-black whitespace-nowrap">Custom Suit</span>
-                  <ChevronDown className="w-4 h-4 text-brand-gray" />
+              <div className="flex-1 flex flex-col px-5 py-4 md:py-3 border-b md:border-b-0 md:border-r border-[#EAEAEA] w-full min-w-0">
+                <div className="flex items-center justify-between cursor-pointer group w-full">
+                  <div className="flex items-center gap-4">
+                    <img src="https://cdn-icons-png.flaticon.com/128/3004/3004381.png" alt="Suit" className="w-6 h-6 opacity-80" />
+                    <div className="flex flex-col">
+                      <span className="text-[11px] font-medium text-gray-500 mb-0.5">What are you looking for?</span>
+                      <span className="text-[14px] text-black font-semibold">Custom Suit</span>
+                    </div>
+                  </div>
+                  <ChevronDown className="w-4 h-4 text-black font-bold" strokeWidth={2.5} />
                 </div>
               </div>
 
               {/* Column 2 */}
-              <div className="flex-[1.2] flex flex-col px-5 py-2 border-r border-[#EAEAEA] w-full min-w-0">
-                <div className="flex items-center gap-2 mb-1 text-brand-dark">
-                  <MapPin className="w-4 h-4 text-brand-gray" />
-                  <label className="text-[11px] font-bold text-brand-dark">Your Location</label>
-                </div>
-                <input type="text" placeholder="Enter city, ZIP or address" className="text-[14px] text-brand-dark bg-transparent outline-none w-full placeholder:text-[#B0ADA8] mt-1" />
-                <p className="text-[9px] text-[#4285F4] flex items-center gap-1 mt-1 font-medium cursor-pointer hover:underline">
-                   <Target className="w-2.5 h-2.5" /> Use my current location
-                </p>
+              <div className="flex-[1.2] flex flex-col px-5 py-4 md:py-3 border-b md:border-b-0 md:border-r border-[#EAEAEA] w-full min-w-0">
+                 <div className="flex items-center gap-4 w-full">
+                    <MapPin className="w-6 h-6 text-black shrink-0" strokeWidth={1.5} />
+                    <div className="flex flex-col w-full justify-center">
+                      <span className="text-[11px] font-medium text-gray-500 mb-0.5">Your Location</span>
+                      <input type="text" placeholder="Enter city, ZIP or address" className="text-[14px] font-medium text-black bg-transparent outline-none w-full placeholder:text-gray-400" />
+                      <p className="text-[10px] text-[#4285F4] flex items-center gap-1 mt-1 font-semibold cursor-pointer hover:underline">
+                         <Target className="w-2.5 h-2.5" /> Use my current location
+                      </p>
+                    </div>
+                  </div>
               </div>
 
               {/* Column 3 */}
-              <div className="flex-[0.8] flex flex-col px-5 py-2 border-r border-[#EAEAEA] w-full min-w-0">
-                <div className="flex items-center gap-2 mb-1 text-brand-dark">
-                  <Target className="w-4 h-4 text-brand-gray" />
-                  <label className="text-[11px] font-bold text-brand-dark">Search Radius</label>
-                </div>
-                <div className="flex items-center justify-between cursor-pointer group mt-1">
-                  <span className="text-[15px] text-brand-gray group-hover:text-black whitespace-nowrap">40 km</span>
-                  <ChevronDown className="w-4 h-4 text-brand-gray" />
+              <div className="flex-[0.8] flex flex-col px-5 py-4 md:py-3 border-b md:border-b-0 md:border-r border-[#EAEAEA] w-full min-w-0">
+                <div className="flex items-center justify-between cursor-pointer group w-full">
+                  <div className="flex items-center gap-4">
+                    <Target className="w-6 h-6 text-black" strokeWidth={1.5} />
+                    <div className="flex flex-col">
+                      <span className="text-[11px] font-medium text-gray-500 mb-0.5">Search Radius</span>
+                      <span className="text-[14px] text-black font-semibold">40 km</span>
+                    </div>
+                  </div>
+                  <ChevronDown className="w-4 h-4 text-black font-bold" strokeWidth={2.5} />
                 </div>
               </div>
 
               {/* Column 4 */}
-              <div className="flex-1 flex flex-col px-5 py-2 w-full min-w-0">
-                <div className="flex items-center gap-2 mb-1 text-brand-dark">
-                  <Users className="w-4 h-4 text-brand-gray" />
-                  <label className="text-[11px] font-bold text-brand-dark">Fitting Preference</label>
-                </div>
-                <div className="flex items-center justify-between cursor-pointer group mt-1">
-                  <span className="text-[15px] text-brand-gray group-hover:text-black whitespace-nowrap">Home Visit</span>
-                  <ChevronDown className="w-4 h-4 text-brand-gray" />
+              <div className="flex-1 flex flex-col px-5 py-4 md:py-3 w-full min-w-0">
+                <div className="flex items-center justify-between cursor-pointer group w-full">
+                  <div className="flex items-center gap-4">
+                    <Users className="w-6 h-6 text-black" strokeWidth={1.5} />
+                    <div className="flex flex-col">
+                      <span className="text-[11px] font-medium text-gray-500 mb-0.5">Fitting Preference</span>
+                      <span className="text-[14px] text-black font-semibold">Home Visit</span>
+                    </div>
+                  </div>
+                  <ChevronDown className="w-4 h-4 text-black font-bold" strokeWidth={2.5} />
                 </div>
               </div>
 
               {/* Action Button */}
-              <button className="gold-btn h-full px-8 py-4 flex items-center justify-center gap-2 text-[15px] font-bold rounded-lg ml-2 shadow-md shrink-0 w-full md:w-auto mt-4 md:mt-0">
+              <button className="bg-[#C19B64] hover:bg-[#A67D42] text-black h-[56px] px-8 flex items-center justify-center gap-2 text-[15px] font-bold rounded-xl mt-4 md:mt-0 md:rounded-l-none md:rounded-r-[20px] shadow-sm shrink-0 w-full md:w-auto transition-colors">
                 Find Tailors &rarr;
               </button>
             </div>
-          </div>
-
-          {/* Trusted Badges Row */}
-          <div className="flex flex-wrap items-center gap-8 md:gap-12 mt-12 reveal-up delay-3 text-white/80 text-[12px] font-medium">
-             <div className="flex items-center gap-2">
-                <span className="text-brand-gold">🛡️</span> Trusted by 10,000+ Customers
-             </div>
-             <div className="flex items-center gap-2">
-                <span className="text-brand-gold">✓</span> Verified Professionals
-             </div>
-             <div className="flex items-center gap-2">
-                <span className="text-brand-gold">🌐</span> Global Coverage
-             </div>
-             <div className="flex items-center gap-2">
-                <span className="text-brand-gold">📅</span> Easy Enquiries & Bookings
-             </div>
-          </div>
+          </motion.div>
           
-        </div>
-
-        {/* Floating Right Text */}
-        <div className="absolute right-12 bottom-20 text-right pointer-events-none reveal-up delay-4 hidden lg:block">
-           <h3 className="font-serif text-[24px] text-white leading-[1.2]">More</h3>
-           <h3 className="font-serif text-[24px] text-white leading-[1.2]">Than a Suit</h3>
-           <p className="font-serif italic text-[24px] text-white/70">A Better You</p>
+          {/* Trusted Badges Row (Mobile & Desktop) */}
+          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1.5, delay: 1 }} viewport={{ once: true }} className="flex justify-between items-start w-full pt-8 md:pt-16 mt-8 border-t border-white/10 pb-8">
+            <div className="flex flex-col items-center text-center flex-1 px-1">
+              <Users className="w-5 h-5 md:w-6 md:h-6 text-[#CFA972] mb-2" strokeWidth={1.5} />
+              <span className="text-[8px] md:text-[11px] text-white/90 leading-tight">Trusted by<br/>10,000+<br/>Customers</span>
+            </div>
+            <div className="w-[1px] h-10 md:h-12 bg-white/10 mt-1 md:mt-2"></div>
+            
+            <div className="flex flex-col items-center text-center flex-1 px-1">
+              <ShieldCheck className="w-5 h-5 md:w-6 md:h-6 text-[#CFA972] mb-2" strokeWidth={1.5} />
+              <span className="text-[8px] md:text-[11px] text-white/90 leading-tight">Verified<br/>Professionals</span>
+            </div>
+            <div className="w-[1px] h-10 md:h-12 bg-white/10 mt-1 md:mt-2"></div>
+            
+            <div className="flex flex-col items-center text-center flex-1 px-1">
+              <Globe className="w-5 h-5 md:w-6 md:h-6 text-[#CFA972] mb-2" strokeWidth={1.5} />
+              <span className="text-[8px] md:text-[11px] text-white/90 leading-tight">Global<br/>Coverage</span>
+            </div>
+            <div className="w-[1px] h-10 md:h-12 bg-white/10 mt-1 md:mt-2"></div>
+            
+            <div className="flex flex-col items-center text-center flex-1 px-1">
+              <Calendar className="w-5 h-5 md:w-6 md:h-6 text-[#CFA972] mb-2" strokeWidth={1.5} />
+              <span className="text-[8px] md:text-[11px] text-white/90 leading-tight">Easy Enquiries<br/>& Bookings</span>
+            </div>
+          </motion.div>
+          
         </div>
       </section>
 
@@ -234,19 +300,19 @@ export default function Home() {
               { title: "Custom Suits", img: "https://images.unsplash.com/photo-1598808503746-f34c53b9323e" },
               { title: "Made-to-Measure", img: "https://images.unsplash.com/photo-1593032465175-481ac7f401a0" },
               { title: "Wedding Tailoring", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf" },
-              { title: "Tuxedos", img: "https://images.unsplash.com/photo-1550614000-4b95d466539d" },
-              { title: "Custom Shirts", img: "https://images.unsplash.com/photo-1620012253295-c15bc3a65ce4" },
-              { title: "Blazers", img: "https://images.unsplash.com/photo-1592878904946-b3cd8ae243d0" },
-              { title: "Alterations", img: "https://images.unsplash.com/photo-1605282570453-caee04df9023" }
+              { title: "Tuxedos", img: "https://images.unsplash.com/photo-1594938291221-94f18cbb5660" },
+              { title: "Custom Shirts", img: "https://images.unsplash.com/photo-1594938291221-94f18cbb5660" },
+              { title: "Blazers", img: "https://images.unsplash.com/photo-1593032465175-481ac7f401a0" },
+              { title: "Alterations", img: "https://images.unsplash.com/photo-1598808503746-f34c53b9323e" }
             ].map((srv, i) => (
-              <div key={i} className="group relative aspect-[3/4] md:aspect-[4/5] rounded-xl overflow-hidden cursor-pointer shadow-sm">
+              <motion.div key={i} initial={{ opacity: 0, y: 80, filter: 'blur(10px)', scale: 0.9 }} whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)', scale: 1 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 1.2, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }} className="group relative aspect-[3/4] md:aspect-[4/5] rounded-xl overflow-hidden cursor-pointer shadow-sm">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent z-10 transition-opacity group-hover:opacity-80"></div>
                 <img src={`${srv.img}?w=400&q=80`} alt={srv.title} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out" />
                 <div className="absolute bottom-4 left-4 z-20 flex items-center gap-2">
                   <span className="text-white text-[12px] font-semibold">{srv.title}</span>
                   <ChevronRight className="w-3 h-3 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -255,14 +321,14 @@ export default function Home() {
       {/* 4. FEATURED TAILORS */}
       <section className="w-full bg-[#F9F9F9] py-20 relative z-20">
         <div className="max-w-[1700px] mx-auto px-6 lg:px-16">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-8">
             <div>
               <p className="text-brand-gray text-[10px] font-bold tracking-[0.25em] uppercase mb-3">Featured Tailors</p>
               <h2 className="font-serif text-[36px] md:text-[45px] text-brand-dark leading-tight mb-2">Top-Rated Tailors Near You</h2>
               <p className="text-brand-gray text-[14px]">Discover exceptional tailors in your area.</p>
             </div>
-            <div className="flex flex-col items-end gap-4 mt-6 md:mt-0">
-               <a href="#" className="flex items-center gap-2 text-[13px] font-semibold text-brand-gold hover:text-brand-goldHover transition">
+            <div className="hidden md:flex flex-col items-end gap-4 mt-6 md:mt-0">
+               <a href="#" className="flex items-center gap-2 text-[13px] font-semibold text-[#CFA972] hover:text-[#B88E52] transition">
                  View All Tailors &rarr;
                </a>
                <div className="flex gap-2">
@@ -272,14 +338,14 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="flex overflow-x-auto gap-4 md:gap-5 pb-8 pt-2 -mx-6 px-6 lg:mx-0 lg:px-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] lg:grid lg:grid-cols-4 lg:gap-6 lg:pb-0 lg:overflow-visible">
             {[
               { name: "Blackline Bespoke", rating: "4.9", rev: "128", loc: "Chicago, IL", dist: "2.3 km", price: "$899", img: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35", av: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d" },
               { name: "The Modern Stitch", rating: "4.7", rev: "96", loc: "New York, NY", dist: "4.8 km", price: "$699", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf", av: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e" },
               { name: "Savile Row Atelier", rating: "4.8", rev: "112", loc: "London, UK", dist: "3.1 km", price: "$850", img: "https://images.unsplash.com/photo-1593032465175-481ac7f401a0", av: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e" },
               { name: "Pacific Tailors", rating: "4.6", rev: "78", loc: "Los Angeles, CA", dist: "6.5 km", price: "$499", img: "https://images.unsplash.com/photo-1598808503746-f34c53b9323e", av: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7" }
             ].map((t, i) => (
-              <div key={i} className="bg-white rounded-xl overflow-hidden border border-[#EAEAEA] shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all">
+              <motion.div key={i} initial={{ opacity: 0, y: 80, filter: 'blur(10px)' }} whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 1.2, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }} className="bg-white rounded-xl overflow-hidden shrink-0 w-[280px] lg:w-auto snap-start lg:snap-align-none border border-[#EAEAEA] shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all">
                 {/* Card Header Image */}
                 <div className="relative h-[160px] w-full">
                   <img src={`${t.img}?w=600&q=80`} alt="Cover" className="w-full h-full object-cover" />
@@ -331,33 +397,33 @@ export default function Home() {
                     View Profile &rarr;
                   </button>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
       {/* 5. HOW IT WORKS */}
-      <section className="w-full bg-white py-20 relative z-20 border-t border-[#EAEAEA]">
-        <div className="max-w-[1700px] mx-auto px-6 lg:px-16 flex flex-col lg:flex-row items-center">
+      <section className="w-full bg-white py-16 md:py-20 relative z-20 border-t border-[#EAEAEA]">
+        <div className="max-w-[1700px] mx-auto px-6 lg:px-16 flex flex-col lg:flex-row items-start lg:items-center">
           
           <div className="lg:w-1/4 mb-10 lg:mb-0">
             <p className="text-brand-gray text-[10px] font-bold tracking-[0.25em] uppercase mb-3">How It Works</p>
             <h2 className="font-serif text-[36px] md:text-[45px] text-brand-dark leading-tight mb-4">Find Your Perfect Fit<br/>in Four Simple Steps</h2>
-            <a href="#" className="flex items-center gap-2 text-[13px] font-semibold text-brand-gold hover:text-brand-goldHover transition">
+            <a href="#" className="hidden md:flex items-center gap-2 text-[13px] font-semibold text-[#CFA972] hover:text-[#B88E52] transition">
               Learn More &rarr;
             </a>
           </div>
           
-          <div className="lg:w-3/4 flex flex-col md:flex-row justify-between relative w-full px-4 lg:px-12">
+          <div className="lg:w-3/4 grid grid-cols-2 md:flex md:flex-row justify-between relative w-full gap-y-10 gap-x-4 lg:gap-x-0 lg:px-12">
             {[
-              { no: "01", title: "Search", desc: "Find tailors by service, location and more.", icon: <Search className="w-6 h-6 text-brand-gold" /> },
-              { no: "02", title: "Compare", desc: "Browse profiles, reviews and prices.", icon: <SlidersHorizontal className="w-6 h-6 text-brand-gold" /> },
-              { no: "03", title: "Connect", desc: "Send an inquiry or book an appointment.", icon: <Target className="w-6 h-6 text-brand-gold" /> },
-              { no: "04", title: "Get Fitted", desc: "Meet your tailor and experience the perfect fit.", icon: <Users className="w-6 h-6 text-brand-gold" /> }
+              { no: "01", title: "Search", desc: "Find tailors by service, location and more.", icon: <Search className="w-6 h-6 text-[#CFA972]" /> },
+              { no: "02", title: "Compare", desc: "Browse profiles, reviews and prices.", icon: <SlidersHorizontal className="w-6 h-6 text-[#CFA972]" /> },
+              { no: "03", title: "Connect", desc: "Send an inquiry or book an appointment.", icon: <Target className="w-6 h-6 text-[#CFA972]" /> },
+              { no: "04", title: "Get Fitted", desc: "Meet your tailor and experience the perfect fit.", icon: <Users className="w-6 h-6 text-[#CFA972]" /> }
             ].map((step, i) => (
-              <div key={i} className="flex flex-col relative flex-1 mb-8 md:mb-0 px-2">
-                <div className="w-16 h-16 rounded-full bg-[#Fdfaf5] border border-brand-gold/30 flex items-center justify-center mb-6 relative z-10">
+              <motion.div key={i} initial={{ opacity: 0, y: 60, filter: 'blur(10px)' }} whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 1.2, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }} className="flex flex-col relative flex-1">
+                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-[#Fdfaf5] border border-[#CFA972]/30 flex items-center justify-center mb-5 md:mb-6 relative z-10">
                   {step.icon}
                 </div>
                 {/* Arrow connector between steps (hidden on mobile, hidden on last item) */}
@@ -365,10 +431,10 @@ export default function Home() {
                    <ChevronRight className="absolute right-0 top-1/2 -translate-y-1/2 text-[#EAEAEA] w-4 h-4 bg-white" />
                 </div>}
                 
-                <h3 className="font-serif text-[24px] text-brand-gold font-bold mb-1">{step.no}</h3>
-                <h4 className="font-serif text-[22px] text-brand-dark mb-2">{step.title}</h4>
-                <p className="text-brand-gray text-[13px] max-w-[180px] leading-relaxed">{step.desc}</p>
-              </div>
+                <h3 className="font-serif text-[20px] md:text-[24px] text-[#CFA972] font-bold mb-1">{step.no}</h3>
+                <h4 className="font-serif text-[18px] md:text-[22px] text-brand-dark mb-1.5 md:mb-2">{step.title}</h4>
+                <p className="text-brand-gray text-[12px] md:text-[13px] max-w-[160px] md:max-w-[180px] leading-relaxed">{step.desc}</p>
+              </motion.div>
             ))}
           </div>
           
@@ -399,14 +465,14 @@ export default function Home() {
               { city: "Sydney", country: "Australia", img: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9" },
               { city: "Melbourne", country: "Australia", img: "https://images.unsplash.com/photo-1514395462725-fb4566210144" }
             ].map((loc, i) => (
-              <div key={i} className="group relative aspect-square md:aspect-[4/5] rounded-xl overflow-hidden cursor-pointer shadow-sm">
+              <motion.div key={i} initial={{ opacity: 0, y: 60, filter: 'blur(10px)', scale: 0.98 }} whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)', scale: 1 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 1.2, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }} className="group relative aspect-square md:aspect-[4/5] rounded-xl overflow-hidden cursor-pointer shadow-sm">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent z-10 transition-opacity group-hover:opacity-90"></div>
                 <img src={`${loc.img}?w=300&q=80`} alt={loc.city} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out" />
                 <div className="absolute bottom-4 left-4 z-20 flex flex-col">
                   <span className="text-white font-serif text-[18px] leading-tight mb-1">{loc.city}</span>
                   <span className="text-white/70 text-[10px] font-semibold tracking-wider uppercase">{loc.country}</span>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -435,7 +501,7 @@ export default function Home() {
                   { t: '"Professional, reliable and incredibly skilled. My wedding suit was better than I imagined."', n: "Daniel K.", l: "London, UK", a: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e" },
                   { t: '"The home visit service was so convenient. Perfect fit and excellent attention to detail."', n: "Michael T.", l: "Dubai, UAE", a: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e" }
                ].map((rv, i) => (
-                  <div key={i} className="bg-white p-6 rounded-xl border border-[#EAEAEA] shadow-sm flex flex-col justify-between min-h-[220px]">
+                  <motion.div key={i} initial={{ opacity: 0, y: 60, filter: 'blur(10px)' }} whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 1.2, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }} className="bg-white p-6 rounded-xl border border-[#EAEAEA] shadow-sm flex flex-col justify-between min-h-[220px]">
                      <div>
                         <p className="text-[14px] leading-[1.6] text-brand-dark mb-4 italic">{rv.t}</p>
                         <div className="text-[#FFB800] text-[14px] tracking-widest mb-6">★★★★★</div>
@@ -447,8 +513,8 @@ export default function Home() {
                            <p className="text-[10px] text-brand-gray">{rv.l}</p>
                         </div>
                      </div>
-                  </div>
-               ))}
+                  </motion.div>
+            ))}
             </div>
           </div>
           
@@ -566,3 +632,6 @@ export default function Home() {
     </main>
   );
 }
+
+
+
