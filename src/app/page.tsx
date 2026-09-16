@@ -221,7 +221,7 @@ export default function Home() {
           <motion.div initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }} whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ duration: 1.2, delay: 0.5 }} viewport={{ once: true, amount: 0.2 }} className="w-full max-w-[1200px] mt-8 md:mt-16 z-20">
             
             {/* Tabs (Scrollable on mobile) */}
-            <div className="flex items-center gap-1 md:gap-2 mb-0 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] w-full">
+            <div className="flex items-center gap-1 md:gap-2 mb-0 overflow-x-auto overflow-y-hidden touch-pan-x [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] w-full">
               <button className="bg-white text-black px-6 py-3.5 rounded-t-[14px] text-[12px] md:text-[13px] font-bold flex items-center gap-2 shrink-0 relative z-10">
                 <Search className="w-3.5 h-3.5 md:w-4 md:h-4 text-black" /> Find a Tailor
               </button>
@@ -386,14 +386,14 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex overflow-x-auto gap-4 md:gap-5 pb-6 pt-2 -mx-6 px-6 lg:mx-0 lg:px-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] lg:grid lg:grid-cols-4 lg:gap-6 lg:pb-0 lg:overflow-visible">
+          <div className="flex overflow-x-auto overflow-y-hidden touch-pan-x gap-4 md:gap-5 pb-6 pt-2 -mx-6 px-6 lg:mx-0 lg:px-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] lg:grid lg:grid-cols-4 lg:gap-6 lg:pb-0 lg:overflow-visible">
             {[
               { name: "Blackline Bespoke", rating: "4.9", rev: "128", loc: "Chicago, IL", dist: "2.3 km", price: "$899", img: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35", av: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d" },
               { name: "The Modern Stitch", rating: "4.7", rev: "96", loc: "New York, NY", dist: "4.8 km", price: "$699", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf", av: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e" },
               { name: "Savile Row Atelier", rating: "4.8", rev: "112", loc: "London, UK", dist: "3.1 km", price: "$850", img: "https://images.unsplash.com/photo-1593032465175-481ac7f401a0", av: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e" },
               { name: "Pacific Tailors", rating: "4.6", rev: "78", loc: "Los Angeles, CA", dist: "6.5 km", price: "$499", img: "https://images.unsplash.com/photo-1598808503746-f34c53b9323e", av: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7" }
             ].map((t, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 80, filter: 'blur(10px)' }} whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 1.2, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }} className="bg-white rounded-xl overflow-hidden shrink-0 w-[280px] lg:w-auto snap-start lg:snap-align-none border border-[#EAEAEA] shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all">
+              <motion.div key={i} initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }} whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 1.2, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }} className="bg-white rounded-xl overflow-hidden shrink-0 w-[280px] lg:w-auto snap-start lg:snap-align-none border border-[#EAEAEA] shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all">
                 {/* Card Header Image */}
                 <div className="relative h-[160px] w-full">
                   <img src={`${t.img}?w=600&q=80`} alt="Cover" className="w-full h-full object-cover" />
