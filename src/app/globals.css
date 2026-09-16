@@ -1,11 +1,14 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-brand-dark: #1C1A17; /* Deep Charcoal */
-  --color-brand-darkHover: #2C2A27; 
-  --color-brand-gray: #8C8984; /* Warm grey for secondary text */
-  --color-brand-line: #D9D6D0; /* Very light warm grey for dividers */
-  --color-brand-bg: #F5F4F0; /* The beautiful warm beige background */
+  --color-brand-dark: #111111; /* Deep Black/Charcoal */
+  --color-brand-darkHover: #222222; 
+  --color-brand-gray: #666666; /* Medium Grey */
+  --color-brand-lightGray: #F9F9F9; /* Off-white for section bgs */
+  --color-brand-line: #EAEAEA; /* Divider line */
+  --color-brand-bg: #FFFFFF; /* Pure White */
+  --color-brand-gold: #B8860B; /* Gold/Bronze accent */
+  --color-brand-goldHover: #996B09;
   
   --font-serif: var(--font-serif), serif;
   --font-sans: var(--font-sans), sans-serif;
@@ -60,10 +63,18 @@ body {
   background-color: var(--color-brand-dark); 
   color: white; 
   transition: all 0.3s ease; 
-  border-radius: 9999px; /* Pill shape */
 }
 .dark-btn:hover { 
   background-color: var(--color-brand-darkHover); 
+}
+
+.gold-btn {
+  background-color: var(--color-brand-gold);
+  color: white;
+  transition: all 0.3s ease;
+}
+.gold-btn:hover {
+  background-color: var(--color-brand-goldHover);
 }
 
 .search-divider { width: 1px; height: 30px; background-color: var(--color-brand-line); margin: 0 16px; }
