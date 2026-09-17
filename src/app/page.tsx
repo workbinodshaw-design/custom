@@ -13,7 +13,7 @@ export default function Page() {
   const ease = [0.16, 1, 0.3, 1];
 
   return (
-    <div className="min-h-screen bg-[#F8F8F5] text-[#1A1A1A] font-sans selection:bg-[#1A1A1A] selection:text-white pb-10 overflow-hidden">
+    <div className="min-h-screen bg-[#F5F4F0] text-[#1C1A17] font-sans selection:bg-[#1C1A17] selection:text-[#F5F4F0] pb-10 overflow-hidden">
       
       {/* NAVIGATION */}
       <motion.nav 
@@ -24,7 +24,7 @@ export default function Page() {
       >
         {/* Logo */}
         <div className="flex items-center gap-2 cursor-pointer group">
-          <div className="w-8 h-8 bg-[#1A1A1A] text-white flex items-center justify-center font-serif font-bold text-xl rounded-sm transition-transform duration-500 group-hover:scale-95">T</div>
+          <div className="w-8 h-8 bg-[#1C1A17] text-white flex items-center justify-center font-serif font-bold text-xl rounded-sm transition-transform duration-500 group-hover:scale-95">T</div>
           <span className="font-serif text-[22px] font-medium tracking-tight">TailorFind</span>
         </div>
 
@@ -40,7 +40,7 @@ export default function Page() {
           <button className="text-black hover:opacity-70 transition"><Search className="w-5 h-5" strokeWidth={1.5} /></button>
           <div className="w-[1px] h-4 bg-black/20"></div>
           <a href="#" className="text-[13px] font-medium hover:opacity-70 transition">Sign In</a>
-          <button className="bg-[#1A1A1A] text-white px-6 py-2.5 rounded-full text-[13px] font-medium flex items-center gap-2 hover:bg-black/80 hover:scale-[1.02] active:scale-95 transition-all duration-300">
+          <button className="bg-[#1C1A17] text-white px-6 py-2.5 rounded-full text-[13px] font-medium flex items-center gap-2 hover:bg-black/80 hover:scale-[1.02] active:scale-95 transition-all duration-300">
             Get Started <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -65,7 +65,7 @@ export default function Page() {
           </motion.p>
           
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.4, ease }} className="flex flex-wrap items-center gap-6 mb-16">
-            <button className="bg-[#1A1A1A] text-white px-8 py-4 rounded-full text-[14px] font-medium flex items-center gap-2 hover:bg-black/80 hover:shadow-2xl hover:-translate-y-0.5 active:scale-95 transition-all duration-300">
+            <button className="bg-[#1C1A17] text-white px-8 py-4 rounded-full text-[14px] font-medium flex items-center gap-2 hover:bg-black/80 hover:shadow-2xl hover:-translate-y-0.5 active:scale-95 transition-all duration-300">
               Find a Tailor <ArrowRight className="w-4 h-4" />
             </button>
             <button className="flex items-center gap-4 group cursor-pointer">
@@ -96,7 +96,7 @@ export default function Page() {
         >
           <motion.img 
             style={{ y: y2, scale: 1.1 }}
-            src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=1200&auto=format&fit=crop" 
+            src="/hero-mannequin.png" 
             alt="Bespoke Suit" 
             className="absolute inset-0 w-full h-full object-cover object-center grayscale opacity-90 origin-top"
           />
@@ -127,57 +127,68 @@ export default function Page() {
         transition={{ duration: 1, delay: 0.6, ease }}
         className="max-w-[1100px] mx-auto px-6 lg:px-0 -mt-12 relative z-30 mb-32"
       >
-        <div className="bg-white rounded-[16px] shadow-[0_20px_40px_rgba(0,0,0,0.08)] p-2 flex flex-col lg:flex-row items-stretch lg:items-center transform transition duration-500 w-full relative z-50">
+        <div className="bg-white rounded-[20px] shadow-[0_20px_40px_rgba(0,0,0,0.06)] p-2 flex flex-col lg:flex-row items-stretch lg:items-center transform transition duration-500 w-full relative z-50 border border-black/5">
           
           {/* 1. Garment */}
-          <div className="flex-[1.2] flex items-center justify-between px-6 py-4 border-b lg:border-b-0 lg:border-r border-black/5 hover:bg-black/[0.02] transition cursor-pointer rounded-t-[14px] lg:rounded-l-[14px] lg:rounded-tr-none">
-             <div className="flex items-start gap-4">
-               <img src="https://cdn-icons-png.flaticon.com/128/3004/3004381.png" className="w-6 h-6 mt-0.5 opacity-80" alt="Suit" />
+          <div className="flex-[1.2] flex items-center justify-between px-6 py-4 hover:bg-black/[0.02] transition cursor-pointer rounded-t-[14px] lg:rounded-l-[14px] lg:rounded-tr-none min-h-[90px]">
+             <div className="flex items-center gap-4">
+               <img src="https://cdn-icons-png.flaticon.com/128/3004/3004381.png" className="w-7 h-7 opacity-70" alt="Suit" />
                <div className="flex flex-col">
-                 <span className="text-[13px] font-bold text-black mb-1">What are you looking for?</span>
-                 <span className="text-[14px] text-black/60">Custom Suit</span>
+                 <span className="text-[13px] font-bold text-black leading-tight mb-1">What are you<br/>looking for?</span>
+                 <span className="text-[13px] text-black/50">Custom Suit</span>
                </div>
              </div>
-             <ChevronDown className="w-4 h-4 text-black/40" />
+             <ChevronDown className="w-3.5 h-3.5 text-black/30" strokeWidth={2.5} />
           </div>
+
+          <div className="hidden lg:block w-px h-[50px] bg-black/5"></div>
+          <div className="block lg:hidden w-full h-px bg-black/5"></div>
 
           {/* 2. Location */}
-          <div className="flex-[1.4] flex items-start gap-4 px-6 py-4 border-b lg:border-b-0 lg:border-r border-black/5 hover:bg-black/[0.02] transition relative cursor-text">
-             <MapPin className="w-5 h-5 text-black mt-1 shrink-0" strokeWidth={1.5} />
-             <div className="flex flex-col flex-1 w-full">
-               <span className="text-[13px] font-bold text-black mb-1">Your Location</span>
-               <input type="text" placeholder="Enter city, ZIP or address" className="w-full text-[14px] text-black placeholder:text-black/40 bg-transparent outline-none mb-2" />
-               <button className="flex items-center gap-1.5 text-[11.5px] font-semibold text-[#007AFF] hover:underline w-max">
-                 <LocateFixed className="w-3.5 h-3.5" strokeWidth={2.5} /> Use my current location
-               </button>
+          <div className="flex-[1.4] flex items-center justify-between px-6 py-4 hover:bg-black/[0.02] transition relative cursor-text min-h-[90px]">
+             <div className="flex items-start gap-4 w-full">
+               <MapPin className="w-5 h-5 text-black/80 mt-1 shrink-0" strokeWidth={1.5} />
+               <div className="flex flex-col flex-1 w-full">
+                 <span className="text-[13px] font-bold text-black mb-1">Your Location</span>
+                 <input type="text" placeholder="Enter city, ZIP or address" className="w-full text-[13px] text-black placeholder:text-black/30 bg-transparent outline-none mb-1.5" />
+                 <button className="flex items-center gap-1.5 text-[11px] font-bold text-[#007AFF] hover:underline w-max">
+                   <LocateFixed className="w-3.5 h-3.5" strokeWidth={2.5} /> Use my current location
+                 </button>
+               </div>
              </div>
           </div>
+
+          <div className="hidden lg:block w-px h-[50px] bg-black/5"></div>
+          <div className="block lg:hidden w-full h-px bg-black/5"></div>
 
           {/* 3. Search Radius */}
-          <div className="flex-[1.2] flex items-center justify-between px-6 py-4 border-b lg:border-b-0 lg:border-r border-black/5 hover:bg-black/[0.02] transition cursor-pointer">
-             <div className="flex items-start gap-4">
-               <Target className="w-5 h-5 text-black mt-1" strokeWidth={1.5} />
+          <div className="flex-1 flex items-center justify-between px-6 py-4 hover:bg-black/[0.02] transition cursor-pointer min-h-[90px]">
+             <div className="flex items-center gap-4">
+               <Target className="w-6 h-6 text-black/80" strokeWidth={1.5} />
                <div className="flex flex-col">
                  <span className="text-[13px] font-bold text-black mb-1">Search Radius</span>
-                 <span className="text-[14px] text-black/60">40 km</span>
+                 <span className="text-[13px] text-black/50">40 km</span>
                </div>
              </div>
-             <ChevronDown className="w-4 h-4 text-black/40" />
+             <ChevronDown className="w-3.5 h-3.5 text-black/30" strokeWidth={2.5} />
           </div>
+
+          <div className="hidden lg:block w-px h-[50px] bg-black/5"></div>
+          <div className="block lg:hidden w-full h-px bg-black/5"></div>
 
           {/* 4. Fitting Preference */}
-          <div className="flex-[1.2] flex items-center justify-between px-6 py-4 hover:bg-black/[0.02] transition cursor-pointer lg:rounded-r-[14px]">
-             <div className="flex items-start gap-4">
-               <Shirt className="w-5 h-5 text-black mt-1" strokeWidth={1.5} />
+          <div className="flex-1 flex items-center justify-between px-6 py-4 hover:bg-black/[0.02] transition cursor-pointer lg:rounded-r-[14px] min-h-[90px]">
+             <div className="flex items-center gap-4">
+               <Shirt className="w-6 h-6 text-black/80" strokeWidth={1.5} />
                <div className="flex flex-col">
                  <span className="text-[13px] font-bold text-black mb-1">Fitting Preference</span>
-                 <span className="text-[14px] text-black/60">Home Visit</span>
+                 <span className="text-[13px] text-black/50">Home Visit</span>
                </div>
              </div>
-             <ChevronDown className="w-4 h-4 text-black/40" />
+             <ChevronDown className="w-3.5 h-3.5 text-black/30" strokeWidth={2.5} />
           </div>
 
-          <button className="bg-[#C5A880] text-white h-[64px] px-10 rounded-[12px] text-[15px] font-bold flex items-center justify-center gap-2 hover:bg-[#b09570] active:scale-95 transition-all duration-300 m-2 shrink-0 shadow-sm">
+          <button className="bg-[#C8A97E] text-white h-[64px] px-8 lg:px-10 rounded-[12px] text-[15px] font-bold flex items-center justify-center gap-2 hover:bg-[#B3946A] active:scale-95 transition-all duration-300 m-2 shrink-0 shadow-sm ml-2">
             Find Tailors <ArrowRight className="w-4 h-4" strokeWidth={2.5} />
           </button>
         </div>
@@ -226,7 +237,7 @@ export default function Page() {
       <section className="px-6 lg:px-16 max-w-[1800px] mx-auto mb-32 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         
         {/* Banner Span 2 */}
-        <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, ease }} className="lg:col-span-2 bg-[#1A1A1A] rounded-[24px] overflow-hidden relative min-h-[350px] lg:min-h-[450px] flex flex-col justify-between p-10 group cursor-pointer">
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, ease }} className="lg:col-span-2 bg-[#1C1A17] rounded-[24px] overflow-hidden relative min-h-[350px] lg:min-h-[450px] flex flex-col justify-between p-10 group cursor-pointer">
           <img src="https://images.unsplash.com/photo-1612423284934-2850a4ea6b0f?q=80&w=1200&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-80 group-hover:scale-105 transition-all duration-[1.5s] ease-[0.16,1,0.3,1]" alt="Scissors" />
           <div className="relative z-10">
             <p className="text-[10px] font-bold tracking-[0.2em] text-white/70 uppercase">Craftsmanship<br/>Lives Forever</p>
@@ -250,7 +261,7 @@ export default function Page() {
         </motion.div>
 
         {/* Third Block */}
-        <motion.div initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, delay: 0.2, ease }} className="bg-[#1A1A1A] rounded-[24px] overflow-hidden relative min-h-[350px] lg:min-h-[450px] p-8 flex flex-col justify-end group">
+        <motion.div initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, delay: 0.2, ease }} className="bg-[#1C1A17] rounded-[24px] overflow-hidden relative min-h-[350px] lg:min-h-[450px] p-8 flex flex-col justify-end group">
           <img src="https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?q=80&w=800&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-80 group-hover:scale-105 transition-all duration-[1.5s] ease-[0.16,1,0.3,1]" alt="Sewing" />
           <p className="relative z-10 text-[10px] font-bold tracking-[0.2em] text-white uppercase leading-relaxed max-w-[150px]">Tailored<br/>For A<br/>Brighter<br/>Tomorrow</p>
         </motion.div>
@@ -389,9 +400,9 @@ export default function Page() {
               <h2 className="font-serif text-[36px] leading-tight">Real People. Exceptional Experiences.</h2>
             </div>
             <div className="flex flex-wrap items-center gap-6">
-              <button className="text-[12px] font-bold text-black border-b border-black pb-0.5 hover:text-[#C5A880] hover:border-[#C5A880] transition-colors">Post a Review</button>
+              <button className="text-[12px] font-bold text-black border-b border-black pb-0.5 hover:text-[#C8A97E] hover:border-[#C8A97E] transition-colors">Post a Review</button>
               <div className="flex items-center gap-4 border-l border-black/10 pl-6">
-                <span className="text-[12px] font-bold text-[#C5A880]">View All Reviews</span>
+                <span className="text-[12px] font-bold text-[#C8A97E]">View All Reviews</span>
                 <div className="flex gap-2">
                   <button className="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center hover:bg-black hover:text-white transition"><ArrowLeft className="w-3 h-3" /></button>
                   <button className="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center hover:bg-black hover:text-white transition"><ArrowRight className="w-3 h-3" /></button>
@@ -410,7 +421,7 @@ export default function Page() {
                 <div>
                   <p className="text-[14px] text-black/70 mb-6 leading-relaxed">&quot;{r.quote}&quot;</p>
                   <div className="flex gap-1 mb-6">
-                    {[...Array(5)].map((_, j) => <Star key={j} className="w-3.5 h-3.5 fill-[#C5A880] text-[#C5A880]" />)}
+                    {[...Array(5)].map((_, j) => <Star key={j} className="w-3.5 h-3.5 fill-[#C8A97E] text-[#C8A97E]" />)}
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
@@ -423,11 +434,11 @@ export default function Page() {
               </div>
             ))}
             
-            <div className="min-w-[280px] md:min-w-[320px] bg-[#1A1A1A] rounded-[16px] overflow-hidden relative p-8 flex flex-col justify-end snap-start group cursor-pointer hover:shadow-xl transition-shadow duration-500">
+            <div className="min-w-[280px] md:min-w-[320px] bg-[#1C1A17] rounded-[16px] overflow-hidden relative p-8 flex flex-col justify-end snap-start group cursor-pointer hover:shadow-xl transition-shadow duration-500">
               <img src="https://images.unsplash.com/photo-1593032465175-481ac7f401a0?q=80&w=600" className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-luminosity group-hover:scale-105 transition-transform duration-[1.5s] ease-[0.16,1,0.3,1]" alt="Suit" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
               <h3 className="relative z-10 font-serif text-[28px] text-white leading-tight mb-5 group-hover:-translate-y-2 transition-transform duration-[0.8s] ease-[0.16,1,0.3,1]">Confidence<br/>Looks Good<br/>On You</h3>
-              <div className="relative z-10 w-10 h-[2px] bg-[#C5A880]"></div>
+              <div className="relative z-10 w-10 h-[2px] bg-[#C8A97E]"></div>
             </div>
           </motion.div>
         </div>
@@ -435,7 +446,7 @@ export default function Page() {
         <div className="max-w-[1700px] mx-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-10 mb-20">
           <div className="col-span-2">
             <div className="flex items-center gap-2 mb-6">
-              <div className="w-10 h-10 bg-[#1A1A1A] text-white flex items-center justify-center font-serif font-bold text-2xl rounded-sm">T</div>
+              <div className="w-10 h-10 bg-[#1C1A17] text-white flex items-center justify-center font-serif font-bold text-2xl rounded-sm">T</div>
               <span className="font-serif text-[24px] font-medium tracking-tight">TailorFind</span>
             </div>
             <p className="text-[11px] font-bold tracking-[0.1em] text-black/40 uppercase">Exceptional Tailors. Everywhere.</p>
