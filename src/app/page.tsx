@@ -300,12 +300,11 @@ export default function Page() {
                 </div>
               </div>
               <div className="px-2">
-                <h3 className="font-serif font-bold text-[20px] mb-1.5 flex items-center gap-2">
+                <h3 className="font-serif font-bold text-[20px] mb-1 flex items-center gap-1.5">
                   {t.name}
                   {t.verified && (
-                    <div className="flex items-center gap-1 bg-[#1A1A1A] text-[#C5A880] px-2 py-0.5 rounded-full border border-[#C5A880]/30 shadow-sm" title="Verified Tailor">
-                      <BadgeCheck className="w-3 h-3" strokeWidth={2.5} />
-                      <span className="text-[9px] font-bold tracking-wider uppercase pr-0.5">Verified</span>
+                    <div title="Verified" className="flex items-center justify-center -mt-0.5">
+                      <BadgeCheck className="w-5 h-5 text-[#0095F6]" fill="currentColor" stroke="white" strokeWidth={2} />
                     </div>
                   )}
                 </h3>
