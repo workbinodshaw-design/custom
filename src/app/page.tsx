@@ -293,7 +293,7 @@ export default function Page() {
           ].map((t, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, delay: i * 0.1, ease }} className="group cursor-pointer flex flex-col">
               <div className="relative mb-8">
-                <div className="w-full h-[280px] rounded-[24px] overflow-hidden relative">
+                <div className="w-full h-[280px] rounded-[24px] overflow-hidden relative" style={{ WebkitMaskImage: 'radial-gradient(circle at calc(100% - 56px) calc(100% - 16px), transparent 38px, black 39px)', maskImage: 'radial-gradient(circle at calc(100% - 56px) calc(100% - 16px), transparent 38px, black 39px)' }}>
                   <img src={t.img} alt={t.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-[0.16,1,0.3,1]" />
                   <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm">
                     <Star className="w-3.5 h-3.5 fill-black text-black" />
@@ -301,7 +301,7 @@ export default function Page() {
                   </div>
                 </div>
                 {/* Profile Cutout Icon */}
-                <div className="absolute -bottom-5 right-6 w-16 h-16 rounded-full border-[6px] border-[#F5F4F0] overflow-hidden bg-gray-200 z-10 shadow-sm group-hover:scale-110 transition-transform duration-500">
+                <div className="absolute -bottom-4 right-6 w-16 h-16 rounded-full overflow-hidden bg-gray-200 z-10 shadow-[0_4px_12px_rgba(0,0,0,0.1)] group-hover:scale-110 transition-transform duration-500">
                   <img src={t.profile} alt={t.name} className="w-full h-full object-cover" />
                 </div>
               </div>
