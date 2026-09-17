@@ -285,13 +285,13 @@ export default function Page() {
         <div className="flex overflow-x-auto gap-4 pb-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {[
             { city: "New York", country: "USA", img: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=600" },
-            { city: "London", country: "UK", img: "https://images.unsplash.com/photo-1513635269975-59693e2d09aa?q=80&w=600" },
-            { city: "Paris", country: "France", img: "https://images.unsplash.com/photo-1502602898657-3e907614e508?q=80&w=600" },
+            { city: "London", country: "UK", img: "https://images.unsplash.com/photo-1505761671135-639428ea15a1?q=80&w=600" },
+            { city: "Paris", country: "France", img: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?q=80&w=600" },
             { city: "Dubai", country: "UAE", img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=600" },
             { city: "Singapore", country: "Singapore", img: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?q=80&w=600" },
             { city: "Sydney", country: "Australia", img: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?q=80&w=600" }
           ].map((c, i) => (
-            <motion.div key={i} initial={{ opacity: 0, scale: 0.9, y: 20 }} whileInView={{ opacity: 1, scale: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.8, delay: i * 0.1, ease }} className="relative w-[220px] h-[300px] rounded-[24px] overflow-hidden shrink-0 snap-start group cursor-pointer">
+            <motion.div key={i} initial={{ opacity: 0, scale: 0.9, y: 20 }} whileInView={{ opacity: 1, scale: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.8, delay: i * 0.1, ease }} className="relative min-w-[260px] md:min-w-0 md:flex-1 h-[350px] rounded-[24px] overflow-hidden shrink-0 md:shrink snap-start group cursor-pointer">
               <img src={c.img} alt={c.city} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-[1.5s] ease-[0.16,1,0.3,1]" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
               <div className="absolute bottom-6 left-6">
