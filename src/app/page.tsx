@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { Search, ChevronRight, Play, MapPin, Calendar, Star, ArrowRight, ArrowLeft, BadgeCheck, ChevronDown, Target, Shirt, LocateFixed } from 'lucide-react';
+import { Search, ChevronRight, Globe, Play, MapPin, Calendar, Star, ArrowRight, ArrowLeft, BadgeCheck, ChevronDown, Target, Shirt, LocateFixed } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 export default function Page() {
@@ -36,11 +36,25 @@ export default function Page() {
         </div>
 
         {/* Right Actions */}
-        <div className="hidden lg:flex items-center gap-6">
-          <button className="text-black hover:opacity-70 transition"><Search className="w-5 h-5" strokeWidth={1.5} /></button>
-          <div className="w-[1px] h-4 bg-black/20"></div>
+        <div className="hidden lg:flex items-center gap-5">
+          {/* Language Selector */}
+          <button className="flex items-center gap-1.5 text-[13px] font-medium text-black hover:opacity-70 transition group">
+            <Globe className="w-4 h-4" strokeWidth={1.5} />
+            EN
+            <ChevronDown className="w-3 h-3 opacity-50 group-hover:opacity-100 transition-opacity" />
+          </button>
+
+          <div className="w-[1px] h-4 bg-black/20 mx-1"></div>
+
+          <button className="text-black hover:opacity-70 transition">
+            <Search className="w-4 h-4" strokeWidth={1.5} />
+          </button>
+          
+          <div className="w-[1px] h-4 bg-black/20 mx-1"></div>
+          
           <a href="#" className="text-[13px] font-medium hover:opacity-70 transition">Sign In</a>
-          <button className="bg-[#1C1A17] text-white px-6 py-2.5 rounded-full text-[13px] font-medium flex items-center gap-2 hover:bg-black/80 hover:scale-[1.02] active:scale-95 transition-all duration-300">
+          
+          <button className="bg-[#1C1A17] text-white px-6 py-2.5 rounded-full text-[13px] font-medium flex items-center gap-2 hover:bg-[#2A2825] hover:scale-[1.02] active:scale-95 transition-all duration-300 ml-1">
             Get Started <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -50,7 +64,7 @@ export default function Page() {
       <section className="relative pt-32 lg:pt-40 pb-20 px-6 lg:px-16 max-w-[1800px] mx-auto flex flex-col lg:flex-row gap-12 lg:gap-8 min-h-[90vh]">
         
         {/* Left Content */}
-        <motion.div style={{ opacity: opacityHero, y: y1 }} className="flex-1 flex flex-col justify-center lg:pr-12 relative z-20">
+        <motion.div style={{ opacity: opacityHero, y: y1, willChange: "transform, opacity" }} className="flex-1 flex flex-col justify-center lg:pr-12 relative z-20">
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.1, ease }} className="flex items-center gap-4 mb-6">
             <span className="text-[10px] font-bold tracking-[0.2em] text-black/50 uppercase">Bespoke Tailoring</span>
             <div className="w-12 h-[1px] bg-black/20"></div>
@@ -95,10 +109,10 @@ export default function Page() {
           className="flex-1 relative h-[500px] lg:h-auto min-h-[600px] rounded-[40px] overflow-hidden"
         >
           <motion.img 
-            style={{ y: y2, scale: 1.1 }}
-            src="/hero-mannequin.png" 
+            style={{ y: y2, scale: 1.1, willChange: "transform" }}
+            src="/hero-mannequin-original.png" 
             alt="Bespoke Suit" 
-            className="absolute inset-0 w-full h-full object-cover object-center grayscale opacity-90 origin-top"
+            className="absolute inset-0 w-full h-full object-cover object-center origin-top"
           />
           {/* Overlay Text */}
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.8, ease }} className="absolute top-12 left-10 flex flex-col gap-8">
@@ -109,7 +123,7 @@ export default function Page() {
           {/* Circular Badge */}
           <motion.div initial={{ opacity: 0, scale: 0.5, rotate: -45 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} transition={{ duration: 1, delay: 1, ease }} className="absolute bottom-10 left-10 flex items-center gap-4 z-10">
             <div className="w-[100px] h-[100px] rounded-full overflow-hidden border-4 border-[#F5F4F0] shadow-xl relative bg-black">
-              <img src="https://images.unsplash.com/photo-1612423284934-2850a4ea6b0f?q=80&w=200&auto=format&fit=crop" alt="Details" className="w-full h-full object-cover opacity-60 mix-blend-luminosity" />
+              <img src="https://images.unsplash.com/photo-1612423284934-2850a4ea6b0f?q=80&w=200&auto=format&fit=crop" alt="Details" className="w-full h-full object-cover opacity-60 " />
             </div>
             <div className="text-[10px] font-bold tracking-[0.2em] text-white uppercase leading-relaxed max-w-[120px]">
               Crafted<br/>In Every<br/>Detail
@@ -188,7 +202,7 @@ export default function Page() {
              <ChevronDown className="w-3.5 h-3.5 text-black/30" strokeWidth={2.5} />
           </div>
 
-          <button className="bg-[#C8A97E] text-white h-[64px] px-8 lg:px-10 rounded-[12px] text-[15px] font-bold flex items-center justify-center gap-2 hover:bg-[#B3946A] active:scale-95 transition-all duration-300 m-2 shrink-0 shadow-sm ml-2">
+          <button className="bg-[#1C1A17] text-white h-[64px] px-8 lg:px-10 rounded-[12px] text-[15px] font-bold flex items-center justify-center gap-2 hover:bg-black active:scale-95 transition-all duration-300 m-2 shrink-0 shadow-sm ml-2">
             Find Tailors <ArrowRight className="w-4 h-4" strokeWidth={2.5} />
           </button>
         </div>
@@ -216,7 +230,7 @@ export default function Page() {
           ].map((s, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, delay: i * 0.1, ease }} className="group cursor-pointer">
               <div className="w-full h-[320px] rounded-[24px] overflow-hidden mb-5 relative">
-                <img src={s.img} alt={s.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-[0.16,1,0.3,1] " />
+                <img src={s.img} alt={s.title} className="w-full h-full object-cover group-hover:scale-105 will-change-transform transition-transform duration-[1.5s] ease-[0.16,1,0.3,1] " />
                 <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition duration-700"></div>
               </div>
               <div className="flex items-center justify-between px-2">
@@ -238,7 +252,7 @@ export default function Page() {
         
         {/* Banner Span 2 */}
         <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, ease }} className="lg:col-span-2 bg-[#1C1A17] rounded-[24px] overflow-hidden relative min-h-[350px] lg:min-h-[450px] flex flex-col justify-between p-10 group cursor-pointer">
-          <img src="https://images.unsplash.com/photo-1612423284934-2850a4ea6b0f?q=80&w=1200&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-80 group-hover:scale-105 transition-all duration-[1.5s] ease-[0.16,1,0.3,1]" alt="Scissors" />
+          <img src="https://images.unsplash.com/photo-1612423284934-2850a4ea6b0f?q=80&w=1200&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-80 group-hover:scale-105 will-change-transform transition-all duration-[1.5s] ease-[0.16,1,0.3,1]" alt="Scissors" />
           <div className="relative z-10">
             <p className="text-[10px] font-bold tracking-[0.2em] text-white/70 uppercase">Craftsmanship<br/>Lives Forever</p>
           </div>
@@ -262,7 +276,7 @@ export default function Page() {
 
         {/* Third Block */}
         <motion.div initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, delay: 0.2, ease }} className="bg-[#1C1A17] rounded-[24px] overflow-hidden relative min-h-[350px] lg:min-h-[450px] p-8 flex flex-col justify-end group">
-          <img src="https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?q=80&w=800&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-80 group-hover:scale-105 transition-all duration-[1.5s] ease-[0.16,1,0.3,1]" alt="Sewing" />
+          <img src="https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?q=80&w=800&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-80 group-hover:scale-105 will-change-transform transition-all duration-[1.5s] ease-[0.16,1,0.3,1]" alt="Sewing" />
           <p className="relative z-10 text-[10px] font-bold tracking-[0.2em] text-white uppercase leading-relaxed max-w-[150px]">Tailored<br/>For A<br/>Brighter<br/>Tomorrow</p>
         </motion.div>
       </section>
@@ -317,10 +331,10 @@ export default function Page() {
             { name: "Milano Cuts", loc: "Downtown, Milan", rating: "5.0", revs: "215", verified: false, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=800", profile: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200" },
             { name: "Savile & Co.", loc: "West End, Paris", rating: "4.7", revs: "62", verified: true, img: "https://images.unsplash.com/photo-1593030103066-0093718efeb9?q=80&w=800", profile: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=200" }
           ].map((t, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, delay: i * 0.1, ease }} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-[32px] hover:bg-white hover:shadow-[0_20px_40px_rgba(0,0,0,0.03)] hover:-translate-y-1 transition-all duration-[0.8s] ease-[0.16,1,0.3,1]">
+            <motion.div key={i} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, delay: i * 0.1, ease }} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-[32px] hover:bg-white hover:shadow-[0_20px_40px_rgba(0,0,0,0.03)] hover:-translate-y-1 will-change-transform transition-all duration-[0.8s] ease-[0.16,1,0.3,1]">
               <div className="relative mb-8">
                 <div className="w-full h-[280px] rounded-[24px] overflow-hidden relative" style={{ WebkitMaskImage: 'radial-gradient(circle at calc(100% - 56px) calc(100% - 16px), transparent 38px, black 39px)', maskImage: 'radial-gradient(circle at calc(100% - 56px) calc(100% - 16px), transparent 38px, black 39px)' }}>
-                  <img src={t.img} alt={t.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-[0.16,1,0.3,1]" />
+                  <img src={t.img} alt={t.name} className="w-full h-full object-cover group-hover:scale-105 will-change-transform transition-transform duration-[1.5s] ease-[0.16,1,0.3,1]" />
                   <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm">
                     <Star className="w-3.5 h-3.5 fill-black text-black" />
                     <span className="text-[12px] font-bold">{t.rating}</span>
@@ -417,7 +431,7 @@ export default function Page() {
               { name: "Daniel K.", loc: "London, UK", quote: "Professional, reliable and incredibly skilled. My wedding suit was better than I imagined.", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200" },
               { name: "Michael T.", loc: "Dubai, UAE", quote: "The home visit service was so convenient. Perfect fit and excellent attention to detail.", img: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=200" }
             ].map((r, i) => (
-              <div key={i} className="min-w-[280px] md:min-w-0 md:flex-1 bg-white border border-black/5 rounded-[16px] p-8 snap-start hover:shadow-[0_20px_40px_rgba(0,0,0,0.04)] hover:-translate-y-1 transition-all duration-[0.8s] ease-[0.16,1,0.3,1] flex flex-col justify-between">
+              <div key={i} className="min-w-[280px] md:min-w-0 md:flex-1 bg-white border border-black/5 rounded-[16px] p-8 snap-start hover:shadow-[0_20px_40px_rgba(0,0,0,0.04)] hover:-translate-y-1 will-change-transform transition-all duration-[0.8s] ease-[0.16,1,0.3,1] flex flex-col justify-between">
                 <div>
                   <p className="text-[14px] text-black/70 mb-6 leading-relaxed">&quot;{r.quote}&quot;</p>
                   <div className="flex gap-1 mb-6">
@@ -435,7 +449,7 @@ export default function Page() {
             ))}
             
             <div className="min-w-[280px] md:min-w-[320px] bg-[#1C1A17] rounded-[16px] overflow-hidden relative p-8 flex flex-col justify-end snap-start group cursor-pointer hover:shadow-xl transition-shadow duration-500">
-              <img src="https://images.unsplash.com/photo-1593032465175-481ac7f401a0?q=80&w=600" className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-luminosity group-hover:scale-105 transition-transform duration-[1.5s] ease-[0.16,1,0.3,1]" alt="Suit" />
+              <img src="https://images.unsplash.com/photo-1593032465175-481ac7f401a0?q=80&w=600" className="absolute inset-0 w-full h-full object-cover opacity-40  group-hover:scale-105 will-change-transform transition-transform duration-[1.5s] ease-[0.16,1,0.3,1]" alt="Suit" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
               <h3 className="relative z-10 font-serif text-[28px] text-white leading-tight mb-5 group-hover:-translate-y-2 transition-transform duration-[0.8s] ease-[0.16,1,0.3,1]">Confidence<br/>Looks Good<br/>On You</h3>
               <div className="relative z-10 w-10 h-[2px] bg-[#C8A97E]"></div>
