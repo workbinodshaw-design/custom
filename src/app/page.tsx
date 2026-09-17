@@ -108,7 +108,7 @@ export default function Page() {
           
           {/* Circular Badge */}
           <motion.div initial={{ opacity: 0, scale: 0.5, rotate: -45 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} transition={{ duration: 1, delay: 1, ease }} className="absolute bottom-10 left-10 flex items-center gap-4 z-10">
-            <div className="w-[100px] h-[100px] rounded-full overflow-hidden border-4 border-[#F8F8F5] shadow-xl relative bg-black">
+            <div className="w-[100px] h-[100px] rounded-full overflow-hidden border-4 border-[#F5F4F0] shadow-xl relative bg-black">
               <img src="https://images.unsplash.com/photo-1612423284934-2850a4ea6b0f?q=80&w=200&auto=format&fit=crop" alt="Details" className="w-full h-full object-cover opacity-60 mix-blend-luminosity" />
             </div>
             <div className="text-[10px] font-bold tracking-[0.2em] text-white uppercase leading-relaxed max-w-[120px]">
@@ -286,17 +286,23 @@ export default function Page() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            { name: "Antonio's Bespoke", loc: "Upper East Side, NY", rating: "4.9", revs: "128", verified: true, img: "https://images.unsplash.com/photo-1594938291221-94f18cbb5660?q=80&w=800" },
-            { name: "The Sartorialist", loc: "Soho, London", rating: "4.8", revs: "94", verified: true, img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800" },
-            { name: "Milano Cuts", loc: "Downtown, Milan", rating: "5.0", revs: "215", verified: false, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=800" },
-            { name: "Savile & Co.", loc: "West End, Paris", rating: "4.7", revs: "62", verified: true, img: "https://images.unsplash.com/photo-1593030103066-0093718efeb9?q=80&w=800" }
+            { name: "Antonio's Bespoke", loc: "Upper East Side, NY", rating: "4.9", revs: "128", verified: true, img: "https://images.unsplash.com/photo-1594938291221-94f18cbb5660?q=80&w=800", profile: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200" },
+            { name: "The Sartorialist", loc: "Soho, London", rating: "4.8", revs: "94", verified: true, img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800", profile: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200" },
+            { name: "Milano Cuts", loc: "Downtown, Milan", rating: "5.0", revs: "215", verified: false, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=800", profile: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200" },
+            { name: "Savile & Co.", loc: "West End, Paris", rating: "4.7", revs: "62", verified: true, img: "https://images.unsplash.com/photo-1593030103066-0093718efeb9?q=80&w=800", profile: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=200" }
           ].map((t, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, delay: i * 0.1, ease }} className="group cursor-pointer flex flex-col">
-              <div className="w-full h-[280px] rounded-[24px] overflow-hidden mb-5 relative">
-                <img src={t.img} alt={t.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-[0.16,1,0.3,1]" />
-                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm">
-                  <Star className="w-3.5 h-3.5 fill-black text-black" />
-                  <span className="text-[12px] font-bold">{t.rating}</span>
+              <div className="relative mb-8">
+                <div className="w-full h-[280px] rounded-[24px] overflow-hidden relative">
+                  <img src={t.img} alt={t.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-[0.16,1,0.3,1]" />
+                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm">
+                    <Star className="w-3.5 h-3.5 fill-black text-black" />
+                    <span className="text-[12px] font-bold">{t.rating}</span>
+                  </div>
+                </div>
+                {/* Profile Cutout Icon */}
+                <div className="absolute -bottom-5 right-6 w-16 h-16 rounded-full border-[6px] border-[#F5F4F0] overflow-hidden bg-gray-200 z-10 shadow-sm group-hover:scale-110 transition-transform duration-500">
+                  <img src={t.profile} alt={t.name} className="w-full h-full object-cover" />
                 </div>
               </div>
               <div className="px-2">
