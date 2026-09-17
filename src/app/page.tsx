@@ -190,7 +190,7 @@ export default function Page() {
           ].map((s, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, delay: i * 0.1, ease }} className="group cursor-pointer">
               <div className="w-full h-[320px] rounded-[24px] overflow-hidden mb-5 relative">
-                <img src={s.img} alt={s.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-[0.16,1,0.3,1] grayscale hover:grayscale-0" />
+                <img src={s.img} alt={s.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-[0.16,1,0.3,1] " />
                 <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition duration-700"></div>
               </div>
               <div className="flex items-center justify-between px-2">
@@ -236,7 +236,7 @@ export default function Page() {
 
         {/* Third Block */}
         <motion.div initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, delay: 0.2, ease }} className="bg-[#1A1A1A] rounded-[24px] overflow-hidden relative min-h-[350px] lg:min-h-[450px] p-8 flex flex-col justify-end group">
-          <img src="https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?q=80&w=800&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-luminosity grayscale group-hover:scale-105 transition-transform duration-1000 ease-[0.16,1,0.3,1]" alt="Sewing" />
+          <img src="https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?q=80&w=800&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-luminosity group-hover:scale-105 transition-transform duration-1000 ease-[0.16,1,0.3,1]" alt="Sewing" />
           <p className="relative z-10 text-[10px] font-bold tracking-[0.2em] text-white uppercase leading-relaxed max-w-[150px]">Tailored<br/>For A<br/>Brighter<br/>Tomorrow</p>
         </motion.div>
       </section>
@@ -292,7 +292,7 @@ export default function Page() {
             { city: "Sydney", country: "Australia", img: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?q=80&w=600" }
           ].map((c, i) => (
             <motion.div key={i} initial={{ opacity: 0, scale: 0.9, y: 20 }} whileInView={{ opacity: 1, scale: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.8, delay: i * 0.1, ease }} className="relative w-[220px] h-[300px] rounded-[24px] overflow-hidden shrink-0 snap-start group cursor-pointer">
-              <img src={c.img} alt={c.city} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-[1.5s] ease-[0.16,1,0.3,1] grayscale" />
+              <img src={c.img} alt={c.city} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-[1.5s] ease-[0.16,1,0.3,1]" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
               <div className="absolute bottom-6 left-6">
                 <h4 className="text-white font-bold text-[18px] mb-1">{c.city}</h4>
@@ -307,7 +307,7 @@ export default function Page() {
       <section className="bg-white pt-24 pb-12 px-6 lg:px-16 mt-32 relative">
         {/* Testimonial overlapping */}
         <motion.div initial={{ opacity: 0, y: 60 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1.2, ease }} className="max-w-[1200px] mx-auto bg-[#F8F8F5] rounded-[32px] p-10 lg:p-14 flex flex-col lg:flex-row items-center gap-12 -mt-48 mb-24 relative z-20 shadow-[0_20px_40px_rgba(0,0,0,0.03)] border border-black/[0.03]">
-          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200" alt="Rohan" className="w-28 h-28 rounded-full grayscale border-4 border-white shadow-lg" />
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200" alt="Rohan" className="w-28 h-28 rounded-full border-4 border-white shadow-lg" />
           <div className="flex-1 text-center lg:text-left">
             <h3 className="font-serif text-[28px] mb-4 text-black">&quot;An Unmatched Experience.&quot;</h3>
             <p className="text-[15px] text-black/60 mb-8 max-w-[480px] leading-relaxed">TailorFind made the entire process effortless. The quality and attention to detail are unmatched.</p>
