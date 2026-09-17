@@ -270,7 +270,55 @@ export default function Page() {
         </div>
       </section>
 
+
+      {/* TOP RATED TAILORS */}
+      <section className="px-6 lg:px-16 max-w-[1800px] mx-auto mb-32 border-t border-black/10 pt-20">
+        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, ease }} className="flex flex-col lg:flex-row lg:items-end justify-between mb-12">
+          <div className="max-w-[500px]">
+            <p className="text-[10px] font-bold tracking-[0.2em] text-black/50 uppercase mb-4">Discover Masters</p>
+            <h2 className="font-serif text-[40px] leading-tight mb-4">Top Rated Tailors<br/>Near You.</h2>
+            <p className="text-[14px] text-black/60">Explore highly-rated artisans who bring decades of expertise to every stitch.</p>
+          </div>
+          <a href="#" className="hidden lg:flex items-center gap-2 text-[13px] font-semibold text-black hover:opacity-70 transition border-b border-black pb-1">
+            View All Tailors <ArrowRight className="w-3.5 h-3.5" />
+          </a>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            { name: "Antonio's Bespoke", loc: "Upper East Side, NY", rating: "4.9", revs: "128", img: "https://images.unsplash.com/photo-1598808503746-f34c53b93f3b?q=80&w=800" },
+            { name: "The Sartorialist", loc: "Soho, London", rating: "4.8", revs: "94", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800" },
+            { name: "Milano Cuts", loc: "Downtown, Milan", rating: "5.0", revs: "215", img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=800" },
+            { name: "Savile & Co.", loc: "West End, Paris", rating: "4.7", revs: "62", img: "https://images.unsplash.com/photo-1537240366835-081cfd332617?q=80&w=800" }
+          ].map((t, i) => (
+            <motion.div key={i} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, delay: i * 0.1, ease }} className="group cursor-pointer flex flex-col">
+              <div className="w-full h-[280px] rounded-[24px] overflow-hidden mb-5 relative">
+                <img src={t.img} alt={t.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-[0.16,1,0.3,1]" />
+                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm">
+                  <Star className="w-3.5 h-3.5 fill-black text-black" />
+                  <span className="text-[12px] font-bold">{t.rating}</span>
+                </div>
+              </div>
+              <div className="px-2">
+                <h3 className="font-serif font-bold text-[20px] mb-1.5">{t.name}</h3>
+                <p className="text-[13px] text-black/50 flex items-center gap-1.5 mb-4">
+                  <MapPin className="w-3.5 h-3.5" /> {t.loc}
+                </p>
+                <div className="w-full h-[1px] bg-black/5 mb-4"></div>
+                <div className="flex items-center justify-between">
+                  <span className="text-[12px] text-black/40 font-medium">{t.revs} Reviews</span>
+                  <div className="text-[12px] font-bold group-hover:translate-x-1 transition-transform flex items-center gap-1">
+                    View Profile <ArrowRight className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
       {/* POPULAR DESTINATIONS */}
+
       <section className="px-6 lg:px-16 max-w-[1800px] mx-auto mb-40">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1, ease }} className="flex items-end justify-between mb-10">
           <div>
