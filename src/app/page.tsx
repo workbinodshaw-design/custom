@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { Search, ChevronRight, Play, MapPin, Calendar, Star, ArrowRight, ArrowLeft, BadgeCheck } from 'lucide-react';
+import { Search, ChevronRight, Play, MapPin, Calendar, Star, ArrowRight, ArrowLeft, BadgeCheck, ChevronDown, Target, Shirt, LocateFixed } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 export default function Page() {
@@ -127,43 +127,58 @@ export default function Page() {
         transition={{ duration: 1, delay: 0.6, ease }}
         className="max-w-[1100px] mx-auto px-6 lg:px-0 -mt-12 relative z-30 mb-32"
       >
-        <div className="bg-white rounded-[24px] shadow-[0_20px_40px_rgba(0,0,0,0.06)] p-2 flex flex-col md:flex-row items-stretch md:items-center transform transition duration-500 hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)]">
+        <div className="bg-white rounded-[16px] shadow-[0_20px_40px_rgba(0,0,0,0.08)] p-2 flex flex-col lg:flex-row items-stretch lg:items-center transform transition duration-500 w-full relative z-50">
           
-          <div className="flex-1 flex items-center gap-4 px-6 py-4 border-b md:border-b-0 md:border-r border-black/5 hover:bg-black/[0.02] transition cursor-pointer rounded-t-[20px] md:rounded-l-[20px] md:rounded-tr-none">
-             <div className="w-10 h-10 rounded-full bg-[#F8F8F5] flex items-center justify-center shrink-0">
-               <img src="https://cdn-icons-png.flaticon.com/128/3004/3004381.png" className="w-5 h-5 opacity-70" alt="Suit" />
+          {/* 1. Garment */}
+          <div className="flex-[1.2] flex items-center justify-between px-6 py-4 border-b lg:border-b-0 lg:border-r border-black/5 hover:bg-black/[0.02] transition cursor-pointer rounded-t-[14px] lg:rounded-l-[14px] lg:rounded-tr-none">
+             <div className="flex items-start gap-4">
+               <img src="https://cdn-icons-png.flaticon.com/128/3004/3004381.png" className="w-6 h-6 mt-0.5 opacity-80" alt="Suit" />
+               <div className="flex flex-col">
+                 <span className="text-[13px] font-bold text-black mb-1">What are you looking for?</span>
+                 <span className="text-[14px] text-black/60">Custom Suit</span>
+               </div>
              </div>
-             <div className="flex flex-col flex-1">
-               <span className="text-[11px] font-medium text-black/50 mb-0.5">What are you looking for?</span>
-               <span className="text-[14px] font-semibold text-black">Custom Suit</span>
-             </div>
-             <ChevronRight className="w-4 h-4 text-black/30" />
+             <ChevronDown className="w-4 h-4 text-black/40" />
           </div>
 
-          <div className="flex-1 flex items-center gap-4 px-6 py-4 border-b md:border-b-0 md:border-r border-black/5 hover:bg-black/[0.02] transition cursor-pointer">
-             <div className="w-10 h-10 rounded-full bg-[#F8F8F5] flex items-center justify-center shrink-0">
-               <MapPin className="w-4 h-4 text-black" strokeWidth={1.5} />
+          {/* 2. Location */}
+          <div className="flex-[1.4] flex items-start gap-4 px-6 py-4 border-b lg:border-b-0 lg:border-r border-black/5 hover:bg-black/[0.02] transition relative cursor-text">
+             <MapPin className="w-5 h-5 text-black mt-1 shrink-0" strokeWidth={1.5} />
+             <div className="flex flex-col flex-1 w-full">
+               <span className="text-[13px] font-bold text-black mb-1">Your Location</span>
+               <input type="text" placeholder="Enter city, ZIP or address" className="w-full text-[14px] text-black placeholder:text-black/40 bg-transparent outline-none mb-2" />
+               <button className="flex items-center gap-1.5 text-[11.5px] font-semibold text-[#007AFF] hover:underline w-max">
+                 <LocateFixed className="w-3.5 h-3.5" strokeWidth={2.5} /> Use my current location
+               </button>
              </div>
-             <div className="flex flex-col flex-1">
-               <span className="text-[11px] font-medium text-black/50 mb-0.5">Your Location</span>
-               <span className="text-[14px] font-semibold text-black/40">Enter city, ZIP or area</span>
-             </div>
-             <ChevronRight className="w-4 h-4 text-black/30" />
           </div>
 
-          <div className="flex-1 flex items-center gap-4 px-6 py-4 hover:bg-black/[0.02] transition cursor-pointer md:rounded-r-[20px]">
-             <div className="w-10 h-10 rounded-full bg-[#F8F8F5] flex items-center justify-center shrink-0">
-               <Calendar className="w-4 h-4 text-black" strokeWidth={1.5} />
+          {/* 3. Search Radius */}
+          <div className="flex-[1.2] flex items-center justify-between px-6 py-4 border-b lg:border-b-0 lg:border-r border-black/5 hover:bg-black/[0.02] transition cursor-pointer">
+             <div className="flex items-start gap-4">
+               <Target className="w-5 h-5 text-black mt-1" strokeWidth={1.5} />
+               <div className="flex flex-col">
+                 <span className="text-[13px] font-bold text-black mb-1">Search Radius</span>
+                 <span className="text-[14px] text-black/60">40 km</span>
+               </div>
              </div>
-             <div className="flex flex-col flex-1">
-               <span className="text-[11px] font-medium text-black/50 mb-0.5">Fitting Preference</span>
-               <span className="text-[14px] font-semibold text-black">Home Visit</span>
-             </div>
-             <ChevronRight className="w-4 h-4 text-black/30" />
+             <ChevronDown className="w-4 h-4 text-black/40" />
           </div>
 
-          <button className="bg-[#1A1A1A] text-white h-[60px] px-8 rounded-[18px] text-[14px] font-medium flex items-center justify-center gap-2 hover:bg-black/80 active:scale-95 transition-all duration-300 m-2 shrink-0 shadow-md">
-            Search <ArrowRight className="w-4 h-4" />
+          {/* 4. Fitting Preference */}
+          <div className="flex-[1.2] flex items-center justify-between px-6 py-4 hover:bg-black/[0.02] transition cursor-pointer lg:rounded-r-[14px]">
+             <div className="flex items-start gap-4">
+               <Shirt className="w-5 h-5 text-black mt-1" strokeWidth={1.5} />
+               <div className="flex flex-col">
+                 <span className="text-[13px] font-bold text-black mb-1">Fitting Preference</span>
+                 <span className="text-[14px] text-black/60">Home Visit</span>
+               </div>
+             </div>
+             <ChevronDown className="w-4 h-4 text-black/40" />
+          </div>
+
+          <button className="bg-[#C5A880] text-white h-[64px] px-10 rounded-[12px] text-[15px] font-bold flex items-center justify-center gap-2 hover:bg-[#b09570] active:scale-95 transition-all duration-300 m-2 shrink-0 shadow-sm">
+            Find Tailors <ArrowRight className="w-4 h-4" strokeWidth={2.5} />
           </button>
         </div>
       </motion.div>
