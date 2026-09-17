@@ -286,10 +286,10 @@ export default function Page() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            { name: "Antonio's Bespoke", loc: "Upper East Side, NY", rating: "4.9", revs: "128", verified: true, img: "https://images.unsplash.com/photo-1598808503746-f34c53b93f3b?q=80&w=800" },
+            { name: "Antonio's Bespoke", loc: "Upper East Side, NY", rating: "4.9", revs: "128", verified: true, img: "https://images.unsplash.com/photo-1594938291221-94f18cbb5660?q=80&w=800" },
             { name: "The Sartorialist", loc: "Soho, London", rating: "4.8", revs: "94", verified: true, img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800" },
             { name: "Milano Cuts", loc: "Downtown, Milan", rating: "5.0", revs: "215", verified: false, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=800" },
-            { name: "Savile & Co.", loc: "West End, Paris", rating: "4.7", revs: "62", verified: true, img: "https://images.unsplash.com/photo-1537240366835-081cfd332617?q=80&w=800" }
+            { name: "Savile & Co.", loc: "West End, Paris", rating: "4.7", revs: "62", verified: true, img: "https://images.unsplash.com/photo-1593030103066-0093718efeb9?q=80&w=800" }
           ].map((t, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, delay: i * 0.1, ease }} className="group cursor-pointer flex flex-col">
               <div className="w-full h-[280px] rounded-[24px] overflow-hidden mb-5 relative">
@@ -341,7 +341,7 @@ export default function Page() {
         <div className="flex overflow-x-auto gap-4 pb-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {[
             { city: "New York", country: "USA", img: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=600" },
-            { city: "London", country: "UK", img: "https://images.unsplash.com/photo-1505761671135-639428ea15a1?q=80&w=600" },
+            { city: "London", country: "UK", img: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600" },
             { city: "Paris", country: "France", img: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?q=80&w=600" },
             { city: "Dubai", country: "UAE", img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=600" },
             { city: "Singapore", country: "Singapore", img: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?q=80&w=600" },
