@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { Search, ChevronRight, Play, MapPin, Calendar, Star, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Search, ChevronRight, Play, MapPin, Calendar, Star, ArrowRight, ArrowLeft, BadgeCheck } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 export default function Page() {
@@ -286,10 +286,10 @@ export default function Page() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            { name: "Antonio's Bespoke", loc: "Upper East Side, NY", rating: "4.9", revs: "128", img: "https://images.unsplash.com/photo-1598808503746-f34c53b93f3b?q=80&w=800" },
-            { name: "The Sartorialist", loc: "Soho, London", rating: "4.8", revs: "94", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800" },
-            { name: "Milano Cuts", loc: "Downtown, Milan", rating: "5.0", revs: "215", img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=800" },
-            { name: "Savile & Co.", loc: "West End, Paris", rating: "4.7", revs: "62", img: "https://images.unsplash.com/photo-1537240366835-081cfd332617?q=80&w=800" }
+            { name: "Antonio's Bespoke", loc: "Upper East Side, NY", rating: "4.9", revs: "128", verified: true, img: "https://images.unsplash.com/photo-1598808503746-f34c53b93f3b?q=80&w=800" },
+            { name: "The Sartorialist", loc: "Soho, London", rating: "4.8", revs: "94", verified: true, img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800" },
+            { name: "Milano Cuts", loc: "Downtown, Milan", rating: "5.0", revs: "215", verified: false, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=800" },
+            { name: "Savile & Co.", loc: "West End, Paris", rating: "4.7", revs: "62", verified: true, img: "https://images.unsplash.com/photo-1537240366835-081cfd332617?q=80&w=800" }
           ].map((t, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, delay: i * 0.1, ease }} className="group cursor-pointer flex flex-col">
               <div className="w-full h-[280px] rounded-[24px] overflow-hidden mb-5 relative">
@@ -300,7 +300,15 @@ export default function Page() {
                 </div>
               </div>
               <div className="px-2">
-                <h3 className="font-serif font-bold text-[20px] mb-1.5">{t.name}</h3>
+                <h3 className="font-serif font-bold text-[20px] mb-1.5 flex items-center gap-2">
+                  {t.name}
+                  {t.verified && (
+                    <div className="flex items-center gap-1 bg-[#1A1A1A] text-[#C5A880] px-2 py-0.5 rounded-full border border-[#C5A880]/30 shadow-sm" title="Verified Tailor">
+                      <BadgeCheck className="w-3 h-3" strokeWidth={2.5} />
+                      <span className="text-[9px] font-bold tracking-wider uppercase pr-0.5">Verified</span>
+                    </div>
+                  )}
+                </h3>
                 <p className="text-[13px] text-black/50 flex items-center gap-1.5 mb-4">
                   <MapPin className="w-3.5 h-3.5" /> {t.loc}
                 </p>
