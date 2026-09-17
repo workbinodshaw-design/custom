@@ -1,685 +1,363 @@
-"use client";
+'use client';
+import React, { useState, useEffect } from 'react';
+import { Search, ChevronRight, Play, MapPin, Calendar, Star, ArrowRight, ArrowLeft } from 'lucide-react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Play, ShieldCheck, Calendar, Globe, MapPin, Target, Users, Search, ChevronDown, ChevronRight, ChevronLeft, Menu, SlidersHorizontal, Mouse, X } from "lucide-react";
-import Image from "next/image";
+export default function Page() {
+  const { scrollY } = useScroll();
+  const y1 = useTransform(scrollY, [0, 1000], [0, 200]);
+  const y2 = useTransform(scrollY, [0, 1000], [0, -150]);
+  const opacityHero = useTransform(scrollY, [0, 500], [1, 0]);
 
-import desktopBg from "../../public/tailorfind-bg.jpg";
-import mobileBg from "../../public/tailorfind-mobile-bg.jpg";
-
-export default function Home() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [showLoader, setShowLoader] = useState(true);
-  const [langOpen, setLangOpen] = useState(false);
-  const [selectedLang, setSelectedLang] = useState("EN");
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    // Trigger the split curtain reveal animation
-    const timer1 = setTimeout(() => setIsLoading(false), 1600); 
-    // Unmount loader completely from DOM
-    const timer2 = setTimeout(() => setShowLoader(false), 2800); 
-    return () => { clearTimeout(timer1); clearTimeout(timer2); };
-  }, []);
+  // Apple-like smooth easing
+  const ease = [0.16, 1, 0.3, 1];
 
   return (
-    <main className={`w-full bg-[#F5F4F0] min-h-screen relative overflow-hidden flex flex-col ${!isLoading ? 'animations-ready' : ''}`}>
+    <div className="min-h-screen bg-[#F8F8F5] text-[#1A1A1A] font-sans selection:bg-[#1A1A1A] selection:text-white pb-10 overflow-hidden">
       
-      {/* FULL SCREEN LOADER - LUXURY SPLIT REVEAL */}
-      {showLoader && (
-        <div className="fixed inset-0 z-[100] flex flex-col pointer-events-none">
-          {/* Top Half Curtain */}
-          <div className={`absolute top-0 left-0 w-full h-[50vh] bg-[#1C1A17] transition-transform duration-[1200ms] ease-[cubic-bezier(0.83,0,0.17,1)] ${isLoading ? 'translate-y-0' : '-translate-y-full'}`}></div>
-          
-          {/* Bottom Half Curtain */}
-          <div className={`absolute bottom-0 left-0 w-full h-[50vh] bg-[#1C1A17] transition-transform duration-[1200ms] ease-[cubic-bezier(0.83,0,0.17,1)] ${isLoading ? 'translate-y-0' : 'translate-y-full'}`}></div>
-
-          {/* Center Content (Fades out right before split) */}
-          <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-500 delay-200 ${isLoading ? 'opacity-100' : 'opacity-0'}`}>
-             <div className="flex flex-col items-center">
-               <h1 className="font-serif text-[50px] md:text-[70px] text-[#F5F4F0] tracking-tight overflow-hidden leading-none">
-                 <span className="block animate-[slideUp_0.8s_ease-out_forwards]">TailorFind</span>
-               </h1>
-               <div className="flex items-center gap-4 mt-6 opacity-0 animate-[fadeIn_0.5s_ease-out_0.5s_forwards]">
-                 <div className="w-8 md:w-16 h-[1px] bg-[#CFA972]/60"></div>
-                 <span className="text-[#CFA972] text-[8px] md:text-[10px] tracking-[0.4em] uppercase font-bold">The Art of Fit</span>
-                 <div className="w-8 md:w-16 h-[1px] bg-[#CFA972]/60"></div>
-               </div>
-             </div>
-          </div>
-        </div>
-      )}
-
-      {/* 1. TOP NAVIGATION */}
-      <motion.nav initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }} className="absolute top-0 left-0 w-full z-50 flex justify-between items-center px-6 lg:px-16 pt-8 pb-4">
+      {/* NAVIGATION */}
+      <motion.nav 
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 1, ease }}
+        className="w-full flex items-center justify-between px-6 lg:px-16 py-6 absolute top-0 left-0 right-0 z-50"
+      >
         {/* Logo */}
-        <div className="flex items-center gap-3">
-          <img src="https://cdn-icons-png.flaticon.com/128/3004/3004381.png" alt="Logo" className="w-10 h-10 filter invert opacity-90" />
-          <div className="flex flex-col leading-none">
-            <span className="font-serif text-[28px] md:text-[34px] text-white tracking-normal leading-[0.9]">TailorFind</span>
-            <span className="text-[5.5px] md:text-[6px] font-semibold tracking-[0.3em] uppercase mt-1 text-white/50">Exceptional Tailors. Everywhere.</span>
-          </div>
+        <div className="flex items-center gap-2 cursor-pointer group">
+          <div className="w-8 h-8 bg-[#1A1A1A] text-white flex items-center justify-center font-serif font-bold text-xl rounded-sm transition-transform duration-500 group-hover:scale-95">T</div>
+          <span className="font-serif text-[22px] font-medium tracking-tight">TailorFind</span>
         </div>
-        
-        {/* Nav Links */}
-        <div className="hidden lg:flex items-center gap-10">
-          <div className="flex flex-col">
-            <a href="#" className="text-[12px] font-semibold text-white tracking-wide hover:opacity-70 transition">Find a Tailor</a>
-            <div className="h-[2px] w-full bg-[#C6A87C] mt-1.5"></div>
-          </div>
-          <a href="#" className="text-[12px] font-medium text-white tracking-wide hover:opacity-70 transition">Services</a>
-          <a href="#" className="text-[12px] font-medium text-white tracking-wide hover:opacity-70 transition">Locations</a>
-          <a href="#" className="text-[12px] font-medium text-white tracking-wide hover:opacity-70 transition">How It Works</a>
-          <a href="#" className="text-[12px] font-medium text-white tracking-wide hover:opacity-70 transition">For Tailors</a>
-          <a href="#" className="text-[12px] font-medium text-white tracking-wide hover:opacity-70 transition">About</a>
+
+        {/* Links (Desktop) */}
+        <div className="hidden lg:flex items-center gap-8 text-[13px] font-medium text-black/70">
+          {['Find a Tailor', 'Services', 'Locations', 'How It Works', 'Stories'].map((link, i) => (
+            <a key={i} href="#" className="hover:text-black transition-colors">{link}</a>
+          ))}
         </div>
-        
+
         {/* Right Actions */}
-        <div className="flex items-center gap-4 md:gap-6">
-          <div className="relative">
-            <div onClick={() => setLangOpen(!langOpen)} className="flex items-center gap-1.5 cursor-pointer hover:opacity-70 transition">
-              <Globe className="w-3.5 h-3.5 md:w-4 md:h-4 text-white" />
-              <span className="text-[11px] md:text-[12px] font-medium text-white">{selectedLang}</span>
-              <ChevronDown className="w-3 h-3 text-white" />
-            </div>
-            
-            {/* Dropdown Menu */}
-            {langOpen && (
-              <div className="absolute top-full mt-4 right-0 w-[120px] bg-[#111111]/90 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl py-2 flex flex-col z-50">
-                {['EN', 'FR', 'ES', 'IT'].map(lang => (
-                  <button 
-                    key={lang}
-                    onClick={() => { setSelectedLang(lang); setLangOpen(false); }}
-                    className={`text-left px-4 py-2 text-[12px] font-medium transition ${selectedLang === lang ? 'text-[#CFA972] bg-white/5' : 'text-white hover:bg-white/10'}`}
-                  >
-                    {lang === 'EN' ? 'English' : lang === 'FR' ? 'Français' : lang === 'ES' ? 'Español' : 'Italiano'}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-          <div className="hidden md:block w-[1px] h-4 bg-white/30"></div>
-          <a href="#" className="hidden md:block text-[13px] font-medium text-white hover:opacity-70 transition">Sign In</a>
-          <button className="hidden md:flex bg-[#D4AF37] text-black px-6 py-2.5 items-center gap-2 text-[13px] font-bold rounded-full shadow-lg hover:bg-[#CFA972] transition">
-            Find a Tailor &rarr;
+        <div className="hidden lg:flex items-center gap-6">
+          <button className="text-black hover:opacity-70 transition"><Search className="w-5 h-5" strokeWidth={1.5} /></button>
+          <div className="w-[1px] h-4 bg-black/20"></div>
+          <a href="#" className="text-[13px] font-medium hover:opacity-70 transition">Sign In</a>
+          <button className="bg-[#1A1A1A] text-white px-6 py-2.5 rounded-full text-[13px] font-medium flex items-center gap-2 hover:bg-black/80 hover:scale-[1.02] active:scale-95 transition-all duration-300">
+            Get Started <ArrowRight className="w-3.5 h-3.5" />
           </button>
-          <div className="lg:hidden ml-1 cursor-pointer" onClick={() => setMobileMenuOpen(true)}>
-            <Menu className="w-6 h-6 text-white" />
-          </div>
         </div>
-        </motion.nav>
+      </motion.nav>
 
-        {/* Mobile Menu Backdrop & Popup */}
-        {mobileMenuOpen && (
-          <div className="fixed inset-0 z-[200] bg-black/60 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setMobileMenuOpen(false)}>
-            {/* Premium Modal */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className="w-full max-w-[340px] bg-[#111] border border-white/10 shadow-2xl rounded-3xl flex flex-col px-6 py-8 relative overflow-hidden"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Decorative premium glow */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[100px] bg-[#D4AF37] opacity-20 blur-[60px] pointer-events-none rounded-full"></div>
-
-              <div className="flex justify-between items-center w-full mb-8 relative z-10">
-                <span className="font-serif text-[22px] text-white">Menu</span>
-                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center cursor-pointer hover:bg-white/20 transition-colors" onClick={() => setMobileMenuOpen(false)}>
-                  <X className="w-4 h-4 text-white" />
-                </div>
-              </div>
-              
-              <div className="flex flex-col gap-4 text-[15px] font-medium text-white/70 relative z-10">
-                <a href="#" className="hover:text-white transition-colors flex items-center justify-between group py-2 border-b border-white/5">
-                  Find a Tailor <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
-                </a>
-                <a href="#" className="hover:text-white transition-colors flex items-center justify-between group py-2 border-b border-white/5">
-                  Services <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
-                </a>
-                <a href="#" className="hover:text-white transition-colors flex items-center justify-between group py-2 border-b border-white/5">
-                  Locations <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
-                </a>
-                <a href="#" className="hover:text-white transition-colors flex items-center justify-between group py-2 border-b border-white/5">
-                  How It Works <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
-                </a>
-                <a href="#" className="hover:text-white transition-colors flex items-center justify-between group py-2">
-                  For Tailors <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
-                </a>
-              </div>
-
-              <div className="mt-8 flex flex-col gap-3 relative z-10">
-                <button className="bg-[#D4AF37] text-black w-full py-3.5 rounded-xl text-[14px] font-bold shadow-[0_4px_15px_rgba(212,175,55,0.25)] hover:bg-[#CFA972] transition-colors">Find a Tailor</button>
-                <button className="bg-transparent border border-white/20 text-white w-full py-3.5 rounded-xl text-[14px] font-bold hover:bg-white/5 transition-colors">Sign In</button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-
-      {/* 2. DARK HERO SECTION */}
-      <section className="relative w-full pt-[120px] md:pt-[160px] pb-10 md:pb-24 overflow-hidden bg-[#0A0A0A]">
+      {/* HERO SECTION */}
+      <section className="relative pt-32 lg:pt-40 pb-20 px-6 lg:px-16 max-w-[1800px] mx-auto flex flex-col lg:flex-row gap-12 lg:gap-8 min-h-[90vh]">
         
-        {/* Background Image Parallax */}
-        <motion.div 
-          initial={{ scale: 1.1, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          className="absolute inset-0 w-full h-full z-0"
-        >
-          <img 
-            src="https://images.unsplash.com/photo-1593032465175-481ac7f401a0?w=2000&q=80" 
-            alt="Suit Background" 
-            className="w-full h-full object-cover object-[center_top] opacity-80"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-80"></div>
+        {/* Left Content */}
+        <motion.div style={{ opacity: opacityHero, y: y1 }} className="flex-1 flex flex-col justify-center lg:pr-12 relative z-20">
+          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.1, ease }} className="flex items-center gap-4 mb-6">
+            <span className="text-[10px] font-bold tracking-[0.2em] text-black/50 uppercase">Bespoke Tailoring</span>
+            <div className="w-12 h-[1px] bg-black/20"></div>
+          </motion.div>
+          
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.2, ease }} className="font-serif text-[50px] lg:text-[76px] leading-[1.05] tracking-tight mb-6">
+            Confidence<br/>Looks Good<br/>On <span className="italic font-light text-black/80">You.</span>
+          </motion.h1>
+          
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.3, ease }} className="text-[15px] lg:text-[16px] text-black/60 leading-relaxed max-w-[420px] mb-10">
+            Find trusted, professional tailors near you.<br/>From timeless suits to everyday wear —<br/>crafted with precision, just for you.
+          </motion.p>
+          
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.4, ease }} className="flex flex-wrap items-center gap-6 mb-16">
+            <button className="bg-[#1A1A1A] text-white px-8 py-4 rounded-full text-[14px] font-medium flex items-center gap-2 hover:bg-black/80 hover:shadow-2xl hover:-translate-y-0.5 active:scale-95 transition-all duration-300">
+              Find a Tailor <ArrowRight className="w-4 h-4" />
+            </button>
+            <button className="flex items-center gap-4 group cursor-pointer">
+              <div className="w-12 h-12 rounded-full border border-black/20 flex items-center justify-center group-hover:border-black transition-colors">
+                <Play className="w-4 h-4 text-black fill-black ml-0.5" />
+              </div>
+              <span className="text-[13px] font-medium text-black leading-tight">Watch<br/>Our Story</span>
+            </button>
+          </motion.div>
+
+          {/* Stats */}
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 0.6, ease }} className="flex items-center gap-12 pt-8 border-t border-black/10 w-max">
+            {[ { num: "10K+", text: "Happy Clients" }, { num: "4.8", icon: <Star className="w-4 h-4 fill-black text-black" />, text: "Average Rating" }, { num: "500+", text: "Verified Tailors" } ].map((stat, i) => (
+              <div key={i}>
+                <h4 className="text-[24px] font-bold font-serif mb-1 flex items-center gap-1">{stat.num} {stat.icon}</h4>
+                <p className="text-[11px] text-black/50 font-medium">{stat.text}</p>
+              </div>
+            ))}
+          </motion.div>
         </motion.div>
 
-        {/* Hero Content Wrapper */}
-        <div className="relative z-20 w-full max-w-[1700px] mx-auto flex flex-col px-5 lg:px-16">
+        {/* Right Image */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }} 
+          animate={{ opacity: 1, scale: 1 }} 
+          transition={{ duration: 1.5, delay: 0.2, ease }} 
+          className="flex-1 relative h-[500px] lg:h-auto min-h-[600px] rounded-[40px] overflow-hidden"
+        >
+          <motion.img 
+            style={{ y: y2, scale: 1.1 }}
+            src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=1200&auto=format&fit=crop" 
+            alt="Bespoke Suit" 
+            className="absolute inset-0 w-full h-full object-cover object-center grayscale opacity-90 origin-top"
+          />
+          {/* Overlay Text */}
+          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.8, ease }} className="absolute top-12 left-10 flex flex-col gap-8">
+            <div className="text-[9px] font-bold tracking-[0.3em] text-white/90 uppercase leading-relaxed">More<br/>Than<br/>A Suit</div>
+            <div className="text-[9px] font-bold tracking-[0.3em] text-white/90 uppercase leading-relaxed">A Better<br/>You.</div>
+          </motion.div>
           
-          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center w-full relative">
-            
-            {/* Main Hero Text (Left) */}
-              <div className="w-full max-w-[800px] flex flex-col relative z-10">
-                <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1.2, delay: 0.2 }} viewport={{ once: true }} className="flex items-center gap-4 mb-4 md:mb-6 mt-8 md:mt-0">
-                  <p className="text-[#D4AF37] font-medium tracking-[0.3em] text-[9px] md:text-[10px] uppercase">Tailoring a better you</p>
-                  <div className="w-10 h-[1px] bg-[#D4AF37]/50"></div>
-                </motion.div>
-                
-                <motion.h1 initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }} whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ duration: 1.2, delay: 0.4 }} viewport={{ once: true }} className="font-serif flex flex-col mb-4 md:mb-6">
-                  <span className="text-[46px] md:text-[75px] text-white leading-[1.05] tracking-tight">Find the</span>
-                  <span className="text-[46px] md:text-[75px] text-[#D4AF37] italic leading-[1.05] tracking-tight pr-2">Perfect</span>
-                  <span className="text-[46px] md:text-[75px] text-white leading-[1.05] tracking-tight">Custom Tailor</span>
-                  <span className="text-[32px] md:text-[45px] text-white/70 leading-[1.05] tracking-wide mt-1 md:mt-2 font-light">Near You</span>
-                </motion.h1>
-                <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1.2, delay: 0.6 }} viewport={{ once: true }} className="text-white/70 text-[14px] md:text-[16px] max-w-[500px] pr-[90px] md:pr-0 leading-[1.6] mb-8 font-light">
-                  Discover trusted bespoke, made-to-measure and custom tailoring professionals around the world.
-                </motion.p>
-
-              {/* Watch Our Story (Left on Mobile) */}
-              <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.7 }} viewport={{ once: true }} className="flex items-center gap-4 cursor-pointer group mb-2 lg:mb-0">
-                <div className="w-11 h-11 md:w-12 md:h-12 rounded-full border border-white/20 flex items-center justify-center transition group-hover:bg-white/10 backdrop-blur-sm">
-                  <Play className="w-3.5 h-3.5 md:w-4 md:h-4 text-white fill-white ml-0.5" />
-                </div>
-                <span className="text-[11px] md:text-[12px] font-medium tracking-wide text-white uppercase leading-tight">Watch<br/>Our Story</span>
-              </motion.div>
+          {/* Circular Badge */}
+          <motion.div initial={{ opacity: 0, scale: 0.5, rotate: -45 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} transition={{ duration: 1, delay: 1, ease }} className="absolute bottom-10 left-10 flex items-center gap-4 z-10">
+            <div className="w-[100px] h-[100px] rounded-full overflow-hidden border-4 border-[#F8F8F5] shadow-xl relative bg-black">
+              <img src="https://images.unsplash.com/photo-1612423284934-2850a4ea6b0f?q=80&w=200&auto=format&fit=crop" alt="Details" className="w-full h-full object-cover opacity-60 mix-blend-luminosity" />
             </div>
+            <div className="text-[10px] font-bold tracking-[0.2em] text-white uppercase leading-relaxed max-w-[120px]">
+              Crafted<br/>In Every<br/>Detail
+            </div>
+          </motion.div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
+        </motion.div>
+        
+      </section>
 
-            {/* Floating Right Text (Mobile & Desktop) */}
-            <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1.2, delay: 0.8 }} viewport={{ once: true }} className="absolute right-0 bottom-[15px] md:bottom-0 lg:bottom-auto lg:top-auto lg:relative lg:flex flex-col items-end gap-16 z-0">
-              <div className="flex flex-col items-end gap-3 text-right opacity-80">
-                <span className="text-[7.5px] md:text-[9px] font-medium tracking-[0.5em] text-white uppercase">More<br/>Than A Suit</span>
-                <div className="w-8 md:w-10 h-[1px] bg-white/40"></div>
-                <span className="text-[7.5px] md:text-[9px] font-medium tracking-[0.5em] text-white uppercase">A Better You</span>
+      {/* SEARCH PILL */}
+      <motion.div 
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.6, ease }}
+        className="max-w-[1100px] mx-auto px-6 lg:px-0 -mt-12 relative z-30 mb-32"
+      >
+        <div className="bg-white rounded-[24px] shadow-[0_20px_40px_rgba(0,0,0,0.06)] p-2 flex flex-col md:flex-row items-stretch md:items-center transform transition duration-500 hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)]">
+          
+          <div className="flex-1 flex items-center gap-4 px-6 py-4 border-b md:border-b-0 md:border-r border-black/5 hover:bg-black/[0.02] transition cursor-pointer rounded-t-[20px] md:rounded-l-[20px] md:rounded-tr-none">
+             <div className="w-10 h-10 rounded-full bg-[#F8F8F5] flex items-center justify-center shrink-0">
+               <img src="https://cdn-icons-png.flaticon.com/128/3004/3004381.png" className="w-5 h-5 opacity-70" alt="Suit" />
+             </div>
+             <div className="flex flex-col flex-1">
+               <span className="text-[11px] font-medium text-black/50 mb-0.5">What are you looking for?</span>
+               <span className="text-[14px] font-semibold text-black">Custom Suit</span>
+             </div>
+             <ChevronRight className="w-4 h-4 text-black/30" />
+          </div>
+
+          <div className="flex-1 flex items-center gap-4 px-6 py-4 border-b md:border-b-0 md:border-r border-black/5 hover:bg-black/[0.02] transition cursor-pointer">
+             <div className="w-10 h-10 rounded-full bg-[#F8F8F5] flex items-center justify-center shrink-0">
+               <MapPin className="w-4 h-4 text-black" strokeWidth={1.5} />
+             </div>
+             <div className="flex flex-col flex-1">
+               <span className="text-[11px] font-medium text-black/50 mb-0.5">Your Location</span>
+               <span className="text-[14px] font-semibold text-black/40">Enter city, ZIP or area</span>
+             </div>
+             <ChevronRight className="w-4 h-4 text-black/30" />
+          </div>
+
+          <div className="flex-1 flex items-center gap-4 px-6 py-4 hover:bg-black/[0.02] transition cursor-pointer md:rounded-r-[20px]">
+             <div className="w-10 h-10 rounded-full bg-[#F8F8F5] flex items-center justify-center shrink-0">
+               <Calendar className="w-4 h-4 text-black" strokeWidth={1.5} />
+             </div>
+             <div className="flex flex-col flex-1">
+               <span className="text-[11px] font-medium text-black/50 mb-0.5">Fitting Preference</span>
+               <span className="text-[14px] font-semibold text-black">Home Visit</span>
+             </div>
+             <ChevronRight className="w-4 h-4 text-black/30" />
+          </div>
+
+          <button className="bg-[#1A1A1A] text-white h-[60px] px-8 rounded-[18px] text-[14px] font-medium flex items-center justify-center gap-2 hover:bg-black/80 active:scale-95 transition-all duration-300 m-2 shrink-0 shadow-md">
+            Search <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+      </motion.div>
+
+      {/* SERVICES */}
+      <section className="px-6 lg:px-16 max-w-[1800px] mx-auto mb-32">
+        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, ease }} className="flex flex-col lg:flex-row lg:items-end justify-between mb-12">
+          <div className="max-w-[400px]">
+            <p className="text-[10px] font-bold tracking-[0.2em] text-black/50 uppercase mb-4">Our Services</p>
+            <h2 className="font-serif text-[40px] leading-tight mb-4">Tailoring for<br/>Every Occasion.</h2>
+            <p className="text-[14px] text-black/60">From boardrooms to weddings, we bring your vision to life with unmatched craftsmanship.</p>
+          </div>
+          <a href="#" className="hidden lg:flex items-center gap-2 text-[13px] font-semibold text-black hover:opacity-70 transition border-b border-black pb-1">
+            View All Services <ArrowRight className="w-3.5 h-3.5" />
+          </a>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            { title: "Suits", desc: "Timeless elegance", img: "https://images.unsplash.com/photo-1593032465175-481ac7f401a0?q=80&w=800" },
+            { title: "Shirts", desc: "Everyday refinement", img: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?q=80&w=800" },
+            { title: "Wedding", desc: "For your special day", img: "https://images.unsplash.com/photo-1538329972958-465d6d2144ed?q=80&w=800" },
+            { title: "Blazers", desc: "Smart & versatile", img: "https://images.unsplash.com/photo-1592878904946-b3ce8ae243ce?q=80&w=800" }
+          ].map((s, i) => (
+            <motion.div key={i} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, delay: i * 0.1, ease }} className="group cursor-pointer">
+              <div className="w-full h-[320px] rounded-[24px] overflow-hidden mb-5 relative">
+                <img src={s.img} alt={s.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-[0.16,1,0.3,1] grayscale hover:grayscale-0" />
+                <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition duration-700"></div>
+              </div>
+              <div className="flex items-center justify-between px-2">
+                <div>
+                  <h3 className="font-semibold text-[17px] mb-1">{s.title}</h3>
+                  <p className="text-[13px] text-black/50">{s.desc}</p>
+                </div>
+                <div className="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center group-hover:border-black group-hover:bg-black group-hover:text-white transition-all duration-300">
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </div>
               </div>
             </motion.div>
-          </div>
-
-          {/* Search Area */}
-          <motion.div initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }} whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ duration: 1.2, delay: 0.5 }} viewport={{ once: true, amount: 0.2 }} className="w-full max-w-[1200px] mt-8 md:mt-16 z-20">
-            
-            {/* Tabs (Scrollable on mobile) */}
-            <div className="flex items-center gap-1 md:gap-2 mb-0 overflow-x-auto overflow-y-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] w-full">
-              <button className="bg-white text-black px-6 py-3.5 rounded-t-[14px] text-[12px] md:text-[13px] font-bold flex items-center gap-2 shrink-0 relative z-10">
-                <Search className="w-3.5 h-3.5 md:w-4 md:h-4 text-black" /> Find a Tailor
-              </button>
-              <button className="bg-white/5 backdrop-blur-md border border-white/10 border-b-0 text-white/80 px-6 py-3.5 rounded-t-[14px] text-[12px] md:text-[13px] font-medium hover:text-white transition flex items-center gap-2 shrink-0">
-                <Calendar className="w-3.5 h-3.5 md:w-4 md:h-4 opacity-70" /> Book a Home Visit
-              </button>
-              <button className="bg-white/5 backdrop-blur-md border border-white/10 border-b-0 text-white/80 px-6 py-3.5 rounded-t-[14px] text-[12px] md:text-[13px] font-medium hover:text-white transition flex items-center gap-2 shrink-0">
-                <Globe className="w-3.5 h-3.5 md:w-4 md:h-4 opacity-70" /> Virtual Consultation
-              </button>
-            </div>
-
-            {/* 4-Column Search Pill */}
-            <div className="w-full bg-white rounded-b-[20px] rounded-tr-[20px] md:rounded-tr-none shadow-2xl p-0 flex flex-col md:flex-row items-stretch md:items-center">
-              
-              {/* Column 1 */}
-              <div className="flex-1 flex flex-col px-6 py-4 md:py-3 border-b md:border-b-0 md:border-r border-gray-100 w-full min-w-0">
-                <div className="flex items-center justify-between cursor-pointer group w-full">
-                  <div className="flex items-center gap-4">
-                    <img src="https://cdn-icons-png.flaticon.com/128/3004/3004381.png" alt="Suit" className="w-5 h-5 opacity-70" />
-                    <div className="flex flex-col">
-                      <span className="text-[9px] font-bold tracking-wider uppercase text-gray-400 mb-0.5">Looking for</span>
-                      <span className="text-[14px] text-black font-medium">Custom Suit</span>
-                    </div>
-                  </div>
-                  <ChevronDown className="w-3.5 h-3.5 text-gray-400 font-bold" strokeWidth={2.5} />
-                </div>
-              </div>
-
-              {/* Column 2 */}
-              <div className="flex-[1.2] flex flex-col px-6 py-4 md:py-3 border-b md:border-b-0 md:border-r border-gray-100 w-full min-w-0">
-                 <div className="flex items-center gap-4 w-full">
-                    <MapPin className="w-5 h-5 text-gray-400 shrink-0" strokeWidth={1.5} />
-                    <div className="flex flex-col w-full justify-center">
-                      <span className="text-[9px] font-bold tracking-wider uppercase text-gray-400 mb-0.5">Location</span>
-                      <input type="text" placeholder="City, ZIP or address" className="text-[14px] font-medium text-black bg-transparent outline-none w-full placeholder:text-gray-300" />
-                      <p className="text-[9px] text-[#D4AF37] flex items-center gap-1 mt-1 font-semibold cursor-pointer hover:underline uppercase tracking-wide">
-                         <Target className="w-2.5 h-2.5" /> Use my location
-                      </p>
-                    </div>
-                  </div>
-              </div>
-
-              {/* Column 3 */}
-              <div className="flex-[0.8] flex flex-col px-6 py-4 md:py-3 border-b md:border-b-0 md:border-r border-gray-100 w-full min-w-0">
-                <div className="flex items-center justify-between cursor-pointer group w-full">
-                  <div className="flex items-center gap-4">
-                    <Target className="w-5 h-5 text-gray-400" strokeWidth={1.5} />
-                    <div className="flex flex-col">
-                      <span className="text-[9px] font-bold tracking-wider uppercase text-gray-400 mb-0.5">Radius</span>
-                      <span className="text-[14px] text-black font-medium">40 km</span>
-                    </div>
-                  </div>
-                  <ChevronDown className="w-3.5 h-3.5 text-gray-400 font-bold" strokeWidth={2.5} />
-                </div>
-              </div>
-
-              {/* Column 4 */}
-              <div className="flex-1 flex flex-col px-6 py-4 md:py-3 w-full min-w-0">
-                <div className="flex items-center justify-between cursor-pointer group w-full">
-                  <div className="flex items-center gap-4">
-                    <Users className="w-5 h-5 text-gray-400" strokeWidth={1.5} />
-                    <div className="flex flex-col">
-                      <span className="text-[9px] font-bold tracking-wider uppercase text-gray-400 mb-0.5">Fitting</span>
-                      <span className="text-[14px] text-black font-medium">Home Visit</span>
-                    </div>
-                  </div>
-                  <ChevronDown className="w-3.5 h-3.5 text-gray-400 font-bold" strokeWidth={2.5} />
-                </div>
-              </div>
-
-              {/* Action Button */}
-              <button className="bg-black hover:bg-gray-900 text-white h-[56px] px-8 flex items-center justify-center gap-2 text-[14px] font-bold rounded-xl mt-4 mb-4 mx-4 md:m-0 md:rounded-l-none md:rounded-r-[20px] shadow-sm shrink-0 w-auto md:w-auto transition-colors">
-                Find Tailors &rarr;
-              </button>
-            </div>
-          </motion.div>
-          
-          {/* Trusted Badges Row (Mobile & Desktop) */}
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1.5, delay: 1 }} viewport={{ once: true }} className="flex justify-between items-start w-full pt-8 md:pt-16 mt-8 border-t border-white/10 pb-8">
-            <div className="flex flex-col items-center text-center flex-1 px-1">
-              <Users className="w-5 h-5 md:w-6 md:h-6 text-[#CFA972] mb-2" strokeWidth={1.5} />
-              <span className="text-[8px] md:text-[11px] text-white/90 leading-tight">Trusted by<br/>10,000+<br/>Customers</span>
-            </div>
-            <div className="w-[1px] h-10 md:h-12 bg-white/10 mt-1 md:mt-2"></div>
-            
-            <div className="flex flex-col items-center text-center flex-1 px-1">
-              <ShieldCheck className="w-5 h-5 md:w-6 md:h-6 text-[#CFA972] mb-2" strokeWidth={1.5} />
-              <span className="text-[8px] md:text-[11px] text-white/90 leading-tight">Verified<br/>Professionals</span>
-            </div>
-            <div className="w-[1px] h-10 md:h-12 bg-white/10 mt-1 md:mt-2"></div>
-            
-            <div className="flex flex-col items-center text-center flex-1 px-1">
-              <Globe className="w-5 h-5 md:w-6 md:h-6 text-[#CFA972] mb-2" strokeWidth={1.5} />
-              <span className="text-[8px] md:text-[11px] text-white/90 leading-tight">Global<br/>Coverage</span>
-            </div>
-            <div className="w-[1px] h-10 md:h-12 bg-white/10 mt-1 md:mt-2"></div>
-            
-            <div className="flex flex-col items-center text-center flex-1 px-1">
-              <Calendar className="w-5 h-5 md:w-6 md:h-6 text-[#CFA972] mb-2" strokeWidth={1.5} />
-              <span className="text-[8px] md:text-[11px] text-white/90 leading-tight">Easy Enquiries<br/>& Bookings</span>
-            </div>
-          </motion.div>
-          
+          ))}
         </div>
       </section>
 
-
-      {/* 3. SERVICES SECTION */}
-      <section className="w-full bg-white py-20 relative z-20">
-        <div className="max-w-[1700px] mx-auto px-6 lg:px-16">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
-            <div>
-              <p className="text-brand-gray text-[10px] font-bold tracking-[0.25em] uppercase mb-3">Our Services</p>
-              <h2 className="font-serif text-[36px] md:text-[45px] text-brand-dark leading-tight">Find Tailors by Service</h2>
-            </div>
-            <a href="#" className="hidden md:flex items-center gap-2 text-[13px] font-semibold text-brand-gold hover:text-brand-goldHover transition">
-              View All Services &rarr;
-            </a>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
-            {[
-              { title: "Bespoke Suits", img: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35" },
-              { title: "Custom Suits", img: "https://images.unsplash.com/photo-1598808503746-f34c53b9323e" },
-              { title: "Made-to-Measure", img: "https://images.unsplash.com/photo-1593032465175-481ac7f401a0" },
-              { title: "Wedding Tailoring", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf" },
-              { title: "Tuxedos", img: "https://images.unsplash.com/photo-1594938291221-94f18cbb5660" },
-              { title: "Custom Shirts", img: "https://images.unsplash.com/photo-1594938291221-94f18cbb5660" },
-              { title: "Blazers", img: "https://images.unsplash.com/photo-1593032465175-481ac7f401a0" },
-              { title: "Alterations", img: "https://images.unsplash.com/photo-1598808503746-f34c53b9323e" }
-            ].map((srv, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 80, filter: 'blur(10px)', scale: 0.9 }} whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)', scale: 1 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 1.2, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }} className="group relative aspect-[3/4] md:aspect-[4/5] rounded-xl overflow-hidden cursor-pointer shadow-sm">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent z-10 transition-opacity group-hover:opacity-80"></div>
-                <img src={`${srv.img}?w=400&q=80`} alt={srv.title} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out" />
-                <div className="absolute bottom-4 left-4 z-20 flex items-center gap-2">
-                  <span className="text-white text-[12px] font-semibold">{srv.title}</span>
-                  <ChevronRight className="w-3 h-3 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 4. FEATURED TAILORS */}
-      <section className="w-full bg-[#F9F9F9] pt-12 pb-2 lg:py-20 relative z-20">
-        <div className="max-w-[1700px] mx-auto px-6 lg:px-16">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-8">
-            <div>
-              <p className="text-brand-gray text-[10px] font-bold tracking-[0.25em] uppercase mb-3">Featured Tailors</p>
-              <h2 className="font-serif text-[36px] md:text-[45px] text-brand-dark leading-tight mb-2">Top-Rated Tailors Near You</h2>
-              <p className="text-brand-gray text-[14px]">Discover exceptional tailors in your area.</p>
-            </div>
-            <div className="hidden md:flex flex-col items-end gap-4 mt-6 md:mt-0">
-               <a href="#" className="flex items-center gap-2 text-[13px] font-semibold text-[#CFA972] hover:text-[#B88E52] transition">
-                 View All Tailors &rarr;
-               </a>
-               <div className="flex gap-2">
-                 <button className="w-8 h-8 rounded-full border border-[#EAEAEA] bg-white flex items-center justify-center hover:bg-[#F0F0F0] transition"><ChevronLeft className="w-4 h-4 text-brand-dark" /></button>
-                 <button className="w-8 h-8 rounded-full border border-[#EAEAEA] bg-white flex items-center justify-center hover:bg-[#F0F0F0] transition"><ChevronRight className="w-4 h-4 text-brand-dark" /></button>
-               </div>
-            </div>
-          </div>
-
-          <div className="flex overflow-x-auto overflow-y-hidden gap-4 md:gap-5 pb-6 pt-2 -mx-6 px-6 lg:mx-0 lg:px-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] lg:grid lg:grid-cols-4 lg:gap-6 lg:pb-0 lg:overflow-visible">
-            {[
-              { name: "Blackline Bespoke", rating: "4.9", rev: "128", loc: "Chicago, IL", dist: "2.3 km", price: "$899", img: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35", av: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d" },
-              { name: "The Modern Stitch", rating: "4.7", rev: "96", loc: "New York, NY", dist: "4.8 km", price: "$699", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf", av: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e" },
-              { name: "Savile Row Atelier", rating: "4.8", rev: "112", loc: "London, UK", dist: "3.1 km", price: "$850", img: "https://images.unsplash.com/photo-1593032465175-481ac7f401a0", av: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e" },
-              { name: "Pacific Tailors", rating: "4.6", rev: "78", loc: "Los Angeles, CA", dist: "6.5 km", price: "$499", img: "https://images.unsplash.com/photo-1598808503746-f34c53b9323e", av: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7" }
-            ].map((t, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }} whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 1.2, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }} className="bg-white rounded-xl overflow-hidden shrink-0 w-[280px] lg:w-auto snap-start lg:snap-align-none border border-[#EAEAEA] shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all">
-                {/* Card Header Image */}
-                <div className="relative h-[160px] w-full">
-                  <img src={`${t.img}?w=600&q=80`} alt="Cover" className="w-full h-full object-cover" />
-                  <div className="absolute top-3 left-3 bg-[#00B074] text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase">Verified</div>
-                  <button className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/50 transition">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-                  </button>
-                  {/* Avatar overlapping */}
-                  <div className="absolute -bottom-6 left-5 w-14 h-14 rounded-full border-4 border-white overflow-hidden bg-white shadow-sm">
-                    <img src={`${t.av}?w=100&q=80`} alt={t.name} className="w-full h-full object-cover" />
-                  </div>
-                </div>
-                
-                {/* Card Body */}
-                <div className="px-5 pt-9 pb-5">
-                  <h3 className="font-serif text-[20px] text-brand-dark leading-tight mb-1">{t.name}</h3>
-                  
-                  <div className="flex items-center gap-2 mb-3 text-[12px]">
-                    <span className="text-[#FFB800]">★</span>
-                    <span className="font-bold text-brand-dark">{t.rating}</span>
-                    <span className="text-brand-gray">({t.rev} reviews)</span>
-                  </div>
-                  
-                  <div className="flex items-center gap-1.5 text-brand-gray text-[12px] mb-4">
-                    <MapPin className="w-3.5 h-3.5" />
-                    <span>{t.loc} • {t.dist}</span>
-                  </div>
-                  
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    <span className="bg-[#F5F5F5] text-brand-gray text-[10px] font-semibold px-2 py-1 rounded">Bespoke Suits</span>
-                    <span className="bg-[#F5F5F5] text-brand-gray text-[10px] font-semibold px-2 py-1 rounded">Wedding</span>
-                    <span className="bg-[#F5F5F5] text-brand-gray text-[10px] font-semibold px-2 py-1 rounded">Shirts</span>
-                  </div>
-                  
-                  <div className="flex items-center gap-4 mb-5 text-[11px] font-semibold text-brand-dark">
-                     <span className="flex items-center gap-1.5"><Target className="w-3.5 h-3.5 text-brand-gray"/> Studio</span>
-                     <span className="flex items-center gap-1.5"><Users className="w-3.5 h-3.5 text-brand-gray"/> Home Visit</span>
-                  </div>
-                  
-                  <div className="flex items-end justify-between pt-4 border-t border-[#EAEAEA] mb-4">
-                     <div className="flex flex-col">
-                        <span className="text-brand-gray text-[10px] font-semibold">From</span>
-                        <span className="font-serif text-[20px] font-semibold text-brand-dark">{t.price}</span>
-                     </div>
-                  </div>
-                  
-                  <button className="w-full border border-brand-dark text-brand-dark py-2.5 rounded-lg text-[13px] font-bold hover:bg-brand-dark hover:text-white transition">
-                    View Profile &rarr;
-                  </button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 5. HOW IT WORKS */}
-      <section className="w-full bg-white py-16 md:py-20 relative z-20 border-t border-[#EAEAEA]">
-        <div className="max-w-[1700px] mx-auto px-6 lg:px-16 flex flex-col lg:flex-row items-start lg:items-center">
-          
-          <div className="lg:w-1/4 mb-10 lg:mb-0">
-            <p className="text-brand-gray text-[10px] font-bold tracking-[0.25em] uppercase mb-3">How It Works</p>
-            <h2 className="font-serif text-[36px] md:text-[45px] text-brand-dark leading-tight mb-4">Find Your Perfect Fit<br/>in Four Simple Steps</h2>
-            <a href="#" className="hidden md:flex items-center gap-2 text-[13px] font-semibold text-[#CFA972] hover:text-[#B88E52] transition">
-              Learn More &rarr;
-            </a>
-          </div>
-          
-          <div className="lg:w-3/4 grid grid-cols-2 md:flex md:flex-row justify-between relative w-full gap-y-10 gap-x-4 lg:gap-x-0 lg:px-12">
-            {[
-              { no: "01", title: "Search", desc: "Find tailors by service, location and more.", icon: <Search className="w-6 h-6 text-[#CFA972]" /> },
-              { no: "02", title: "Compare", desc: "Browse profiles, reviews and prices.", icon: <SlidersHorizontal className="w-6 h-6 text-[#CFA972]" /> },
-              { no: "03", title: "Connect", desc: "Send an inquiry or book an appointment.", icon: <Target className="w-6 h-6 text-[#CFA972]" /> },
-              { no: "04", title: "Get Fitted", desc: "Meet your tailor and experience the perfect fit.", icon: <Users className="w-6 h-6 text-[#CFA972]" /> }
-            ].map((step, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 60, filter: 'blur(10px)' }} whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 1.2, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }} className="flex flex-col relative flex-1">
-                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-[#Fdfaf5] border border-[#CFA972]/30 flex items-center justify-center mb-5 md:mb-6 relative z-10">
-                  {step.icon}
-                </div>
-                {/* Arrow connector between steps (hidden on mobile, hidden on last item) */}
-                {i < 3 && <div className="hidden md:block absolute top-8 left-20 right-0 h-[1px] border-t-2 border-dashed border-[#EAEAEA] -z-0">
-                   <ChevronRight className="absolute right-0 top-1/2 -translate-y-1/2 text-[#EAEAEA] w-4 h-4 bg-white" />
-                </div>}
-                
-                <h3 className="font-serif text-[20px] md:text-[24px] text-[#CFA972] font-bold mb-1">{step.no}</h3>
-                <h4 className="font-serif text-[18px] md:text-[22px] text-brand-dark mb-1.5 md:mb-2">{step.title}</h4>
-                <p className="text-brand-gray text-[12px] md:text-[13px] max-w-[160px] md:max-w-[180px] leading-relaxed">{step.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-          
-        </div>
-      </section>
-
-      {/* 6. POPULAR DESTINATIONS */}
-      <section className="w-full bg-[#F9F9F9] pt-12 pb-2 lg:py-20 relative z-20">
-        <div className="max-w-[1700px] mx-auto px-6 lg:px-16">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
-            <div>
-              <p className="text-brand-gray text-[10px] font-bold tracking-[0.25em] uppercase mb-3">Popular Destinations</p>
-              <h2 className="font-serif text-[36px] md:text-[45px] text-brand-dark leading-tight">Explore Top Tailoring Cities</h2>
-            </div>
-            <a href="#" className="hidden md:flex items-center gap-2 text-[13px] font-semibold text-brand-gold hover:text-brand-goldHover transition">
-              View All Cities &rarr;
-            </a>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
-            {[
-              { city: "New York", country: "USA", img: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9" },
-              { city: "Los Angeles", country: "USA", img: "https://images.unsplash.com/photo-1580659324422-c31a74d2847a" },
-              { city: "Chicago", country: "USA", img: "https://images.unsplash.com/photo-1494522855154-9297ac14b55f" },
-              { city: "London", country: "UK", img: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad" },
-              { city: "Toronto", country: "Canada", img: "https://images.unsplash.com/photo-1507992781348-310259076fe0" },
-              { city: "Dubai", country: "UAE", img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c" },
-              { city: "Sydney", country: "Australia", img: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9" },
-              { city: "Melbourne", country: "Australia", img: "https://images.unsplash.com/photo-1514395462725-fb4566210144" }
-            ].map((loc, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 60, filter: 'blur(10px)', scale: 0.98 }} whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)', scale: 1 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 1.2, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }} className="group relative aspect-square md:aspect-[4/5] rounded-xl overflow-hidden cursor-pointer shadow-sm">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent z-10 transition-opacity group-hover:opacity-90"></div>
-                <img src={`${loc.img}?w=300&q=80`} alt={loc.city} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out" />
-                <div className="absolute bottom-4 left-4 z-20 flex flex-col">
-                  <span className="text-white font-serif text-[18px] leading-tight mb-1">{loc.city}</span>
-                  <span className="text-white/70 text-[10px] font-semibold tracking-wider uppercase">{loc.country}</span>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 7. TESTIMONIALS */}
-      <section className="w-full bg-[#F9F9F9] py-20 relative z-20 overflow-hidden">
-        <div className="max-w-[1700px] mx-auto px-6 lg:px-16 flex flex-col lg:flex-row gap-12 items-center">
-          
-          <div className="w-full lg:w-2/3">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10">
-               <div>
-                  <p className="text-brand-gray text-[10px] font-bold tracking-[0.25em] uppercase mb-3">What Our Customers Say</p>
-                  <h2 className="font-serif text-[36px] md:text-[45px] text-brand-dark leading-tight">Real People. Exceptional Experiences.</h2>
-               </div>
-               <div className="flex items-center gap-4 mt-6 md:mt-0">
-                  <a href="#" className="text-[13px] font-semibold text-brand-gold hover:text-brand-goldHover mr-4">View All Reviews</a>
-                  <button className="w-8 h-8 rounded-full border border-[#EAEAEA] bg-white flex items-center justify-center hover:bg-[#F0F0F0]"><ChevronLeft className="w-4 h-4 text-brand-dark" /></button>
-                  <button className="w-8 h-8 rounded-full border border-[#EAEAEA] bg-white flex items-center justify-center hover:bg-[#F0F0F0]"><ChevronRight className="w-4 h-4 text-brand-dark" /></button>
-               </div>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-               {[
-                  { t: '"Found an amazing tailor through TailorFind. The whole process was seamless and the results are incredible!"', n: "James R.", l: "New York, USA", a: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d" },
-                  { t: '"Professional, reliable and incredibly skilled. My wedding suit was better than I imagined."', n: "Daniel K.", l: "London, UK", a: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e" },
-                  { t: '"The home visit service was so convenient. Perfect fit and excellent attention to detail."', n: "Michael T.", l: "Dubai, UAE", a: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e" }
-               ].map((rv, i) => (
-                  <motion.div key={i} initial={{ opacity: 0, y: 60, filter: 'blur(10px)' }} whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 1.2, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }} className="bg-white p-6 rounded-xl border border-[#EAEAEA] shadow-sm flex flex-col justify-between min-h-[220px]">
-                     <div>
-                        <p className="text-[14px] leading-[1.6] text-brand-dark mb-4 italic">{rv.t}</p>
-                        <div className="text-[#FFB800] text-[14px] tracking-widest mb-6">★★★★★</div>
-                     </div>
-                     <div className="flex items-center gap-3">
-                        <img src={`${rv.a}?w=80&q=80`} alt="User" className="w-10 h-10 rounded-full object-cover"/>
-                        <div>
-                           <p className="text-[12px] font-bold text-brand-dark">{rv.n}</p>
-                           <p className="text-[10px] text-brand-gray">{rv.l}</p>
-                        </div>
-                     </div>
-                  </motion.div>
-            ))}
-            </div>
-          </div>
-          
-          <div className="w-full lg:w-1/3 bg-[#111] text-white p-12 lg:p-16 rounded-xl relative overflow-hidden h-[400px] lg:h-[450px] shadow-xl">
-            <img src="https://images.unsplash.com/photo-1593032465175-481ac7f401a0?w=600&q=80" alt="Suit Texture" className="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-overlay"/>
-            <div className="relative z-10 flex flex-col justify-center h-full">
-              <h3 className="font-serif text-[40px] leading-[1.1] mb-6 tracking-wide">Confidence<br/>Looks Good<br/>On You</h3>
-              <div className="w-16 h-[2px] bg-brand-gold"></div>
-            </div>
-          </div>
-          
-        </div>
-      </section>
-
-      {/* 8. CTA BANNER */}
-      <section className="w-full relative py-20 overflow-hidden z-20 flex justify-center border-b-[8px] border-brand-gold">
-        <div className="absolute inset-0 bg-[#111]">
-          <img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=1600&q=80" alt="Dark background" className="w-full h-full object-cover opacity-20 filter grayscale" />
-        </div>
-        <div className="relative z-10 max-w-[1700px] mx-auto w-full px-6 lg:px-16 flex flex-col md:flex-row items-center justify-between">
-           <div className="text-center md:text-left mb-8 md:mb-0">
-             <h2 className="font-serif text-[40px] md:text-[50px] text-white leading-tight mb-2">Your Perfect Fit Starts Here</h2>
-             <p className="text-white/70 text-[14px]">Join thousands of customers who found their ideal tailor.</p>
-           </div>
-           
-           <div className="flex flex-col md:flex-row items-center gap-8">
-              <button className="gold-btn px-10 py-4 rounded-lg text-[14px] font-bold shadow-lg">
-                Find a Tailor &rarr;
-              </button>
-              <div className="hidden lg:block text-white/40 transform -rotate-6 ml-10">
-                 <span className="font-cursive text-[45px] text-white tracking-wide block leading-none">Tailored</span>
-                 <span className="font-cursive text-[30px] ml-10 block leading-none">for a better tomorrow.</span>
-              </div>
-           </div>
-        </div>
-      </section>
-
-      {/* 9. FOOTER */}
-      <footer className="w-full bg-white pt-20 pb-8 px-6 lg:px-16 border-t border-[#EAEAEA] z-20 relative">
-        <div className="max-w-[1700px] mx-auto flex flex-col lg:flex-row justify-between gap-12 mb-16">
-          
-          <div className="w-full lg:w-1/4">
-            <div className="flex items-center gap-3 mb-6">
-               <img src="https://cdn-icons-png.flaticon.com/128/3004/3004381.png" alt="Logo" className="w-6 h-6" />
-               <div className="flex flex-col leading-none">
-                 <span className="font-serif text-[24px] text-brand-dark tracking-normal">TailorFind</span>
-                 <span className="text-[5px] font-semibold tracking-[0.22em] uppercase mt-1 text-brand-gray">Exceptional Tailors. Everywhere.</span>
-               </div>
-            </div>
-          </div>
-          
-          <div className="w-full lg:w-3/4 grid grid-cols-2 md:grid-cols-5 gap-8">
-            <div className="col-span-1">
-              <h4 className="text-[12px] font-bold text-brand-dark mb-6">For Customers</h4>
-              <ul className="space-y-3 text-[13px] text-brand-gray font-medium">
-                <li><a href="#" className="hover:text-brand-dark transition">Find a Tailor</a></li>
-                <li><a href="#" className="hover:text-brand-dark transition">Services</a></li>
-                <li><a href="#" className="hover:text-brand-dark transition">Locations</a></li>
-                <li><a href="#" className="hover:text-brand-dark transition">How It Works</a></li>
-                <li><a href="#" className="hover:text-brand-dark transition">Reviews</a></li>
-              </ul>
-            </div>
-            
-            <div className="col-span-1">
-              <h4 className="text-[12px] font-bold text-brand-dark mb-6">For Tailors</h4>
-              <ul className="space-y-3 text-[13px] text-brand-gray font-medium">
-                <li><a href="#" className="hover:text-brand-dark transition">Join Our Directory</a></li>
-                <li><a href="#" className="hover:text-brand-dark transition">Pricing Plans</a></li>
-                <li><a href="#" className="hover:text-brand-dark transition">Verification</a></li>
-                <li><a href="#" className="hover:text-brand-dark transition">Tailor Resources</a></li>
-                <li><a href="#" className="hover:text-brand-dark transition">Success Stories</a></li>
-              </ul>
-            </div>
-
-            <div className="col-span-1">
-              <h4 className="text-[12px] font-bold text-brand-dark mb-6">Company</h4>
-              <ul className="space-y-3 text-[13px] text-brand-gray font-medium">
-                <li><a href="#" className="hover:text-brand-dark transition">About Us</a></li>
-                <li><a href="#" className="hover:text-brand-dark transition">Contact</a></li>
-                <li><a href="#" className="hover:text-brand-dark transition">Blog</a></li>
-                <li><a href="#" className="hover:text-brand-dark transition">Careers</a></li>
-              </ul>
-            </div>
-
-            <div className="col-span-1">
-              <h4 className="text-[12px] font-bold text-brand-dark mb-6">Legal</h4>
-              <ul className="space-y-3 text-[13px] text-brand-gray font-medium">
-                <li><a href="#" className="hover:text-brand-dark transition">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-brand-dark transition">Terms of Service</a></li>
-                <li><a href="#" className="hover:text-brand-dark transition">Cookie Policy</a></li>
-              </ul>
-            </div>
-            
-            <div className="col-span-1 md:col-span-1 flex flex-col items-start md:items-end">
-               <h4 className="text-[12px] font-bold text-brand-dark mb-6">Follow Us</h4>
-               <div className="flex items-center gap-4 mb-8">
-                  <a href="#" className="w-8 h-8 rounded-full border border-[#EAEAEA] flex items-center justify-center text-brand-dark hover:bg-brand-dark hover:text-white transition">In</a>
-                  <a href="#" className="w-8 h-8 rounded-full border border-[#EAEAEA] flex items-center justify-center text-brand-dark hover:bg-brand-dark hover:text-white transition">Fb</a>
-                  <a href="#" className="w-8 h-8 rounded-full border border-[#EAEAEA] flex items-center justify-center text-brand-dark hover:bg-brand-dark hover:text-white transition">Li</a>
-               </div>
-               <div className="flex items-center gap-1.5 cursor-pointer hover:opacity-70 transition border border-[#EAEAEA] rounded-full px-4 py-2">
-                 <Globe className="w-3.5 h-3.5 text-brand-dark" />
-                 <span className="text-[11px] font-bold tracking-widest text-brand-dark uppercase">EN</span>
-                 <ChevronDown className="w-3 h-3 text-brand-dark" />
-               </div>
-            </div>
-          </div>
-        </div>
+      {/* PHILOSOPHY GRID */}
+      <section className="px-6 lg:px-16 max-w-[1800px] mx-auto mb-32 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         
-        <div className="max-w-[1700px] mx-auto flex flex-col md:flex-row items-center justify-between pt-6 border-t border-[#EAEAEA] text-[10px] text-brand-gray font-medium uppercase tracking-wider">
-          <p>&copy; 2024 TailorFind. All rights reserved.</p>
-          <p className="mt-4 md:mt-0 font-bold tracking-[0.2em] text-[#B0ADA8]">Exceptional Tailors. Everywhere.</p>
+        {/* Banner Span 2 */}
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, ease }} className="lg:col-span-2 bg-[#1A1A1A] rounded-[24px] overflow-hidden relative min-h-[350px] lg:min-h-[450px] flex flex-col justify-between p-10 group cursor-pointer">
+          <img src="https://images.unsplash.com/photo-1612423284934-2850a4ea6b0f?q=80&w=1200&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-luminosity group-hover:scale-105 transition-transform duration-1000 ease-[0.16,1,0.3,1]" alt="Scissors" />
+          <div className="relative z-10">
+            <p className="text-[10px] font-bold tracking-[0.2em] text-white/70 uppercase">Craftsmanship<br/>Lives Forever</p>
+          </div>
+          <button className="relative z-10 flex items-center gap-3 text-white text-[11px] font-bold tracking-[0.1em] uppercase group-hover:pl-2 transition-all duration-500">
+            <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-white group-hover:text-black transition">
+              <Play className="w-4 h-4 fill-current ml-0.5" />
+            </div>
+            Play Video
+          </button>
+        </motion.div>
+
+        {/* Text Block */}
+        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, delay: 0.1, ease }} className="bg-white rounded-[24px] p-10 flex flex-col justify-center border border-black/5 hover:shadow-xl transition-shadow duration-500">
+          <p className="text-[10px] font-bold tracking-[0.2em] text-black/40 uppercase mb-4">Our Philosophy</p>
+          <h2 className="font-serif text-[34px] leading-tight mb-4">Details<br/>Make Legends.</h2>
+          <p className="text-[14px] text-black/60 mb-8 leading-relaxed">From the first stitch to the final fit — true style lives in the details.</p>
+          <a href="#" className="flex items-center gap-2 text-[13px] font-semibold text-black hover:opacity-70 transition border-b border-black pb-1 w-max">
+            Explore Our Story <ArrowRight className="w-3.5 h-3.5" />
+          </a>
+        </motion.div>
+
+        {/* Third Block */}
+        <motion.div initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, delay: 0.2, ease }} className="bg-[#1A1A1A] rounded-[24px] overflow-hidden relative min-h-[350px] lg:min-h-[450px] p-8 flex flex-col justify-end group">
+          <img src="https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?q=80&w=800&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-luminosity grayscale group-hover:scale-105 transition-transform duration-1000 ease-[0.16,1,0.3,1]" alt="Sewing" />
+          <p className="relative z-10 text-[10px] font-bold tracking-[0.2em] text-white uppercase leading-relaxed max-w-[150px]">Tailored<br/>For A<br/>Brighter<br/>Tomorrow</p>
+        </motion.div>
+      </section>
+
+      {/* HOW IT WORKS */}
+      <section className="px-6 lg:px-16 max-w-[1800px] mx-auto mb-32 flex flex-col lg:flex-row gap-16 border-t border-black/10 pt-20">
+        <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, ease }} className="lg:w-1/3">
+          <p className="text-[10px] font-bold tracking-[0.2em] text-black/50 uppercase mb-4">How It Works</p>
+          <h2 className="font-serif text-[44px] leading-tight">Four Simple Steps<br/>to Your Perfect Fit.</h2>
+        </motion.div>
+        
+        <div className="lg:w-2/3 grid grid-cols-2 lg:grid-cols-4 gap-8">
+          {[
+            { num: "01", icon: <Search strokeWidth={1.5} />, title: "Search", desc: "Find tailors by service, location and more." },
+            { num: "02", icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M8 6H21M8 12H21M8 18H21M3 6H3.01M3 12H3.01M3 18H3.01"/></svg>, title: "Compare", desc: "Browse profiles, reviews and prices." },
+            { num: "03", icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M22 2L11 13M22 2L15 22L11 13M11 13L2 9L22 2"/></svg>, title: "Connect", desc: "Send an inquiry or book an appointment." },
+            { num: "04", icon: <Calendar strokeWidth={1.5} />, title: "Get Fitted", desc: "Meet your tailor and experience the perfect fit." }
+          ].map((s, i) => (
+            <motion.div key={i} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.8, delay: i * 0.15, ease }} className="flex flex-col relative group">
+              {i !== 3 && <ChevronRight className="absolute top-4 -right-6 text-black/20 hidden lg:block group-hover:translate-x-1 transition-transform" strokeWidth={1} />}
+              <div className="flex items-start gap-3 mb-6">
+                <span className="text-[12px] font-bold font-serif">{s.num}</span>
+                <div className="w-12 h-12 rounded-full bg-black/5 flex items-center justify-center text-black group-hover:bg-black group-hover:text-white transition-colors duration-500">
+                  {s.icon}
+                </div>
+              </div>
+              <h4 className="font-bold text-[16px] mb-2">{s.title}</h4>
+              <p className="text-[13px] text-black/50 leading-relaxed pr-4">{s.desc}</p>
+            </motion.div>
+          ))}
         </div>
-      </footer>
-    </main>
+      </section>
+
+      {/* POPULAR DESTINATIONS */}
+      <section className="px-6 lg:px-16 max-w-[1800px] mx-auto mb-40">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1, ease }} className="flex items-end justify-between mb-10">
+          <div>
+            <p className="text-[10px] font-bold tracking-[0.2em] text-black/50 uppercase mb-3">Popular Destinations</p>
+            <h2 className="font-serif text-[36px] leading-tight">Explore Top Tailoring Cities.</h2>
+          </div>
+          <a href="#" className="hidden md:flex items-center gap-2 text-[13px] font-semibold text-black hover:opacity-70 transition border-b border-black pb-1">
+            View All Cities <ArrowRight className="w-3.5 h-3.5" />
+          </a>
+        </motion.div>
+        
+        <div className="flex overflow-x-auto gap-4 pb-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          {[
+            { city: "New York", country: "USA", img: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=600" },
+            { city: "London", country: "UK", img: "https://images.unsplash.com/photo-1513635269975-59693e2d09aa?q=80&w=600" },
+            { city: "Paris", country: "France", img: "https://images.unsplash.com/photo-1502602898657-3e907614e508?q=80&w=600" },
+            { city: "Dubai", country: "UAE", img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=600" },
+            { city: "Singapore", country: "Singapore", img: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?q=80&w=600" },
+            { city: "Sydney", country: "Australia", img: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?q=80&w=600" }
+          ].map((c, i) => (
+            <motion.div key={i} initial={{ opacity: 0, scale: 0.9, y: 20 }} whileInView={{ opacity: 1, scale: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.8, delay: i * 0.1, ease }} className="relative w-[220px] h-[300px] rounded-[24px] overflow-hidden shrink-0 snap-start group cursor-pointer">
+              <img src={c.img} alt={c.city} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-[1.5s] ease-[0.16,1,0.3,1] grayscale" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+              <div className="absolute bottom-6 left-6">
+                <h4 className="text-white font-bold text-[18px] mb-1">{c.city}</h4>
+                <p className="text-white/70 text-[12px] uppercase tracking-wider">{c.country}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* TESTIMONIAL & FOOTER */}
+      <section className="bg-white pt-24 pb-12 px-6 lg:px-16 mt-32 relative">
+        {/* Testimonial overlapping */}
+        <motion.div initial={{ opacity: 0, y: 60 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1.2, ease }} className="max-w-[1200px] mx-auto bg-[#F8F8F5] rounded-[32px] p-10 lg:p-14 flex flex-col lg:flex-row items-center gap-12 -mt-48 mb-24 relative z-20 shadow-[0_20px_40px_rgba(0,0,0,0.03)] border border-black/[0.03]">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200" alt="Rohan" className="w-28 h-28 rounded-full grayscale border-4 border-white shadow-lg" />
+          <div className="flex-1 text-center lg:text-left">
+            <h3 className="font-serif text-[28px] mb-4 text-black">&quot;An Unmatched Experience.&quot;</h3>
+            <p className="text-[15px] text-black/60 mb-8 max-w-[480px] leading-relaxed">TailorFind made the entire process effortless. The quality and attention to detail are unmatched.</p>
+            <h4 className="font-bold text-[14px]">Rohan Mehta</h4>
+            <p className="text-[12px] text-black/40">Entrepreneur, Dubai</p>
+          </div>
+          <div className="flex gap-4">
+            <button className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center hover:bg-black hover:text-white transition-colors duration-300"><ArrowLeft className="w-4 h-4" /></button>
+            <button className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center hover:bg-black hover:text-white transition-colors duration-300"><ArrowRight className="w-4 h-4" /></button>
+          </div>
+          <div className="hidden lg:flex items-center gap-12 pl-12 border-l border-black/10">
+            {[ { num: "10K+", text: "Happy Clients" }, { num: "4.8", icon: <Star className="w-3 h-3 fill-black text-black" />, text: "Average Rating" }, { num: "500+", text: "Verified Tailors" } ].map((stat, i) => (
+              <div key={i}>
+                <h4 className="text-[22px] font-bold font-serif mb-1 flex items-center gap-1">{stat.num} {stat.icon}</h4>
+                <p className="text-[11px] text-black/50 font-medium">{stat.text}</p>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Footer */}
+        <div className="max-w-[1700px] mx-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-10 mb-20">
+          <div className="col-span-2">
+            <div className="flex items-center gap-2 mb-6">
+              <div className="w-10 h-10 bg-[#1A1A1A] text-white flex items-center justify-center font-serif font-bold text-2xl rounded-sm">T</div>
+              <span className="font-serif text-[24px] font-medium tracking-tight">TailorFind</span>
+            </div>
+            <p className="text-[11px] font-bold tracking-[0.1em] text-black/40 uppercase">Exceptional Tailors. Everywhere.</p>
+          </div>
+          {[
+            { title: "For Customers", links: ["Find a Tailor", "Services", "Locations", "How It Works", "Reviews"] },
+            { title: "For Tailors", links: ["Join Our Directory", "Pricing Plans", "Verification", "Resources", "Success Stories"] },
+            { title: "Company", links: ["About Us", "Contact", "Blog", "Careers"] },
+            { title: "Legal", links: ["Privacy Policy", "Terms of Service", "Cookie Policy", "Sitemap"] }
+          ].map((col, i) => (
+            <div key={i}>
+              <h4 className="font-bold text-[13px] mb-6">{col.title}</h4>
+              <div className="flex flex-col gap-4 text-[13px] text-black/60">
+                {col.links.map(l => <a href="#" key={l} className="hover:text-black transition-colors">{l}</a>)}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="max-w-[1700px] mx-auto border-t border-black/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-[12px] text-black/40">
+          <p>© 2024 TailorFind. All rights reserved.</p>
+          <p className="tracking-[0.1em] uppercase font-medium">Exceptional Tailors. Everywhere.</p>
+        </div>
+      </section>
+
+    </div>
   );
 }
-
-
-
