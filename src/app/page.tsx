@@ -291,7 +291,7 @@ export default function Page() {
             { name: "Milano Cuts", loc: "Downtown, Milan", rating: "5.0", revs: "215", verified: false, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=800", profile: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200" },
             { name: "Savile & Co.", loc: "West End, Paris", rating: "4.7", revs: "62", verified: true, img: "https://images.unsplash.com/photo-1593030103066-0093718efeb9?q=80&w=800", profile: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=200" }
           ].map((t, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, delay: i * 0.1, ease }} className="group cursor-pointer flex flex-col">
+            <motion.div key={i} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, delay: i * 0.1, ease }} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-[32px] hover:bg-white hover:shadow-[0_20px_40px_rgba(0,0,0,0.03)] hover:-translate-y-1 transition-all duration-[0.8s] ease-[0.16,1,0.3,1]">
               <div className="relative mb-8">
                 <div className="w-full h-[280px] rounded-[24px] overflow-hidden relative" style={{ WebkitMaskImage: 'radial-gradient(circle at calc(100% - 56px) calc(100% - 16px), transparent 38px, black 39px)', maskImage: 'radial-gradient(circle at calc(100% - 56px) calc(100% - 16px), transparent 38px, black 39px)' }}>
                   <img src={t.img} alt={t.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-[0.16,1,0.3,1]" />
@@ -301,7 +301,7 @@ export default function Page() {
                   </div>
                 </div>
                 {/* Profile Cutout Icon */}
-                <div className="absolute -bottom-4 right-6 w-16 h-16 rounded-full overflow-hidden bg-gray-200 z-10 shadow-[0_4px_12px_rgba(0,0,0,0.1)] group-hover:scale-110 transition-transform duration-500">
+                <div className="absolute -bottom-4 right-6 w-16 h-16 rounded-full overflow-hidden bg-gray-200 z-10 shadow-[0_4px_12px_rgba(0,0,0,0.1)] group-hover:scale-110 group-hover:shadow-[0_8px_24px_rgba(0,0,0,0.15)] transition-all duration-[0.8s] ease-[0.16,1,0.3,1]">
                   <img src={t.profile} alt={t.name} className="w-full h-full object-cover" />
                 </div>
               </div>
