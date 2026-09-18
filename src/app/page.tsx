@@ -77,7 +77,7 @@ export default function Page() {
             className="absolute inset-0 w-full h-full overflow-hidden"
           >
             <img
-              src="/hero-mockup-suit.png"
+              src={process.env.NODE_ENV === 'production' ? '/custom/hero-mockup-suit.png' : '/hero-mockup-suit.png'}
               alt="Bespoke Suit"
               className="w-full h-full object-cover object-center"
             />
@@ -222,7 +222,7 @@ export default function Page() {
               animate={{ scale: 1.1 }} // Keeps scale 1.1 for parallax base
               transition={{ duration: 1.8, ease }}
               style={{ y: y2 }}
-              src="/hero-mannequin-color.jpg" 
+              src={process.env.NODE_ENV === 'production' ? '/custom/hero-mannequin-color.jpg' : '/hero-mannequin-color.jpg'} 
               alt="Bespoke Suit" 
               className="absolute inset-0 w-full h-full object-cover object-[70%_top] lg:object-center origin-top border-none"
             />
