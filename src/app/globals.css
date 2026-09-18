@@ -107,3 +107,5 @@ body {
 
 
 
+
+@media (min-width: 1024px) { body { zoom: 0.9; } }
