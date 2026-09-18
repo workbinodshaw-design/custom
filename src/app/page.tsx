@@ -15,7 +15,7 @@ export default function Page() {
   const opacityHero = useTransform(scrollY, [0, 500], [1, 0]);
 
   // Awwwards-style Dramatic Minimal/Maximal easing curve
-  const ease = [0.85, 0, 0.15, 1];
+  const ease: [number, number, number, number] = [0.85, 0, 0.15, 1];
 
   return (
     <div className="min-h-screen bg-[#F5F4F0] text-[#1C1A17] font-sans selection:bg-[#1C1A17] selection:text-[#F5F4F0] pb-10 overflow-hidden">
