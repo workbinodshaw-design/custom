@@ -255,7 +255,7 @@ export default function Page() {
         transition={{ duration: 1.4, delay: 0.5, ease }}
         className="max-w-[1100px] mx-auto px-6 lg:px-0 mt-4 lg:mt-6 relative z-30 mb-10 lg:mb-32"
       >
-        <div className="flex bg-white/90 backdrop-blur-xl rounded-[24px] lg:rounded-[20px] shadow-[0_20px_40px_rgba(0,0,0,0.06)] p-3 lg:p-2 flex-col lg:flex-row items-stretch lg:items-center transform transition duration-500 w-full relative z-50 border border-black/5 gap-2 lg:gap-0">
+        <div className="flex bg-white/90 backdrop-blur-xl rounded-[24px] lg:rounded-[20px] shadow-[0_20px_40px_rgba(0,0,0,0.06)] p-3 lg:p-2 flex-col lg:flex-row items-stretch lg:items-center w-full relative z-50 border border-black/5 gap-2 lg:gap-0">
           
           <div className="flex-[1.2] flex items-center justify-between px-4 lg:px-6 py-4 hover:bg-black/[0.02] transition cursor-pointer rounded-[14px] min-h-[70px] lg:min-h-[90px]">
              <div className="flex items-center gap-4">
