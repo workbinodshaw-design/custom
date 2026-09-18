@@ -109,3 +109,5 @@ body {
 
 
 @media (min-width: 1024px) { body { zoom: 0.9; } }
+
+html, body { overflow-x: hidden !important; width: 100%; max-width: 100vw; }
