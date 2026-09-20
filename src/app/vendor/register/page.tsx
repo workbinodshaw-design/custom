@@ -96,7 +96,7 @@ export default function VendorRegister() {
                 </div>
                 <h3 className="font-serif text-[24px]">Account Created!</h3>
                 <p className="text-[14px] text-black/60 mb-6">Your vendor profile structure is ready. Next, we will set up your studio location and services.</p>
-                <Link href="/">
+                <Link href="/vendor/dashboard">
                   <button type="button" className="w-full bg-[#1C1A17] text-white py-4 rounded-full text-[15px] font-bold flex items-center justify-center gap-2 hover:bg-black transition-all">
                     Go to Dashboard
                   </button>
