@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { Search, ChevronRight, Globe, Play, MapPin, Calendar, Star, Send, ArrowRight, ArrowLeft, BadgeCheck, ChevronDown, Target, Shirt, LocateFixed, Menu, X } from 'lucide-react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 
@@ -426,7 +427,8 @@ export default function Page() {
             { name: "Milano Cuts", loc: "Downtown, Milan", rating: "5.0", revs: "215", verified: false, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=800", profile: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200" },
             { name: "Savile & Co.", loc: "West End, Paris", rating: "4.7", revs: "62", verified: true, img: "https://images.unsplash.com/photo-1593030103066-0093718efeb9?q=80&w=800", profile: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=200" }
           ].map((t, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 50, scale: 0.95 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1.2, delay: i * 0.1, ease }} className="shrink-0 w-[75vw] md:w-[45vw] lg:w-auto snap-center lg:snap-align-none group cursor-pointer flex flex-col p-4 -m-4 rounded-[32px] lg:hover:bg-white lg:hover:shadow-[0_24px_48px_rgba(0,0,0,0.05)] lg:hover:-translate-y-2 transition-all duration-[0.8s] ease-[0.16,1,0.3,1]">
+            <Link href={`/tailor/${t.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} key={i} className="shrink-0 w-[75vw] md:w-[45vw] lg:w-auto snap-center lg:snap-align-none block">
+              <motion.div initial={{ opacity: 0, y: 50, scale: 0.95 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1.2, delay: i * 0.1, ease }} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-[32px] lg:hover:bg-white lg:hover:shadow-[0_24px_48px_rgba(0,0,0,0.05)] lg:hover:-translate-y-2 transition-all duration-[0.8s] ease-[0.16,1,0.3,1] h-full">
               <div className="relative mb-8">
                 <div className="w-full h-[280px] rounded-[24px] overflow-hidden relative" style={{ WebkitMaskImage: 'radial-gradient(circle at calc(100% - 56px) calc(100% - 16px), transparent 38px, black 39px)', maskImage: 'radial-gradient(circle at calc(100% - 56px) calc(100% - 16px), transparent 38px, black 39px)' }}>
                   <img loading="lazy" src={t.img} alt={t.name} className="w-full h-full object-cover lg:group-hover:scale-105 transition-transform duration-[1.5s] ease-[0.16,1,0.3,1]" />
@@ -461,6 +463,7 @@ export default function Page() {
                 </div>
               </div>
             </motion.div>
+            </Link>
           ))}
         </div>
       </section>
