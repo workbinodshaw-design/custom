@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Star, MapPin, CheckCircle, Calendar, Clock, ChevronLeft, Heart, Share, Scissors, Ruler, Needle } from "lucide-react";
+import { Star, MapPin, CheckCircle, Calendar, Clock, ChevronLeft, Heart, Share, Scissors, Ruler, PenTool } from "lucide-react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 
@@ -112,7 +112,7 @@ export default function TailorProfile({ params }: { params: { id: string } }) {
                 {[
                   { title: "Bespoke Suits", icon: Scissors, desc: "Fully custom pattern cut specifically for you." },
                   { title: "Made-to-Measure", icon: Ruler, desc: "Pre-existing patterns modified to fit your measurements." },
-                  { title: "Alterations", icon: Needle, desc: "Expert tailoring for off-the-rack garments." }
+                  { title: "Alterations", icon: PenTool, desc: "Expert tailoring for off-the-rack garments." }
                 ].map((service, i) => (
                   <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: i * 0.1, ease }} className="flex items-start gap-4 p-6 bg-white/50 border border-black/5 rounded-[20px]">
                     <div className="w-12 h-12 bg-black text-white rounded-full flex items-center justify-center shrink-0">

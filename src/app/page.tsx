@@ -1,12 +1,13 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Navbar from '../components/Navbar';
 import { Search, ChevronRight, Globe, Play, MapPin, Calendar, Star, Send, ArrowRight, ArrowLeft, BadgeCheck, ChevronDown, Target, Shirt, LocateFixed, Menu, X } from 'lucide-react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 
 export default function Page() {
   const [showAllMobileServices, setShowAllMobileServices] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   
   // Parallax hooks
@@ -21,50 +22,7 @@ export default function Page() {
   return (
     <div className="min-h-screen bg-[#F5F4F0] text-[#1C1A17] font-sans selection:bg-[#1C1A17] selection:text-[#F5F4F0] pb-10 overflow-hidden">
       
-      {/* NAVIGATION */}
-      <motion.nav 
-        initial={{ y: -50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1, ease }}
-        className="w-full flex items-center justify-between px-6 lg:px-16 py-6 absolute top-0 left-0 right-0 z-50"
-      >
-        {/* Logo */}
-        <div className="flex items-center gap-2 cursor-pointer group">
-          <div className="w-8 h-8 bg-[#1C1A17] text-white flex items-center justify-center font-serif font-bold text-xl rounded-sm transition-transform duration-500 group-hover:scale-95">T</div>
-          <span className="font-serif text-[22px] font-medium tracking-tight">TailorFind</span>
-        </div>
-
-        {/* Links (Desktop) */}
-        <div className="hidden lg:flex items-center gap-8 text-[13px] font-medium text-black/70">
-          {['Find a Tailor', 'Services', 'Locations', 'How It Works', 'Stories'].map((link, i) => (
-            <a key={i} href="#" className="hover:text-black transition-colors">{link}</a>
-          ))}
-        </div>
-
-        {/* Mobile Right Actions */}
-        <div className="flex lg:hidden items-center gap-4">
-          <button className="text-black hover:opacity-70 transition"><Search className="w-5 h-5" strokeWidth={1.5} /></button>
-          <button onClick={() => setIsMobileMenuOpen(true)} className="text-black hover:opacity-70 transition"><Menu className="w-6 h-6" strokeWidth={1.5} /></button>
-        </div>
-
-        {/* Right Actions */}
-        <div className="hidden lg:flex items-center gap-5">
-          <button className="flex items-center gap-1.5 text-[13px] font-medium text-black hover:opacity-70 transition group">
-            <Globe className="w-4 h-4" strokeWidth={1.5} />
-            EN
-            <ChevronDown className="w-3 h-3 opacity-50 group-hover:opacity-100 transition-opacity" />
-          </button>
-          <div className="w-[1px] h-4 bg-black/20 mx-1"></div>
-          <button className="text-black hover:opacity-70 transition">
-            <Search className="w-4 h-4" strokeWidth={1.5} />
-          </button>
-          <div className="w-[1px] h-4 bg-black/20 mx-1"></div>
-          <a href="#" className="text-[13px] font-medium hover:opacity-70 transition">Sign In</a>
-          <button className="bg-[#1C1A17] text-white px-6 py-2.5 rounded-full text-[13px] font-medium flex items-center gap-2 hover:bg-[#2A2825] hover:scale-[1.02] active:scale-95 transition-all duration-300 ml-1 shadow-[0_4px_12px_rgba(0,0,0,0.1)]">
-            Get Started <ArrowRight className="w-3.5 h-3.5" />
-          </button>
-        </div>
-      </motion.nav>
+      <Navbar />
 
       {/* HERO SECTION */}
       <section className="relative pt-24 pb-4 lg:pb-12 px-6 lg:px-16 max-w-[1800px] mx-auto flex flex-col lg:flex-row gap-0 lg:gap-8 overflow-hidden">
@@ -618,58 +576,7 @@ export default function Page() {
         </div>
       </section>
 
-      {/* FULL SCREEN MOBILE MENU */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, y: "-100%" }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: "-100%" }}
-            transition={{ duration: 0.6, ease }}
-            className="fixed inset-0 z-[100] bg-[#F5F4F0] flex flex-col px-6 py-8"
-          >
-            <div className="flex items-center justify-between mb-16">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-[#1C1A17] text-white flex items-center justify-center font-serif font-bold text-xl rounded-sm">T</div>
-                <span className="font-serif text-[22px] font-medium tracking-tight">TailorFind</span>
-              </div>
-              <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 -mr-2 text-black hover:opacity-70 transition bg-black/5 rounded-full">
-                <X className="w-6 h-6" strokeWidth={1.5} />
-              </button>
-            </div>
-            
-            <div className="flex flex-col gap-8 text-[28px] font-serif tracking-tight">
-              {['Find a Tailor', 'Services', 'Locations', 'How It Works', 'Stories'].map((link, i) => (
-                <motion.a 
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 + (i * 0.1), ease }}
-                  key={i} 
-                  href="#" 
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="hover:text-black/50 transition-colors"
-                >
-                  {link}
-                </motion.a>
-              ))}
-            </div>
-
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="mt-auto flex flex-col gap-6"
-            >
-              <button className="flex items-center gap-2 text-[15px] font-medium border-b border-black/20 pb-4">
-                <Globe className="w-5 h-5" strokeWidth={1.5} /> English
-              </button>
-              <button className="bg-[#1C1A17] text-white w-full py-4 rounded-xl font-bold text-[15px] flex items-center justify-center gap-2">
-                Get Started <ArrowRight className="w-4 h-4" />
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      
 
       {/* POST A REVIEW MODAL */}
       <AnimatePresence>
