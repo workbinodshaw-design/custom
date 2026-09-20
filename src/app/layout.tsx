@@ -35,9 +35,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="overflow-x-hidden w-full max-w-full">
+    <html lang="en" className="overflow-x-hidden">
       <body
-        className={`${manrope.variable} ${playfair.variable} antialiased bg-[#F5F4F0] text-[#1C1A17] overflow-x-hidden w-full max-w-full m-0 p-0`}
+        className={`${manrope.variable} ${playfair.variable} antialiased bg-[#F5F4F0] text-[#1C1A17] overflow-x-hidden m-0 p-0`}
       >
         
         <SmoothScroll>
