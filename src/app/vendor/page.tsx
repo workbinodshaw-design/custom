@@ -109,7 +109,7 @@ export default function VendorLanding() {
               className="text-[16px] lg:text-[20px] text-white/60 max-w-[650px] mx-auto mb-12 leading-relaxed font-light"
             >
               Join the world's most exclusive marketplace for custom tailors. Get discovered by high-intent clients, receive direct leads, and manage your appointments seamlessly.
-            </p>
+            </motion.p>
 
             <motion.div 
               initial={{ opacity: 0, y: 20 }} 
