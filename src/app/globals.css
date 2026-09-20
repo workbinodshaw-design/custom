@@ -108,6 +108,4 @@ body {
 
 
 
-@media (min-width: 1024px) { body { zoom: 0.9; width: 111.1111%; } }
-
 html, body { overflow-x: hidden !important;  }

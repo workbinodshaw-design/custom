@@ -25,7 +25,7 @@ export default function Page() {
       <Navbar />
 
       {/* HERO SECTION */}
-      <section className="relative pt-24 pb-4 lg:pb-12 px-6 lg:px-16 max-w-[1800px] mx-auto flex flex-col lg:flex-row gap-0 lg:gap-8 overflow-hidden">
+      <section className="relative pt-24 pb-4 lg:pb-12 px-6 lg:px-16 max-w-[1300px] mx-auto flex flex-col lg:flex-row gap-0 lg:gap-8 overflow-hidden">
         
         {/* Mobile Premium Background (User Provided Image) */}
         <div className="absolute top-0 right-0 w-full h-[90%] z-[1] block lg:hidden pointer-events-none">
@@ -212,7 +212,7 @@ export default function Page() {
         initial={{ opacity: 0, y: 60, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 1.4, delay: 0.5, ease }}
-        className="max-w-[1100px] mx-auto px-6 lg:px-0 mt-4 lg:mt-6 relative z-30 mb-10 lg:mb-32"
+        className="max-w-[900px] mx-auto px-6 lg:px-0 mt-4 lg:mt-6 relative z-30 mb-10 lg:mb-32"
       >
         <div className="flex bg-white/90 backdrop-blur-xl rounded-[24px] lg:rounded-[20px] shadow-[0_20px_40px_rgba(0,0,0,0.06)] p-3 lg:p-2 flex-col lg:flex-row items-stretch lg:items-center w-full relative z-50 border border-black/5 gap-2 lg:gap-0">
           
@@ -278,7 +278,7 @@ export default function Page() {
       </motion.div>
 
       {/* SERVICES SECTION */}
-      <section className="px-5 lg:px-16 max-w-[1800px] mx-auto pt-4 pb-16 lg:py-24 mb-10">
+      <section className="px-5 lg:px-16 max-w-[1300px] mx-auto pt-4 pb-16 lg:py-24 mb-10">
         <div className="flex items-end justify-between mb-8 lg:mb-12">
           <h2 className="font-serif text-[34px] lg:text-[46px] leading-[1.05] tracking-tight text-[#1C1A17]">
             Find Tailors by <span className="italic text-[#9A7E5F]">Service.</span>
@@ -332,7 +332,7 @@ export default function Page() {
       </section>
 
       {/* PHILOSOPHY GRID */}
-      <section className="px-6 lg:px-16 max-w-[1800px] mx-auto mb-16 lg:mb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <section className="px-6 lg:px-16 max-w-[1300px] mx-auto mb-16 lg:mb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         
         {/* Banner Span 2 */}
         <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, ease }} className="lg:col-span-2 bg-[#1C1A17] rounded-[24px] overflow-hidden relative min-h-[350px] lg:min-h-[450px] flex flex-col justify-between p-10 group cursor-pointer">
@@ -366,7 +366,7 @@ export default function Page() {
       </section>
 
       {/* TOP RATED TAILORS */}
-      <section className="px-6 lg:px-16 max-w-[1800px] mx-auto mb-16 lg:mb-20 border-t border-black/10 pt-12 lg:pt-8">
+      <section className="px-6 lg:px-16 max-w-[1300px] mx-auto mb-16 lg:mb-20 border-t border-black/10 pt-12 lg:pt-8">
         <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, ease }} className="flex flex-col lg:flex-row lg:items-end justify-between mb-10 lg:mb-12">
           <div className="max-w-[500px]">
             <p className="text-[10px] font-bold tracking-[0.2em] text-black/50 uppercase mb-4">Discover Masters</p>
@@ -428,7 +428,7 @@ export default function Page() {
 
 
       {/* HOW IT WORKS */}
-      <section className="px-6 lg:px-16 max-w-[1800px] mx-auto mb-16 lg:mb-20 flex flex-col lg:flex-row gap-12 lg:gap-16 border-t border-black/10 pt-12 lg:pt-16">
+      <section className="px-6 lg:px-16 max-w-[1300px] mx-auto mb-16 lg:mb-20 flex flex-col lg:flex-row gap-12 lg:gap-16 border-t border-black/10 pt-12 lg:pt-16">
         <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1, ease }} className="lg:w-1/3 lg:pt-8">
           <p className="text-[10px] font-bold tracking-[0.2em] text-black/50 uppercase mb-4">How It Works</p>
           <h2 className="font-serif text-[36px] lg:text-[44px] leading-tight">Four Simple Steps<br className="hidden lg:block"/>to Your Perfect Fit.</h2>
@@ -458,7 +458,7 @@ export default function Page() {
 
       {/* POPULAR DESTINATIONS */}
 
-      <section className="px-6 lg:px-16 max-w-[1800px] mx-auto mb-10 lg:mb-40">
+      <section className="px-6 lg:px-16 max-w-[1300px] mx-auto mb-10 lg:mb-40">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1, ease }} className="flex items-end justify-between mb-10">
           <div>
             <p className="text-[10px] font-bold tracking-[0.2em] text-black/50 uppercase mb-3">Popular Destinations</p>
@@ -493,7 +493,7 @@ export default function Page() {
       {/* WHAT OUR CUSTOMERS SAY & FOOTER */}
       <section className="bg-white pt-16 lg:pt-24 pb-12 px-6 lg:px-16 mt-0 lg:mt-20 relative">
         
-        <div className="max-w-[1800px] mx-auto mb-32">
+        <div className="max-w-[1300px] mx-auto mb-32">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1, ease }} className="flex flex-col lg:flex-row lg:items-end justify-between mb-8 gap-6">
             <div>
               <p className="text-[10px] font-bold tracking-[0.2em] text-black/50 uppercase mb-3">WHAT OUR CUSTOMERS SAY</p>
@@ -547,7 +547,7 @@ export default function Page() {
           </motion.div>
         </div>
 
-        <div className="max-w-[1700px] mx-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-10 mb-20">
+        <div className="max-w-[1300px] mx-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-10 mb-20">
           <div className="col-span-2">
             <div className="flex items-center gap-2 mb-6">
               <div className="w-10 h-10 bg-[#1C1A17] text-white flex items-center justify-center font-serif font-bold text-2xl rounded-sm">T</div>
@@ -570,7 +570,7 @@ export default function Page() {
           ))}
         </div>
 
-        <div className="max-w-[1700px] mx-auto border-t border-black/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-[12px] text-black/40">
+        <div className="max-w-[1300px] mx-auto border-t border-black/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-[12px] text-black/40">
           <p>© 2024 TailorFind. All rights reserved.</p>
           <p className="tracking-[0.1em] uppercase font-medium">Exceptional Tailors. Everywhere.</p>
         </div>
