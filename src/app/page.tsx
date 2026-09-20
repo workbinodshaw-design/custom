@@ -279,11 +279,11 @@ export default function Page() {
 
       {/* SERVICES SECTION */}
       <section className="px-5 lg:px-16 max-w-[1800px] mx-auto pt-4 pb-16 lg:py-24 mb-10">
-        <div className="flex items-end justify-between mb-8 lg:mb-12">
+        <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between mb-8 lg:mb-12 gap-4">
           <h2 className="font-serif text-[34px] lg:text-[46px] leading-[1.05] tracking-tight text-[#1C1A17]">
             Find Tailors by <span className="italic text-[#9A7E5F]">Service.</span>
           </h2>
-          <button className="hidden lg:flex items-center gap-2 text-[13px] font-medium text-[#9A7E5F] hover:opacity-70 transition-opacity group">
+          <button className="flex items-center gap-2 text-[13px] font-medium text-[#9A7E5F] hover:opacity-70 transition-opacity group">
             View All <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
@@ -373,7 +373,7 @@ export default function Page() {
             <h2 className="font-serif text-[36px] lg:text-[40px] leading-tight mb-4">Top Rated Tailors<br/>Near You.</h2>
             <p className="text-[14px] text-black/60">Explore highly-rated artisans who bring decades of expertise to every stitch.</p>
           </div>
-          <a href="#" className="hidden lg:flex items-center gap-2 text-[13px] font-semibold text-black hover:opacity-70 transition border-b border-black pb-1">
+          <a href="#" className="flex items-center gap-2 text-[13px] font-semibold text-black hover:opacity-70 transition border-b border-black pb-1 mt-6 lg:mt-0 w-max">
             View All Tailors <ArrowRight className="w-3.5 h-3.5" />
           </a>
         </motion.div>
@@ -459,12 +459,12 @@ export default function Page() {
       {/* POPULAR DESTINATIONS */}
 
       <section className="px-6 lg:px-16 max-w-[1800px] mx-auto mb-10 lg:mb-40">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1, ease }} className="flex items-end justify-between mb-10">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1, ease }} className="flex flex-col md:flex-row items-start md:items-end justify-between mb-10 gap-6">
           <div>
             <p className="text-[10px] font-bold tracking-[0.2em] text-black/50 uppercase mb-3">Popular Destinations</p>
             <h2 className="font-serif text-[36px] leading-tight">Explore Top Tailoring Cities.</h2>
           </div>
-          <a href="#" className="hidden md:flex items-center gap-2 text-[13px] font-semibold text-black hover:opacity-70 transition border-b border-black pb-1">
+          <a href="#" className="flex items-center gap-2 text-[13px] font-semibold text-black hover:opacity-70 transition border-b border-black pb-1">
             View All Cities <ArrowRight className="w-3.5 h-3.5" />
           </a>
         </motion.div>

@@ -74,9 +74,11 @@ export default function Navbar() {
             </div>
             
             <div className="flex flex-col gap-6 text-[24px] font-serif font-medium mb-auto">
-              {['Find a Tailor', 'Services', 'Locations', 'How It Works', 'Stories'].map((link, i) => (
-                <Link key={i} href="#" onClick={() => setIsMobileMenuOpen(false)} className="border-b border-black/5 pb-4">{link}</Link>
-              ))}
+              <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="border-b border-black/5 pb-4">Find a Tailor</Link>
+              <Link href="#" onClick={() => setIsMobileMenuOpen(false)} className="border-b border-black/5 pb-4">Services</Link>
+              <Link href="/vendor" onClick={() => setIsMobileMenuOpen(false)} className="border-b border-black/5 pb-4">For Tailors</Link>
+              <Link href="#" onClick={() => setIsMobileMenuOpen(false)} className="border-b border-black/5 pb-4">How It Works</Link>
+              <Link href="#" onClick={() => setIsMobileMenuOpen(false)} className="border-b border-black/5 pb-4">Stories</Link>
             </div>
             
             <div className="flex flex-col gap-4 mt-8">
