@@ -5,6 +5,16 @@ import { Star, MapPin, CheckCircle, Calendar, Clock, ChevronLeft, Heart, Share, 
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 
+
+export function generateStaticParams() {
+  return [
+    { id: 'antonios-bespoke' },
+    { id: 'the-sartorialist' },
+    { id: 'milano-cuts' },
+    { id: 'savile-co' }
+  ];
+}
+
 // Awwwards-style ease
 const ease = [0.85, 0, 0.15, 1] as const;
 
