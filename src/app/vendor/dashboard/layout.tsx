@@ -1,15 +1,23 @@
 "use client";
 
-import { LayoutDashboard, Users, Calendar, MessageSquare, BarChart2, User, Briefcase, Image as ImageIcon, MapPin, CreditCard, ShieldCheck, Settings, LogOut, Bell, Search, HelpCircle, ChevronDown, Check } from "lucide-react";
+import { LayoutDashboard, Users, Calendar, MessageSquare, BarChart2, User, Briefcase, Image as ImageIcon, MapPin, CreditCard, ShieldCheck, Settings, LogOut, Bell, Search, HelpCircle, ChevronDown, Check, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { VendorProvider, useVendor } from "@/lib/mock/VendorContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { state, markNotificationsRead } = useVendor();
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showMobileMore, setShowMobileMore] = useState(false);
+
+  // Close mobile menus on route change
+  useEffect(() => {
+    setShowMobileMore(false);
+    setShowNotifications(false);
+  }, [pathname]);
 
   const mainNav = [
     { name: "Dashboard", icon: LayoutDashboard, href: "/vendor/dashboard" },
@@ -35,10 +43,10 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
   const unreadCount = state.notifications.filter(n => !n.read).length;
 
   return (
-    <div className="min-h-screen bg-[#FDFDFC] flex font-sans text-[#111111] selection:bg-[#111111] selection:text-white">
+    <div className="min-h-screen bg-[#FDFDFC] flex font-sans text-[#111111] selection:bg-[#111111] selection:text-white pb-[70px] lg:pb-0">
       
-      {/* Sidebar */}
-      <aside className="w-[260px] bg-white border-r border-black/5 flex-col hidden lg:flex sticky top-0 h-screen overflow-y-auto custom-scrollbar shadow-[2px_0_15px_rgba(0,0,0,0.01)]">
+      {/* DESKTOP SIDEBAR */}
+      <aside className="w-[260px] bg-white border-r border-black/5 flex-col hidden lg:flex sticky top-0 h-screen overflow-y-auto custom-scrollbar shadow-[2px_0_15px_rgba(0,0,0,0.01)] shrink-0">
         <div className="p-6 sticky top-0 bg-white z-10">
           <Link href="/">
             <div className="flex items-center gap-3 cursor-pointer group w-max">
@@ -52,7 +60,6 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
         </div>
 
         <nav className="flex-1 px-4 pb-6 space-y-8 mt-2">
-          
           <div>
             <h4 className="text-[10px] font-bold tracking-widest text-[#888888] uppercase mb-3 px-3">Main</h4>
             <div className="space-y-0.5">
@@ -103,7 +110,6 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
               })}
             </div>
           </div>
-
         </nav>
 
         <div className="p-4 border-t border-black/5 mt-auto bg-[#FAFAF9]/50">
@@ -117,13 +123,18 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
+      <main className="flex-1 flex flex-col min-w-0 min-h-screen">
         
-        {/* Top Header */}
-        <header className="h-[68px] bg-white border-b border-black/5 flex items-center justify-between px-6 lg:px-8 sticky top-0 z-40 shrink-0 shadow-[0_2px_15px_rgba(0,0,0,0.01)]">
+        {/* MOBILE & DESKTOP HEADER */}
+        <header className="h-[60px] lg:h-[68px] bg-white border-b border-black/5 flex items-center justify-between px-4 lg:px-8 sticky top-0 z-30 shrink-0 shadow-[0_2px_15px_rgba(0,0,0,0.01)]">
           
-          <div className="flex-1 max-w-[480px]">
-            <div className="relative group hidden md:block">
+          <div className="flex items-center gap-3 lg:hidden">
+            <div className="w-8 h-8 bg-[#111111] text-white flex items-center justify-center font-serif font-bold text-[16px] rounded-md shadow-sm">T</div>
+            <span className="font-serif text-[15px] font-medium text-[#111111]">TailorFind</span>
+          </div>
+
+          <div className="flex-1 max-w-[480px] hidden lg:block">
+            <div className="relative group">
               <Search className="w-4 h-4 text-[#888888] absolute left-3.5 top-1/2 -translate-y-1/2 group-focus-within:text-[#111111] transition-colors" />
               <input 
                 type="text" 
@@ -133,8 +144,10 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
             </div>
           </div>
           
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-3 lg:gap-5 ml-auto">
             
+            <button className="p-2 lg:hidden text-[#111111]"><Search className="w-5 h-5" /></button>
+
             {/* Notification Bell */}
             <div className="relative">
               <button onClick={() => setShowNotifications(!showNotifications)} className="relative p-2 rounded-full hover:bg-[#F5F5F5] transition-colors cursor-pointer">
@@ -144,9 +157,8 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
                 )}
               </button>
               
-              {/* Notification Dropdown */}
               {showNotifications && (
-                <div className="absolute right-0 top-full mt-2 w-[320px] bg-white rounded-[12px] border border-black/10 shadow-[0_8px_30px_rgba(0,0,0,0.08)] py-2 z-50">
+                <div className="absolute right-0 top-full mt-2 w-[280px] lg:w-[320px] bg-white rounded-[12px] border border-black/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)] py-2 z-50">
                   <div className="px-4 py-2 border-b border-black/5 flex justify-between items-center">
                     <span className="font-semibold text-[13px]">Notifications</span>
                     <button onClick={markNotificationsRead} className="text-[11px] text-[#888888] hover:text-[#111111]">Mark all read</button>
@@ -163,33 +175,132 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
                         </div>
                       </div>
                     ))}
+                    {state.notifications.length === 0 && (
+                      <div className="px-4 py-6 text-center text-[#888888] text-[12px]">No notifications.</div>
+                    )}
                   </div>
                 </div>
               )}
             </div>
             
-            <div className="h-5 w-[1px] bg-[#EAEAEA] hidden md:block"></div>
+            <div className="h-5 w-[1px] bg-[#EAEAEA] hidden lg:block"></div>
             
             {/* Profile Dropdown */}
-            <div className="flex items-center gap-3 cursor-pointer group hover:bg-[#F5F5F5] p-1.5 pr-2 rounded-[8px] transition-colors">
+            <div className="flex items-center gap-3 cursor-pointer group hover:bg-[#F5F5F5] p-1 lg:p-1.5 lg:pr-2 rounded-[8px] transition-colors">
               <div className="w-8 h-8 rounded-full bg-[#FAFAF9] overflow-hidden border border-black/5 shrink-0">
                 <img src="https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?q=80&w=100" alt="Avatar" className="w-full h-full object-cover" />
               </div>
-              <div className="hidden md:flex flex-col">
+              <div className="hidden lg:flex flex-col">
                 <span className="text-[13px] font-semibold leading-tight text-[#111111]">{state.vendorName}</span>
                 <span className="text-[11px] text-[#888888] font-medium">Vendor Account</span>
               </div>
-              <ChevronDown className="w-3.5 h-3.5 text-[#888888] hidden md:block" strokeWidth={2} />
+              <ChevronDown className="w-3.5 h-3.5 text-[#888888] hidden lg:block" strokeWidth={2} />
             </div>
 
           </div>
         </header>
 
         {/* Page Content */}
-        <div className="flex-1 p-6 lg:p-10 max-w-[1200px] w-full mx-auto">
+        <div className="flex-1 p-4 lg:p-8 max-w-[1200px] w-full mx-auto overflow-x-hidden">
           {children}
         </div>
       </main>
+
+      {/* MOBILE BOTTOM NAVIGATION */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-black/5 z-40 pb-[env(safe-area-inset-bottom)] shadow-[0_-4px_20px_rgba(0,0,0,0.04)]">
+        <div className="flex justify-around items-center h-[60px] px-2">
+          
+          <Link href="/vendor/dashboard" className="flex-1 flex flex-col items-center justify-center gap-1 h-full relative">
+            <LayoutDashboard className={`w-[22px] h-[22px] ${pathname === '/vendor/dashboard' ? 'text-[#111111]' : 'text-[#888888]'}`} strokeWidth={pathname === '/vendor/dashboard' ? 2 : 1.5} />
+            <span className={`text-[10px] font-medium ${pathname === '/vendor/dashboard' ? 'text-[#111111]' : 'text-[#888888]'}`}>Home</span>
+          </Link>
+          
+          <Link href="/vendor/dashboard/leads" className="flex-1 flex flex-col items-center justify-center gap-1 h-full relative">
+            <Users className={`w-[22px] h-[22px] ${pathname === '/vendor/dashboard/leads' ? 'text-[#111111]' : 'text-[#888888]'}`} strokeWidth={pathname === '/vendor/dashboard/leads' ? 2 : 1.5} />
+            <span className={`text-[10px] font-medium ${pathname === '/vendor/dashboard/leads' ? 'text-[#111111]' : 'text-[#888888]'}`}>Leads</span>
+          </Link>
+
+          <Link href="/vendor/dashboard/appointments" className="flex-1 flex flex-col items-center justify-center gap-1 h-full relative">
+            <Calendar className={`w-[22px] h-[22px] ${pathname === '/vendor/dashboard/appointments' ? 'text-[#111111]' : 'text-[#888888]'}`} strokeWidth={pathname === '/vendor/dashboard/appointments' ? 2 : 1.5} />
+            <span className={`text-[10px] font-medium ${pathname === '/vendor/dashboard/appointments' ? 'text-[#111111]' : 'text-[#888888]'}`}>Calendar</span>
+          </Link>
+
+          <Link href="/vendor/dashboard/profile/info" className="flex-1 flex flex-col items-center justify-center gap-1 h-full relative">
+            <User className={`w-[22px] h-[22px] ${pathname.startsWith('/vendor/dashboard/profile') ? 'text-[#111111]' : 'text-[#888888]'}`} strokeWidth={pathname.startsWith('/vendor/dashboard/profile') ? 2 : 1.5} />
+            <span className={`text-[10px] font-medium ${pathname.startsWith('/vendor/dashboard/profile') ? 'text-[#111111]' : 'text-[#888888]'}`}>Profile</span>
+          </Link>
+
+          <button onClick={() => setShowMobileMore(true)} className="flex-1 flex flex-col items-center justify-center gap-1 h-full relative">
+            <Menu className="w-[22px] h-[22px] text-[#888888]" strokeWidth={1.5} />
+            <span className="text-[10px] font-medium text-[#888888]">More</span>
+          </button>
+
+        </div>
+      </nav>
+
+      {/* MOBILE MORE MENU (FULL SCREEN SHEET) */}
+      <AnimatePresence>
+        {showMobileMore && (
+          <motion.div 
+            initial={{ opacity: 0, y: "100%" }} 
+            animate={{ opacity: 1, y: 0 }} 
+            exit={{ opacity: 0, y: "100%" }} 
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="fixed inset-0 z-50 bg-[#FAFAF9] flex flex-col lg:hidden"
+          >
+            <div className="h-[60px] flex items-center justify-between px-4 border-b border-black/5 bg-white shrink-0 pt-[env(safe-area-inset-top)]">
+              <span className="font-serif text-[20px] font-medium text-[#111111]">Menu</span>
+              <button onClick={() => setShowMobileMore(false)} className="p-2 bg-[#F5F5F5] rounded-full"><X className="w-5 h-5 text-[#111111]" /></button>
+            </div>
+            
+            <div className="flex-1 overflow-y-auto px-4 py-6 space-y-8 pb-10">
+              
+              <div>
+                <h4 className="text-[11px] font-bold tracking-widest text-[#888888] uppercase mb-4 pl-2">Communication</h4>
+                <div className="bg-white rounded-[12px] border border-black/5 overflow-hidden shadow-sm">
+                  <Link href="/vendor/dashboard/messages" className="flex items-center gap-3 p-4 border-b border-black/5">
+                    <div className="w-8 h-8 rounded-full bg-[#F5F5F5] flex items-center justify-center"><MessageSquare className="w-4 h-4 text-[#111111]" /></div>
+                    <span className="font-medium text-[15px] text-[#111111]">Messages</span>
+                  </Link>
+                  <Link href="/vendor/dashboard/analytics" className="flex items-center gap-3 p-4">
+                    <div className="w-8 h-8 rounded-full bg-[#F5F5F5] flex items-center justify-center"><BarChart2 className="w-4 h-4 text-[#111111]" /></div>
+                    <span className="font-medium text-[15px] text-[#111111]">Analytics</span>
+                  </Link>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-[11px] font-bold tracking-widest text-[#888888] uppercase mb-4 pl-2">Business</h4>
+                <div className="bg-white rounded-[12px] border border-black/5 overflow-hidden shadow-sm">
+                  {businessNav.map((item, i) => (
+                    <Link key={item.name} href={item.href} className={`flex items-center gap-3 p-4 ${i !== businessNav.length -1 ? 'border-b border-black/5' : ''}`}>
+                      <div className="w-8 h-8 rounded-full bg-[#F5F5F5] flex items-center justify-center"><item.icon className="w-4 h-4 text-[#111111]" /></div>
+                      <span className="font-medium text-[15px] text-[#111111]">{item.name}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-[11px] font-bold tracking-widest text-[#888888] uppercase mb-4 pl-2">Account</h4>
+                <div className="bg-white rounded-[12px] border border-black/5 overflow-hidden shadow-sm">
+                  {accountNav.map((item, i) => (
+                    <Link key={item.name} href={item.href} className={`flex items-center gap-3 p-4 ${i !== accountNav.length -1 ? 'border-b border-black/5' : ''}`}>
+                      <div className="w-8 h-8 rounded-full bg-[#F5F5F5] flex items-center justify-center"><item.icon className="w-4 h-4 text-[#111111]" /></div>
+                      <span className="font-medium text-[15px] text-[#111111]">{item.name}</span>
+                    </Link>
+                  ))}
+                  <div className="flex items-center gap-3 p-4 border-t border-black/5 text-red-600">
+                    <div className="w-8 h-8 rounded-full bg-red-50 flex items-center justify-center"><LogOut className="w-4 h-4 text-red-500" /></div>
+                    <span className="font-medium text-[15px]">Sign Out</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </div>
   );
