@@ -27,9 +27,11 @@ export default function Navbar() {
 
         {/* Links (Desktop) */}
         <div className="hidden lg:flex items-center gap-8 text-[13px] font-medium text-black/70">
-          {['Find a Tailor', 'Services', 'Locations', 'How It Works', 'Stories'].map((link, i) => (
-            <Link key={i} href="#" className="hover:text-black transition-colors">{link}</Link>
-          ))}
+          <Link href="/" className="hover:text-black transition-colors">Find a Tailor</Link>
+          <Link href="#" className="hover:text-black transition-colors">Services</Link>
+          <Link href="/vendor" className="hover:text-black font-bold text-black transition-colors">For Tailors</Link>
+          <Link href="#" className="hover:text-black transition-colors">How It Works</Link>
+          <Link href="#" className="hover:text-black transition-colors">Stories</Link>
         </div>
 
         {/* Mobile Right Actions */}
