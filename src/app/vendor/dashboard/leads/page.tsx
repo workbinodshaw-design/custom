@@ -1,76 +1,95 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Search, Filter, Calendar, MapPin, Tag, ChevronDown, MoreHorizontal, MessageSquare, Mail, Phone } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Search, Filter, Calendar, MapPin, Tag, ChevronDown, MessageSquare, Mail, Phone, X } from "lucide-react";
+import { useVendor, Lead, LeadStatus } from "@/lib/mock/VendorContext";
 
 export default function LeadsPage() {
+  const { state, updateLeadStatus, addLeadNote } = useVendor();
+  const [activeTab, setActiveTab] = useState("All Leads");
+  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+  const [newNote, setNewNote] = useState("");
+
   const tabs = ["All Leads", "New", "Contacted", "Qualified", "Converted", "Closed"];
   
-  const leads = [
-    { id: "LD-9281", name: "Michael Reynolds", email: "michael.r@example.com", phone: "+1 (555) 123-4567", service: "Bespoke Suit", location: "New York, NY", date: "Oct 15, 2026", status: "New", budget: "$1,500 - $2,500" },
-    { id: "LD-9280", name: "Sarah Lin", email: "slin@example.com", phone: "+1 (555) 987-6543", service: "Wedding Tuxedo", location: "Brooklyn, NY", date: "Oct 14, 2026", status: "Contacted", budget: "$2,000+" },
-    { id: "LD-9279", name: "David Kim", email: "dkim99@example.com", phone: "+1 (555) 456-7890", service: "Shirts & Trousers", location: "Manhattan, NY", date: "Oct 12, 2026", status: "Qualified", budget: "$800 - $1,200" },
-    { id: "LD-9278", name: "Emily Parker", email: "emily.parker@example.com", phone: "+1 (555) 234-5678", service: "Custom Jacket", location: "Queens, NY", date: "Oct 10, 2026", status: "Converted", budget: "$900 - $1,500" },
-    { id: "LD-9275", name: "James Wilson", email: "j.wilson@example.com", phone: "+1 (555) 345-6789", service: "Alterations", location: "Jersey City, NJ", date: "Oct 08, 2026", status: "Closed", budget: "< $500" },
-  ];
+  const filteredLeads = state.leads.filter(lead => {
+    if (activeTab === "All Leads") return true;
+    return lead.status === activeTab;
+  });
 
-  const getStatusColor = (status: string) => {
+  const getStatusStyle = (status: string) => {
     switch (status) {
-      case 'New': return 'bg-blue-50 text-blue-700 border-blue-100';
-      case 'Contacted': return 'bg-orange-50 text-orange-700 border-orange-100';
-      case 'Qualified': return 'bg-purple-50 text-purple-700 border-purple-100';
-      case 'Converted': return 'bg-green-50 text-green-700 border-green-100';
-      case 'Closed': return 'bg-gray-100 text-gray-600 border-gray-200';
-      default: return 'bg-gray-50 text-gray-700 border-gray-200';
+      case 'New': return 'bg-blue-50 text-blue-700 border border-blue-100';
+      case 'Contacted': return 'bg-amber-50 text-amber-700 border border-amber-100';
+      case 'Qualified': return 'bg-purple-50 text-purple-700 border border-purple-100';
+      case 'Converted': return 'bg-green-50 text-green-700 border border-green-100';
+      case 'Closed': return 'bg-[#F5F5F5] text-[#666666] border border-[#EAEAEA]';
+      default: return 'bg-[#F5F5F5] text-[#666666] border border-[#EAEAEA]';
     }
   };
 
+  const handleStatusChange = (id: string, status: LeadStatus) => {
+    updateLeadStatus(id, status);
+    if (selectedLead && selectedLead.id === id) {
+      setSelectedLead({ ...selectedLead, status });
+    }
+  };
+
+  const handleAddNote = () => {
+    if (!newNote.trim() || !selectedLead) return;
+    addLeadNote(selectedLead.id, newNote);
+    setSelectedLead({ ...selectedLead, notes: [...selectedLead.notes, newNote] });
+    setNewNote("");
+  };
+
   return (
-    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="space-y-6">
+    <div className="space-y-6 relative">
       
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <h1 className="font-serif text-[28px] font-medium tracking-tight mb-1">Lead Management</h1>
-          <p className="text-[14px] text-black/60">View and manage customer enquiries across your business.</p>
+          <h1 className="font-serif text-[28px] font-medium tracking-tight mb-1 text-[#111111]">Lead Management</h1>
+          <p className="text-[14px] text-[#666666]">Manage enquiries from customers interested in your services.</p>
         </div>
-        <button className="bg-[#1C1A17] text-white px-5 py-2.5 rounded-full text-[13px] font-bold shadow-sm hover:bg-black transition-colors">
-          Export Leads
-        </button>
       </div>
 
       {/* Filters & Search */}
-      <div className="bg-white rounded-[18px] border border-black/5 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+      <div className="bg-white rounded-[16px] border border-black/5 shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
         <div className="px-2 pt-2 pb-0 flex overflow-x-auto custom-scrollbar border-b border-black/5">
-          {tabs.map((tab, i) => (
-            <button key={i} className={`px-5 py-3 text-[13px] font-medium whitespace-nowrap transition-colors relative ${i === 0 ? 'text-[#1C1A17]' : 'text-black/50 hover:text-black/80'}`}>
+          {tabs.map((tab) => (
+            <button 
+              key={tab} 
+              onClick={() => setActiveTab(tab)}
+              className={`px-5 py-3 text-[13px] font-medium whitespace-nowrap transition-colors relative ${activeTab === tab ? 'text-[#111111]' : 'text-[#888888] hover:text-[#111111]'}`}
+            >
               {tab}
-              {i === 0 && <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#1C1A17] rounded-t-full"></div>}
+              {activeTab === tab && <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#111111] rounded-t-full"></div>}
             </button>
           ))}
         </div>
         
         <div className="p-4 flex flex-col lg:flex-row items-center justify-between gap-4">
           <div className="relative w-full lg:w-[320px]">
-            <Search className="w-4 h-4 text-black/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-[#888888] absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input 
               type="text" 
               placeholder="Search by name, email, or ID..." 
-              className="w-full bg-[#F5F4F0] border border-transparent rounded-[10px] pl-10 pr-4 py-2.5 text-[13px] focus:outline-none focus:bg-white focus:border-black/20 focus:ring-4 focus:ring-black/5 transition-all"
+              className="w-full bg-[#F5F5F5] border border-transparent rounded-[8px] pl-10 pr-4 py-2.5 text-[13px] focus:outline-none focus:bg-white focus:border-black/10 transition-all text-[#111111]"
             />
           </div>
           
           <div className="flex items-center gap-3 w-full lg:w-auto overflow-x-auto">
-            <button className="flex items-center gap-2 bg-white border border-black/10 px-4 py-2.5 rounded-[10px] text-[13px] font-medium hover:bg-black/5 transition-colors whitespace-nowrap">
-              <Calendar className="w-4 h-4 text-black/50" /> Date <ChevronDown className="w-3.5 h-3.5 text-black/40" />
+            <button className="flex items-center gap-2 bg-white border border-black/10 px-4 py-2.5 rounded-[8px] text-[13px] font-medium hover:bg-[#F5F5F5] transition-colors whitespace-nowrap text-[#444444]">
+              <Calendar className="w-4 h-4 text-[#888888]" /> Date <ChevronDown className="w-3.5 h-3.5 text-[#888888]" />
             </button>
-            <button className="flex items-center gap-2 bg-white border border-black/10 px-4 py-2.5 rounded-[10px] text-[13px] font-medium hover:bg-black/5 transition-colors whitespace-nowrap">
-              <Tag className="w-4 h-4 text-black/50" /> Service <ChevronDown className="w-3.5 h-3.5 text-black/40" />
+            <button className="flex items-center gap-2 bg-white border border-black/10 px-4 py-2.5 rounded-[8px] text-[13px] font-medium hover:bg-[#F5F5F5] transition-colors whitespace-nowrap text-[#444444]">
+              <Tag className="w-4 h-4 text-[#888888]" /> Service <ChevronDown className="w-3.5 h-3.5 text-[#888888]" />
             </button>
-            <button className="flex items-center gap-2 bg-white border border-black/10 px-4 py-2.5 rounded-[10px] text-[13px] font-medium hover:bg-black/5 transition-colors whitespace-nowrap">
-              <MapPin className="w-4 h-4 text-black/50" /> Location <ChevronDown className="w-3.5 h-3.5 text-black/40" />
+            <button className="flex items-center gap-2 bg-white border border-black/10 px-4 py-2.5 rounded-[8px] text-[13px] font-medium hover:bg-[#F5F5F5] transition-colors whitespace-nowrap text-[#444444]">
+              <MapPin className="w-4 h-4 text-[#888888]" /> Location <ChevronDown className="w-3.5 h-3.5 text-[#888888]" />
             </button>
-            <button className="flex items-center gap-2 bg-[#F5F4F0] text-black px-4 py-2.5 rounded-[10px] text-[13px] font-bold hover:bg-[#EAE8E1] transition-colors whitespace-nowrap ml-auto">
+            <button className="flex items-center gap-2 bg-[#F5F5F5] text-[#111111] px-4 py-2.5 rounded-[8px] text-[13px] font-bold hover:bg-[#EAEAEA] transition-colors whitespace-nowrap ml-auto">
               <Filter className="w-4 h-4" /> Clear
             </button>
           </div>
@@ -78,69 +97,198 @@ export default function LeadsPage() {
       </div>
 
       {/* Leads Table */}
-      <div className="bg-white rounded-[18px] border border-black/5 shadow-[0_2px_10px_rgba(0,0,0,0.02)] overflow-hidden">
+      <div className="bg-white rounded-[16px] border border-black/5 shadow-[0_2px_8px_rgba(0,0,0,0.02)] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-[#FAFAF9]">
-                <th className="px-6 py-4 text-[11px] font-bold tracking-widest text-black/40 uppercase border-b border-black/5">Customer / Contact</th>
-                <th className="px-6 py-4 text-[11px] font-bold tracking-widest text-black/40 uppercase border-b border-black/5">Service details</th>
-                <th className="px-6 py-4 text-[11px] font-bold tracking-widest text-black/40 uppercase border-b border-black/5">Received</th>
-                <th className="px-6 py-4 text-[11px] font-bold tracking-widest text-black/40 uppercase border-b border-black/5">Status</th>
-                <th className="px-6 py-4 text-[11px] font-bold tracking-widest text-black/40 uppercase border-b border-black/5 text-right">Actions</th>
+                <th className="px-6 py-4 text-[10px] font-bold tracking-widest text-[#888888] uppercase border-b border-black/5">Customer</th>
+                <th className="px-6 py-4 text-[10px] font-bold tracking-widest text-[#888888] uppercase border-b border-black/5">Service Details</th>
+                <th className="px-6 py-4 text-[10px] font-bold tracking-widest text-[#888888] uppercase border-b border-black/5">Received</th>
+                <th className="px-6 py-4 text-[10px] font-bold tracking-widest text-[#888888] uppercase border-b border-black/5">Status</th>
               </tr>
             </thead>
             <tbody>
-              {leads.map((lead, i) => (
-                <tr key={lead.id} className="border-b border-black/5 last:border-0 hover:bg-[#FAFAF9] transition-colors group cursor-pointer">
+              {filteredLeads.map((lead) => (
+                <tr 
+                  key={lead.id} 
+                  onClick={() => setSelectedLead(lead)}
+                  className="border-b border-black/5 last:border-0 hover:bg-[#F5F5F5] transition-colors cursor-pointer group"
+                >
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-[#1C1A17] text-white flex items-center justify-center font-serif text-[16px] shrink-0">
+                      <div className="w-10 h-10 rounded-full bg-[#111111] text-white flex items-center justify-center font-serif text-[16px] shrink-0">
                         {lead.name.charAt(0)}
                       </div>
                       <div>
-                        <div className="text-[14px] font-bold text-[#1C1A17]">{lead.name}</div>
+                        <div className="text-[14px] font-bold text-[#111111]">{lead.name}</div>
                         <div className="flex items-center gap-3 mt-1">
-                          <span className="text-[12px] text-black/50 flex items-center gap-1"><Mail className="w-3 h-3" /> {lead.email}</span>
-                          <span className="text-[12px] text-black/50 flex items-center gap-1"><Phone className="w-3 h-3" /> {lead.phone}</span>
+                          <span className="text-[12px] text-[#888888] flex items-center gap-1"><Mail className="w-3 h-3" /> {state.plan === 'FREE' ? 'Hidden (Pro)' : lead.email}</span>
                         </div>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-[13px] font-bold text-[#1C1A17] mb-1">{lead.service}</div>
-                    <div className="flex items-center gap-2 text-[12px] text-black/50">
-                      <MapPin className="w-3 h-3" /> {lead.location}
-                      <span className="w-1 h-1 bg-black/20 rounded-full mx-1"></span>
+                    <div className="text-[13px] font-bold text-[#111111] mb-1">{lead.service}</div>
+                    <div className="flex items-center gap-2 text-[12px] text-[#666666]">
+                      <MapPin className="w-3 h-3 text-[#888888]" /> {lead.location}
+                      <span className="w-1 h-1 bg-[#CCCCCC] rounded-full mx-1"></span>
                       <span>Budget: {lead.budget}</span>
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-[13px] text-[#1C1A17] font-medium">{lead.date}</div>
-                    <div className="text-[11px] text-black/40 font-mono mt-1">{lead.id}</div>
+                    <div className="text-[13px] text-[#111111] font-medium">{lead.date}</div>
+                    <div className="text-[11px] text-[#888888] font-mono mt-1">{lead.id}</div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`inline-flex items-center px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider rounded-md border ${getStatusColor(lead.status)}`}>
+                    <span className={`inline-flex items-center px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider rounded-[4px] ${getStatusStyle(lead.status)}`}>
                       {lead.status}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-right">
-                    <div className="flex items-center justify-end gap-2">
-                      <button className="w-8 h-8 rounded-full bg-white border border-black/10 flex items-center justify-center hover:bg-black/5 transition-colors shadow-sm">
-                        <MessageSquare className="w-3.5 h-3.5 text-black/70" />
-                      </button>
-                      <button className="w-8 h-8 rounded-full bg-white border border-black/10 flex items-center justify-center hover:bg-black/5 transition-colors shadow-sm">
-                        <MoreHorizontal className="w-4 h-4 text-black/70" />
-                      </button>
-                    </div>
-                  </td>
                 </tr>
               ))}
+              {filteredLeads.length === 0 && (
+                <tr>
+                  <td colSpan={4} className="px-6 py-12 text-center text-[#888888] text-[14px]">
+                    No leads found for this filter.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
       </div>
-      
-    </motion.div>
+
+      {/* Lead Detail Drawer (Slide over) */}
+      <AnimatePresence>
+        {selectedLead && (
+          <>
+            <motion.div 
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              onClick={() => setSelectedLead(null)}
+              className="fixed inset-0 bg-black/20 z-50 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-white shadow-[-4px_0_24px_rgba(0,0,0,0.1)] z-50 flex flex-col"
+            >
+              <div className="px-6 py-5 border-b border-black/5 flex justify-between items-center bg-[#FAFAF9]">
+                <h2 className="font-serif text-[20px] font-medium text-[#111111]">Lead Details</h2>
+                <button onClick={() => setSelectedLead(null)} className="p-2 hover:bg-[#F5F5F5] rounded-full transition-colors">
+                  <X className="w-5 h-5 text-[#888888]" />
+                </button>
+              </div>
+              
+              <div className="flex-1 overflow-y-auto p-6 space-y-8">
+                
+                {/* Customer Info */}
+                <div>
+                  <h3 className="text-[10px] font-bold tracking-widest text-[#888888] uppercase mb-4">Customer</h3>
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-full bg-[#111111] text-white flex items-center justify-center font-serif text-[24px]">
+                      {selectedLead.name.charAt(0)}
+                    </div>
+                    <div>
+                      <div className="text-[18px] font-serif font-medium text-[#111111]">{selectedLead.name}</div>
+                      <div className="text-[13px] text-[#666666] mt-0.5">{selectedLead.id} • Received {selectedLead.date}</div>
+                    </div>
+                  </div>
+                </div>
+
+                {state.plan === 'FREE' ? (
+                  <div className="bg-[#FAFAF9] border border-[#EAEAEA] p-4 rounded-[12px] flex flex-col items-center justify-center text-center">
+                    <h4 className="text-[13px] font-bold text-[#111111] mb-2">Upgrade to PRO to view contact info</h4>
+                    <p className="text-[12px] text-[#666666] mb-4">Free vendors cannot directly access customer phone numbers or emails.</p>
+                    <button className="bg-[#111111] text-[#E5C158] px-4 py-2 rounded-[8px] text-[12px] font-bold">Upgrade Now</button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 gap-4">
+                    <div className="flex items-center gap-3 p-3 bg-[#FAFAF9] rounded-[10px] border border-black/5">
+                      <Mail className="w-4 h-4 text-[#888888]" />
+                      <span className="text-[13px] font-medium text-[#111111]">{selectedLead.email}</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 bg-[#FAFAF9] rounded-[10px] border border-black/5">
+                      <Phone className="w-4 h-4 text-[#888888]" />
+                      <span className="text-[13px] font-medium text-[#111111]">{selectedLead.phone}</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Request Details */}
+                <div>
+                  <h3 className="text-[10px] font-bold tracking-widest text-[#888888] uppercase mb-4">Request Details</h3>
+                  <div className="space-y-4 text-[13px]">
+                    <div className="flex justify-between border-b border-black/5 pb-2">
+                      <span className="text-[#666666]">Service</span>
+                      <span className="font-semibold text-[#111111]">{selectedLead.service}</span>
+                    </div>
+                    <div className="flex justify-between border-b border-black/5 pb-2">
+                      <span className="text-[#666666]">Location</span>
+                      <span className="font-semibold text-[#111111]">{selectedLead.location}</span>
+                    </div>
+                    <div className="flex justify-between border-b border-black/5 pb-2">
+                      <span className="text-[#666666]">Budget</span>
+                      <span className="font-semibold text-[#111111]">{selectedLead.budget}</span>
+                    </div>
+                    <div className="pt-2">
+                      <span className="text-[#666666] block mb-2">Customer Message</span>
+                      <p className="bg-[#F5F5F5] p-3 rounded-[8px] text-[#111111] leading-relaxed">"{selectedLead.message}"</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Actions & Status */}
+                <div>
+                  <h3 className="text-[10px] font-bold tracking-widest text-[#888888] uppercase mb-4">Status & Actions</h3>
+                  <div className="flex gap-2 mb-4">
+                    {tabs.slice(1).map(status => (
+                      <button 
+                        key={status}
+                        onClick={() => handleStatusChange(selectedLead.id, status as LeadStatus)}
+                        className={`flex-1 py-2 text-[11px] font-bold uppercase tracking-wider rounded-[6px] transition-colors border ${
+                          selectedLead.status === status ? getStatusStyle(status) : 'bg-white border-black/10 text-[#666666] hover:bg-[#F5F5F5]'
+                        }`}
+                      >
+                        {status}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Notes */}
+                <div>
+                  <h3 className="text-[10px] font-bold tracking-widest text-[#888888] uppercase mb-4">Internal Notes</h3>
+                  <div className="space-y-3 mb-4">
+                    {selectedLead.notes.map((note, idx) => (
+                      <div key={idx} className="bg-[#FAFAF9] p-3 border border-black/5 rounded-[8px] text-[12px] text-[#444444]">
+                        {note}
+                      </div>
+                    ))}
+                    {selectedLead.notes.length === 0 && (
+                      <p className="text-[12px] text-[#888888] italic">No notes added yet.</p>
+                    )}
+                  </div>
+                  <div className="flex gap-2">
+                    <input 
+                      type="text" 
+                      value={newNote}
+                      onChange={(e) => setNewNote(e.target.value)}
+                      placeholder="Add a note..." 
+                      className="flex-1 bg-[#F5F5F5] border border-transparent rounded-[8px] px-3 py-2 text-[12px] focus:outline-none focus:bg-white focus:border-black/10 transition-all text-[#111111]"
+                      onKeyDown={(e) => e.key === 'Enter' && handleAddNote()}
+                    />
+                    <button onClick={handleAddNote} className="bg-[#111111] text-white px-4 py-2 rounded-[8px] text-[12px] font-bold hover:bg-black transition-colors">
+                      Save
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+    </div>
   );
 }
