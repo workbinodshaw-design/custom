@@ -5,7 +5,6 @@ import { ChevronLeft, ArrowRight, Check } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useVendor } from "@/lib/mock/VendorContext";
 
 const ease = [0.85, 0, 0.15, 1] as const;
 
@@ -13,7 +12,6 @@ export default function VendorAuth() {
   const [mode, setMode] = useState<"register" | "login">("register");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { setVendorId } = useVendor();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,7 +38,7 @@ export default function VendorAuth() {
         });
         const json = await res.json();
         if (res.ok && json.success) {
-          setVendorId(json.data.id);
+          localStorage.setItem('vendorId', json.data.id);
           router.push('/vendor/dashboard');
         } else {
           alert("Failed to register.");
@@ -59,7 +57,7 @@ export default function VendorAuth() {
         if (res.ok && json.success) {
           const user = json.data.find((v: any) => v.email === email && v.password === password);
           if (user) {
-            setVendorId(user.id);
+            localStorage.setItem('vendorId', user.id);
             router.push('/vendor/dashboard');
           } else {
             alert("Invalid email or password.");
