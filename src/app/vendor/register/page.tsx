@@ -66,23 +66,51 @@ export default function VendorRegister() {
           <h1 className="font-serif text-[32px] font-medium tracking-tight mb-2">Create your account</h1>
           <p className="text-[14px] text-black/60 mb-10">Start your journey as a TailorFind vendor today.</p>
 
-          <form className="space-y-5" onSubmit={(e) => { e.preventDefault(); setStep(2); }}>
+          <form className="space-y-5" onSubmit={async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.currentTarget);
+            const data = {
+              name: formData.get('name'),
+              email: formData.get('email'),
+              password: formData.get('password'),
+              location: "New York, USA", // default placeholder for testing
+              rating: "0.0",
+              reviews: "0",
+              verified: false,
+              plan: "FREE",
+            };
+            
+            try {
+              const res = await fetch('/api/vendors', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+              });
+              if (res.ok) {
+                setStep(2);
+              } else {
+                alert("Failed to register.");
+              }
+            } catch (err) {
+              alert("Error registering.");
+            }
+          }}>
             
             {step === 1 ? (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-5">
                 <div>
                   <label className="block text-[13px] font-bold text-black/70 mb-2 uppercase tracking-wide">Legal Business Name</label>
-                  <input type="text" placeholder="e.g. Antonio's Bespoke" className="w-full border border-black/10 rounded-[12px] px-4 py-3.5 text-[15px] focus:outline-none focus:border-black/30 focus:ring-1 focus:ring-black/30 transition-all bg-white" required />
+                  <input name="name" type="text" placeholder="e.g. Antonio's Bespoke" className="w-full border border-black/10 rounded-[12px] px-4 py-3.5 text-[15px] focus:outline-none focus:border-black/30 focus:ring-1 focus:ring-black/30 transition-all bg-white" required />
                 </div>
                 
                 <div>
                   <label className="block text-[13px] font-bold text-black/70 mb-2 uppercase tracking-wide">Email Address</label>
-                  <input type="email" placeholder="hello@antonios.com" className="w-full border border-black/10 rounded-[12px] px-4 py-3.5 text-[15px] focus:outline-none focus:border-black/30 focus:ring-1 focus:ring-black/30 transition-all bg-white" required />
+                  <input name="email" type="email" placeholder="hello@antonios.com" className="w-full border border-black/10 rounded-[12px] px-4 py-3.5 text-[15px] focus:outline-none focus:border-black/30 focus:ring-1 focus:ring-black/30 transition-all bg-white" required />
                 </div>
 
                 <div>
                   <label className="block text-[13px] font-bold text-black/70 mb-2 uppercase tracking-wide">Password</label>
-                  <input type="password" placeholder="••••••••" className="w-full border border-black/10 rounded-[12px] px-4 py-3.5 text-[15px] focus:outline-none focus:border-black/30 focus:ring-1 focus:ring-black/30 transition-all bg-white" required />
+                  <input name="password" type="password" placeholder="••••••••" className="w-full border border-black/10 rounded-[12px] px-4 py-3.5 text-[15px] focus:outline-none focus:border-black/30 focus:ring-1 focus:ring-black/30 transition-all bg-white" required />
                 </div>
 
                 <button type="submit" className="w-full bg-[#1C1A17] text-white py-4 rounded-full text-[15px] font-bold flex items-center justify-center gap-2 hover:bg-black hover:scale-[1.02] active:scale-95 transition-all duration-300 mt-4 shadow-[0_8px_24px_rgba(28,26,23,0.15)]">
@@ -96,9 +124,9 @@ export default function VendorRegister() {
                 </div>
                 <h3 className="font-serif text-[24px]">Account Created!</h3>
                 <p className="text-[14px] text-black/60 mb-6">Your vendor profile structure is ready. Next, we will set up your studio location and services.</p>
-                <Link href="/vendor/dashboard">
+                <Link href="/admin">
                   <button type="button" className="w-full bg-[#1C1A17] text-white py-4 rounded-full text-[15px] font-bold flex items-center justify-center gap-2 hover:bg-black transition-all">
-                    Go to Dashboard
+                    Go to Admin to Approve
                   </button>
                 </Link>
               </motion.div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 export type Plan = "FREE" | "PRO" | "PRO_VERIFIED";
 export type LeadStatus = "New" | "Contacted" | "Qualified" | "Converted" | "Closed";
@@ -8,6 +8,7 @@ export type AppointmentStatus = "Pending" | "Confirmed" | "Completed" | "Cancell
 
 export interface Lead {
   id: string;
+  vendorId?: string;
   name: string;
   service: string;
   location: string;
@@ -40,6 +41,7 @@ export interface Service {
 }
 
 interface VendorState {
+  vendorId: string;
   vendorName: string;
   plan: Plan;
   verificationStatus: "Not Applied" | "Pending" | "Approved" | "Rejected";
@@ -51,6 +53,7 @@ interface VendorState {
 
 interface VendorContextType {
   state: VendorState;
+  loading: boolean;
   updateLeadStatus: (id: string, status: LeadStatus) => void;
   addLeadNote: (id: string, note: string) => void;
   updateAppointmentStatus: (id: string, status: AppointmentStatus) => void;
@@ -60,51 +63,97 @@ interface VendorContextType {
   markNotificationsRead: () => void;
 }
 
-const initialState: VendorState = {
-  vendorName: "Elegant Stitch Tailors",
-  plan: "PRO_VERIFIED",
-  verificationStatus: "Approved",
-  leads: [
-    { id: "L-101", name: "Michael Reynolds", service: "Bespoke Suit", location: "New York, NY", date: "Oct 15", status: "New", budget: "$1,500+", message: "Looking for a navy bespoke suit for an upcoming gala.", email: "michael.r@example.com", phone: "+1 (555) 123-4567", notes: [] },
-    { id: "L-102", name: "Sarah Lin", service: "Wedding Suit", location: "Brooklyn, NY", date: "Oct 14", status: "Contacted", budget: "$2,000+", message: "Need a wedding tuxedo for December.", email: "slin@example.com", phone: "+1 (555) 987-6543", notes: ["Called her today, waiting for callback."] },
-    { id: "L-103", name: "David Kim", service: "Shirts", location: "Manhattan, NY", date: "Oct 12", status: "Qualified", budget: "$800", message: "Need 5 custom dress shirts for work.", email: "dkim@example.com", phone: "+1 (555) 456-7890", notes: [] },
-    { id: "L-104", name: "Emily Parker", service: "Custom Jacket", location: "Queens, NY", date: "Oct 10", status: "Replied" as LeadStatus, budget: "$900", message: "Can you do a velvet smoking jacket?", email: "eparker@example.com", phone: "+1 (555) 234-5678", notes: [] }
-  ],
-  appointments: [
-    { id: "A-201", customer: "Michael Reynolds", type: "Studio Consultation", date: "Today", time: "10:30 AM", location: "Studio", status: "Confirmed", notes: "First consultation" },
-    { id: "A-202", customer: "Sarah Lin", type: "Mobile Fitting", date: "Tomorrow", time: "2:00 PM", location: "123 Brooklyn Ave", status: "Pending", notes: "Bring fabric swatches" }
-  ],
-  services: [
-    { id: "S-1", name: "Custom Suit", category: "Suit", startingPrice: 1200, enabled: true },
-    { id: "S-2", name: "Bespoke Suit", category: "Suit", startingPrice: 2500, enabled: true },
-    { id: "S-3", name: "Wedding Suit", category: "Suit", startingPrice: 1800, enabled: true },
-    { id: "S-4", name: "Shirts", category: "Separates", startingPrice: 150, enabled: true },
-    { id: "S-5", name: "Virtual Consultation", category: "Consultation", startingPrice: 0, enabled: false }
-  ],
-  notifications: [
-    { id: 1, type: "lead", message: "New lead received from Michael Reynolds", read: false },
-    { id: 2, type: "appointment", message: "Sarah Lin requested a Mobile Fitting", read: false },
-    { id: 3, type: "system", message: "Your verification application was approved.", read: true }
-  ]
+const defaultState: VendorState = {
+  vendorId: "v1", // Hardcoded for this testing simulation to auto-login to the first vendor
+  vendorName: "Loading...",
+  plan: "FREE",
+  verificationStatus: "Pending",
+  leads: [],
+  appointments: [],
+  services: [],
+  notifications: []
 };
 
 const VendorContext = createContext<VendorContextType | undefined>(undefined);
 
 export function VendorProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<VendorState>(initialState);
+  const [state, setState] = useState<VendorState>(defaultState);
+  const [loading, setLoading] = useState(true);
 
-  const updateLeadStatus = (id: string, status: LeadStatus) => {
+  // Fetch from the Local API DB
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch specific vendor data
+        const vendorRes = await fetch(`/api/vendors/${state.vendorId}`);
+        const vendorJson = await vendorRes.json();
+        
+        // Fetch leads for this vendor
+        const leadsRes = await fetch(`/api/leads?vendorId=${state.vendorId}`);
+        const leadsJson = await leadsRes.json();
+
+        if (vendorJson.success) {
+          const vendor = vendorJson.data;
+          setState(prev => ({
+            ...prev,
+            vendorName: vendor.name,
+            plan: vendor.plan,
+            verificationStatus: vendor.status === 'approved' ? 'Approved' : 'Pending',
+            services: vendor.services || [],
+            leads: leadsJson.success ? leadsJson.data : [],
+            appointments: vendor.appointments || [],
+            notifications: [
+              { id: 1, type: "system", message: "Welcome back! Your dashboard is now synced with the local API.", read: false }
+            ]
+          }));
+        }
+      } catch (err) {
+        console.error("Failed to fetch vendor data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchData();
+  }, [state.vendorId]);
+
+  const updateLeadStatus = async (id: string, status: LeadStatus) => {
     setState(prev => ({
       ...prev,
       leads: prev.leads.map(l => l.id === id ? { ...l, status } : l)
     }));
+    
+    try {
+      await fetch(`/api/leads/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status })
+      });
+    } catch (e) {
+      console.error(e);
+    }
   };
 
-  const addLeadNote = (id: string, note: string) => {
+  const addLeadNote = async (id: string, note: string) => {
+    const lead = state.leads.find(l => l.id === id);
+    if (!lead) return;
+    
+    const newNotes = [...(lead.notes || []), note];
+    
     setState(prev => ({
       ...prev,
-      leads: prev.leads.map(l => l.id === id ? { ...l, notes: [...l.notes, note] } : l)
+      leads: prev.leads.map(l => l.id === id ? { ...l, notes: newNotes } : l)
     }));
+
+    try {
+      await fetch(`/api/leads/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ notes: newNotes })
+      });
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const updateAppointmentStatus = (id: string, status: AppointmentStatus) => {
@@ -137,7 +186,7 @@ export function VendorProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <VendorContext.Provider value={{ state, updateLeadStatus, addLeadNote, updateAppointmentStatus, addAppointment, toggleService, updatePlan, markNotificationsRead }}>
+    <VendorContext.Provider value={{ state, loading, updateLeadStatus, addLeadNote, updateAppointmentStatus, addAppointment, toggleService, updatePlan, markNotificationsRead }}>
       {children}
     </VendorContext.Provider>
   );

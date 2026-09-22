@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
 import { Search, ChevronRight, Globe, Play, MapPin, Calendar, Star, Send, ArrowRight, ArrowLeft, BadgeCheck, ChevronDown, Target, Shirt, LocateFixed, Menu, X } from 'lucide-react';
@@ -7,8 +7,33 @@ import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 
 export default function Page() {
   const [showAllMobileServices, setShowAllMobileServices] = useState(false);
-  
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [approvedTailors, setApprovedTailors] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch('/api/vendors?status=approved')
+      .then(res => res.json())
+      .then(json => {
+        if (json.success && json.data.length > 0) {
+          setApprovedTailors(json.data);
+        } else {
+          // Fallback static data if no vendors in DB
+          setApprovedTailors([
+            { name: "Antonio's Bespoke", loc: "Upper East Side, NY", rating: "4.9", revs: "128", verified: true, img: "https://images.unsplash.com/photo-1594938291221-94f18cbb5660?q=80&w=800", profile: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200" },
+            { name: "The Sartorialist", loc: "Soho, London", rating: "4.8", revs: "94", verified: true, img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800", profile: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200" },
+            { name: "Milano Cuts", loc: "Downtown, Milan", rating: "5.0", revs: "215", verified: false, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=800", profile: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200" },
+            { name: "Savile & Co.", loc: "West End, Paris", rating: "4.7", revs: "62", verified: true, img: "https://images.unsplash.com/photo-1593030103066-0093718efeb9?q=80&w=800", profile: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=200" }
+          ]);
+        }
+      })
+      .catch(() => {
+        // Fallback on error
+        setApprovedTailors([
+            { name: "Antonio's Bespoke", loc: "Upper East Side, NY", rating: "4.9", revs: "128", verified: true, img: "https://images.unsplash.com/photo-1594938291221-94f18cbb5660?q=80&w=800", profile: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200" },
+            { name: "The Sartorialist", loc: "Soho, London", rating: "4.8", revs: "94", verified: true, img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800", profile: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200" }
+        ]);
+      });
+  }, []);
   
   // Parallax hooks
   const { scrollY } = useScroll();
@@ -379,49 +404,47 @@ export default function Page() {
         </motion.div>
 
         <div className="flex lg:grid lg:grid-cols-4 gap-6 overflow-x-auto overflow-y-hidden snap-x snap-mandatory pb-8 pt-4 -mx-6 px-6 lg:mx-0 lg:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-          {[
-            { name: "Antonio's Bespoke", loc: "Upper East Side, NY", rating: "4.9", revs: "128", verified: true, img: "https://images.unsplash.com/photo-1594938291221-94f18cbb5660?q=80&w=800", profile: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200" },
-            { name: "The Sartorialist", loc: "Soho, London", rating: "4.8", revs: "94", verified: true, img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800", profile: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200" },
-            { name: "Milano Cuts", loc: "Downtown, Milan", rating: "5.0", revs: "215", verified: false, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=800", profile: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200" },
-            { name: "Savile & Co.", loc: "West End, Paris", rating: "4.7", revs: "62", verified: true, img: "https://images.unsplash.com/photo-1593030103066-0093718efeb9?q=80&w=800", profile: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=200" }
-          ].map((t, i) => (
+          {approvedTailors.map((t, i) => (
             <Link href={`/tailor/${t.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} key={i} className="shrink-0 w-[75vw] md:w-[45vw] lg:w-auto snap-center lg:snap-align-none block">
               <motion.div initial={{ opacity: 0, y: 50, scale: 0.95 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1.2, delay: i * 0.1, ease }} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-[32px] lg:hover:bg-white lg:hover:shadow-[0_24px_48px_rgba(0,0,0,0.05)] lg:hover:-translate-y-2 transition-all duration-[0.8s] ease-[0.16,1,0.3,1] h-full">
               <div className="relative mb-8">
                 <div className="w-full h-[280px] rounded-[24px] overflow-hidden relative" style={{ WebkitMaskImage: 'radial-gradient(circle at calc(100% - 56px) calc(100% - 16px), transparent 38px, black 39px)', maskImage: 'radial-gradient(circle at calc(100% - 56px) calc(100% - 16px), transparent 38px, black 39px)' }}>
-                  <img loading="lazy" src={t.img} alt={t.name} className="w-full h-full object-cover lg:group-hover:scale-105 transition-transform duration-[1.5s] ease-[0.16,1,0.3,1]" />
-                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm">
-                    <Star className="w-3.5 h-3.5 fill-black text-black" />
-                    <span className="text-[12px] font-bold">{t.rating}</span>
-                  </div>
+                  <img loading="lazy" src={t.img || t.image || "https://images.unsplash.com/photo-1594938291221-94f18cbb5660?q=80&w=800"} alt={t.name} className="w-full h-full object-cover lg:group-hover:scale-105 transition-transform duration-[1.5s] ease-[0.16,1,0.3,1]" />
                 </div>
-                {/* Profile Cutout Icon */}
-                <div className="absolute -bottom-4 right-6 w-16 h-16 rounded-full overflow-hidden bg-gray-200 z-10 shadow-[0_4px_12px_rgba(0,0,0,0.1)] lg:group-hover:scale-110 lg:group-hover:shadow-[0_8px_24px_rgba(0,0,0,0.15)] transition-all duration-[0.8s] ease-[0.16,1,0.3,1]">
-                  <img loading="lazy" src={t.profile} alt={t.name} className="w-full h-full object-cover" />
+                
+                {/* Profile Picture overlapping the cutout */}
+                <div className="absolute -bottom-6 right-2 w-[72px] h-[72px] rounded-full overflow-hidden border-[4px] border-[#F5F4F0] bg-[#F5F4F0] lg:group-hover:border-white transition-colors duration-[0.8s] ease-[0.16,1,0.3,1]">
+                  <img src={t.profile || t.profileImage || "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200"} alt={t.name} className="w-full h-full object-cover" />
                 </div>
               </div>
-              <div className="px-2">
-                <h3 className="font-serif font-bold text-[20px] mb-1 flex items-center gap-1.5">
-                  {t.name}
+
+              <div className="flex flex-col flex-1 px-2">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="font-serif text-[24px] tracking-tight">{t.name}</h3>
                   {t.verified && (
-                    <div title="Verified" className="flex items-center justify-center -mt-0.5">
-                      <BadgeCheck className="w-5 h-5 text-[#0095F6]" fill="currentColor" stroke="white" strokeWidth={2} />
-                    </div>
+                    <BadgeCheck className="w-5 h-5 text-[#B8860B]" strokeWidth={2} />
                   )}
-                </h3>
-                <p className="text-[13px] text-black/50 flex items-center gap-1.5 mb-4">
-                  <MapPin className="w-3.5 h-3.5" /> {t.loc}
+                </div>
+                
+                <p className="text-[14px] text-black/50 mb-6 font-medium flex items-center gap-1.5">
+                  <MapPin className="w-3.5 h-3.5" /> {t.loc || t.location}
                 </p>
-                <div className="w-full h-[1px] bg-black/5 mb-4"></div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[12px] text-black/40 font-medium">{t.revs} Reviews</span>
+                <div className="flex items-center justify-between mt-auto pt-4 border-t border-black/5">
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-1.5">
+                      <Star className="w-4 h-4 fill-[#1C1A17] text-[#1C1A17]" />
+                      <span className="font-bold text-[14px]">{t.rating}</span>
+                    </div>
+                    <div className="w-1 h-1 rounded-full bg-black/20"></div>
+                    <span className="text-[13px] text-black/50 font-medium">{t.revs || t.reviews || 0} reviews</span>
+                  </div>
                   <div className="text-[12px] font-bold group-hover:translate-x-1 transition-transform flex items-center gap-1">
                     View Profile <ArrowRight className="w-3.5 h-3.5" />
                   </div>
                 </div>
               </div>
             </motion.div>
-            </Link>
+          </Link>
           ))}
         </div>
       </section>
