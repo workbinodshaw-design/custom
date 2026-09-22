@@ -54,6 +54,7 @@ interface VendorState {
 interface VendorContextType {
   state: VendorState;
   loading: boolean;
+  setVendorId: (id: string | null) => void;
   updateLeadStatus: (id: string, status: LeadStatus) => void;
   addLeadNote: (id: string, note: string) => void;
   updateAppointmentStatus: (id: string, status: AppointmentStatus) => void;
@@ -64,7 +65,7 @@ interface VendorContextType {
 }
 
 const defaultState: VendorState = {
-  vendorId: "v1", // Hardcoded for this testing simulation to auto-login to the first vendor
+  vendorId: "",
   vendorName: "Loading...",
   plan: "FREE",
   verificationStatus: "Pending",
@@ -80,15 +81,26 @@ export function VendorProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<VendorState>(defaultState);
   const [loading, setLoading] = useState(true);
 
+  // Initialize from localStorage
+  useEffect(() => {
+    const savedId = localStorage.getItem("vendorId");
+    if (savedId) {
+      setState(prev => ({ ...prev, vendorId: savedId }));
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
   // Fetch from the Local API DB
   useEffect(() => {
     const fetchData = async () => {
+      if (!state.vendorId) return;
+      
+      setLoading(true);
       try {
-        // Fetch specific vendor data
         const vendorRes = await fetch(`/api/vendors/${state.vendorId}`);
         const vendorJson = await vendorRes.json();
         
-        // Fetch leads for this vendor
         const leadsRes = await fetch(`/api/leads?vendorId=${state.vendorId}`);
         const leadsJson = await leadsRes.json();
 
@@ -97,13 +109,13 @@ export function VendorProvider({ children }: { children: ReactNode }) {
           setState(prev => ({
             ...prev,
             vendorName: vendor.name,
-            plan: vendor.plan,
+            plan: vendor.plan || "FREE",
             verificationStatus: vendor.status === 'approved' ? 'Approved' : 'Pending',
             services: vendor.services || [],
             leads: leadsJson.success ? leadsJson.data : [],
             appointments: vendor.appointments || [],
             notifications: [
-              { id: 1, type: "system", message: "Welcome back! Your dashboard is now synced with the local API.", read: false }
+              { id: 1, type: "system", message: "Welcome back to your dashboard.", read: false }
             ]
           }));
         }
@@ -116,6 +128,16 @@ export function VendorProvider({ children }: { children: ReactNode }) {
     
     fetchData();
   }, [state.vendorId]);
+
+  const setVendorId = (id: string | null) => {
+    if (id) {
+      localStorage.setItem("vendorId", id);
+      setState(prev => ({ ...prev, vendorId: id }));
+    } else {
+      localStorage.removeItem("vendorId");
+      setState(defaultState);
+    }
+  };
 
   const updateLeadStatus = async (id: string, status: LeadStatus) => {
     setState(prev => ({
@@ -186,7 +208,7 @@ export function VendorProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <VendorContext.Provider value={{ state, loading, updateLeadStatus, addLeadNote, updateAppointmentStatus, addAppointment, toggleService, updatePlan, markNotificationsRead }}>
+    <VendorContext.Provider value={{ state, loading, setVendorId, updateLeadStatus, addLeadNote, updateAppointmentStatus, addAppointment, toggleService, updatePlan, markNotificationsRead }}>
       {children}
     </VendorContext.Provider>
   );

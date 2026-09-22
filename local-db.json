@@ -13,8 +13,20 @@
       "profileImage": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200",
       "plan": "PRO_VERIFIED",
       "services": [
-        { "id": "S-1", "name": "Custom Suit", "category": "Suit", "startingPrice": 1200, "enabled": true },
-        { "id": "S-2", "name": "Bespoke Suit", "category": "Suit", "startingPrice": 2500, "enabled": true }
+        {
+          "id": "S-1",
+          "name": "Custom Suit",
+          "category": "Suit",
+          "startingPrice": 1200,
+          "enabled": true
+        },
+        {
+          "id": "S-2",
+          "name": "Bespoke Suit",
+          "category": "Suit",
+          "startingPrice": 2500,
+          "enabled": true
+        }
       ],
       "status": "approved",
       "createdAt": "2024-01-01T00:00:00Z"
@@ -25,7 +37,7 @@
       "email": "milano@example.com",
       "password": "password123",
       "location": "Downtown, Milan",
-      "rating": 5.0,
+      "rating": 5,
       "reviews": 215,
       "verified": false,
       "image": "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=800",
@@ -34,22 +46,48 @@
       "services": [],
       "status": "pending",
       "createdAt": "2024-01-05T00:00:00Z"
+    },
+    {
+      "id": "v_1790093083914",
+      "name": "Binod Shaw",
+      "email": "work.binodshaw@gmail.com",
+      "password": "125893",
+      "location": "New York, USA",
+      "rating": "0.0",
+      "reviews": "0",
+      "verified": false,
+      "plan": "FREE",
+      "status": "approved",
+      "createdAt": "2026-09-22T16:04:43.914Z"
+    },
+    {
+      "id": "v_1790093121041",
+      "name": "Binod Shaw",
+      "email": "work.binodshaw@gmail.com",
+      "password": "125893",
+      "location": "New York, USA",
+      "rating": "0.0",
+      "reviews": "0",
+      "verified": false,
+      "plan": "FREE",
+      "status": "approved",
+      "createdAt": "2026-09-22T16:05:21.041Z"
     }
   ],
   "leads": [
-    { 
-      "id": "L-101", 
-      "vendorId": "v1", 
-      "name": "Michael Reynolds", 
-      "service": "Bespoke Suit", 
-      "location": "New York, NY", 
-      "date": "Oct 15", 
-      "status": "New", 
-      "budget": "$1,500+", 
-      "message": "Looking for a navy bespoke suit for an upcoming gala.", 
-      "email": "michael.r@example.com", 
-      "phone": "+1 (555) 123-4567", 
-      "notes": [] 
+    {
+      "id": "L-101",
+      "vendorId": "v1",
+      "name": "Michael Reynolds",
+      "service": "Bespoke Suit",
+      "location": "New York, NY",
+      "date": "Oct 15",
+      "status": "New",
+      "budget": "$1,500+",
+      "message": "Looking for a navy bespoke suit for an upcoming gala.",
+      "email": "michael.r@example.com",
+      "phone": "+1 (555) 123-4567",
+      "notes": []
     }
   ],
   "appointments": []

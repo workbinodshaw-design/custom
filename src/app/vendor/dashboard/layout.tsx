@@ -2,14 +2,15 @@
 
 import { LayoutDashboard, Users, Calendar, MessageSquare, BarChart2, User, Briefcase, Image as ImageIcon, MapPin, CreditCard, ShieldCheck, Settings, LogOut, Bell, Search, HelpCircle, ChevronDown, Check, Menu, X } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { VendorProvider, useVendor } from "@/lib/mock/VendorContext";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { state, markNotificationsRead } = useVendor();
+  const router = useRouter();
+  const { state, loading, setVendorId, markNotificationsRead } = useVendor();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showMobileMore, setShowMobileMore] = useState(false);
 
@@ -18,6 +19,17 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
     setShowMobileMore(false);
     setShowNotifications(false);
   }, [pathname]);
+
+  useEffect(() => {
+    if (!loading && !state.vendorId) {
+      router.push('/vendor/register');
+    }
+  }, [loading, state.vendorId, router]);
+
+  const handleSignOut = () => {
+    setVendorId(null);
+    router.push('/vendor/register');
+  };
 
   const mainNav = [
     { name: "Dashboard", icon: LayoutDashboard, href: "/vendor/dashboard" },
@@ -116,7 +128,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
           <div className="flex items-center gap-3 px-3 py-2 rounded-[8px] font-medium text-[13px] text-[#666666] hover:text-[#111111] hover:bg-[#F5F5F5] transition-colors cursor-pointer mb-1">
             <HelpCircle className="w-4 h-4" strokeWidth={1.5} /> Help & Support
           </div>
-          <div className="flex items-center gap-3 px-3 py-2 rounded-[8px] font-medium text-[13px] text-red-500/80 hover:bg-red-50 hover:text-red-600 transition-colors cursor-pointer">
+          <div onClick={handleSignOut} className="flex items-center gap-3 px-3 py-2 rounded-[8px] font-medium text-[13px] text-red-500/80 hover:bg-red-50 hover:text-red-600 transition-colors cursor-pointer">
             <LogOut className="w-4 h-4" strokeWidth={1.5} /> Sign Out
           </div>
         </div>
@@ -290,7 +302,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
                       <span className="font-medium text-[15px] text-[#111111]">{item.name}</span>
                     </Link>
                   ))}
-                  <div className="flex items-center gap-3 p-4 border-t border-black/5 text-red-600">
+                  <div onClick={handleSignOut} className="flex items-center gap-3 p-4 border-t border-black/5 text-red-600 cursor-pointer">
                     <div className="w-8 h-8 rounded-full bg-red-50 flex items-center justify-center"><LogOut className="w-4 h-4 text-red-500" /></div>
                     <span className="font-medium text-[15px]">Sign Out</span>
                   </div>
