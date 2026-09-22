@@ -106,48 +106,49 @@ export default function LeadsPage() {
               </tr>
             </thead>
             <tbody>
-              {filteredLeads.map((lead) => (
-                <tr 
-                  key={lead.id} 
-                  onClick={() => setSelectedLead(lead)}
-                  className="border-b border-black/5 last:border-0 hover:bg-[#F5F5F5] transition-colors cursor-pointer group"
-                >
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-[#111111] text-white flex items-center justify-center font-serif text-[16px] shrink-0">
-                        {lead.name.charAt(0)}
-                      </div>
-                      <div>
-                        <div className="text-[14px] font-bold text-[#111111]">{lead.name}</div>
-                        <div className="flex items-center gap-3 mt-1">
-                          <span className="text-[12px] text-[#888888] flex items-center gap-1"><Mail className="w-3 h-3" /> {state.plan === 'FREE' ? 'Hidden (Pro)' : lead.email}</span>
+              {filteredLeads.length > 0 ? (
+                filteredLeads.map((lead) => (
+                  <tr 
+                    key={lead.id} 
+                    onClick={() => setSelectedLead(lead)}
+                    className="border-b border-black/5 last:border-0 hover:bg-[#F5F5F5] transition-colors cursor-pointer group"
+                  >
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-[#111111] text-white flex items-center justify-center font-serif text-[16px] shrink-0">
+                          {lead.name.charAt(0)}
+                        </div>
+                        <div>
+                          <div className="text-[14px] font-bold text-[#111111]">{lead.name}</div>
+                          <div className="flex items-center gap-3 mt-1">
+                            <span className="text-[12px] text-[#888888] flex items-center gap-1"><Mail className="w-3 h-3" /> {state.plan === 'FREE' ? 'Hidden (Pro)' : lead.email}</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="text-[13px] font-bold text-[#111111] mb-1">{lead.service}</div>
-                    <div className="flex items-center gap-2 text-[12px] text-[#666666]">
-                      <MapPin className="w-3 h-3 text-[#888888]" /> {lead.location}
-                      <span className="w-1 h-1 bg-[#CCCCCC] rounded-full mx-1"></span>
-                      <span>Budget: {lead.budget}</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="text-[13px] text-[#111111] font-medium">{lead.date}</div>
-                    <div className="text-[11px] text-[#888888] font-mono mt-1">{lead.id}</div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className={`inline-flex items-center px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider rounded-[4px] ${getStatusStyle(lead.status)}`}>
-                      {lead.status}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-              {filteredLeads.length === 0 && (
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="text-[13px] font-bold text-[#111111] mb-1">{lead.service}</div>
+                      <div className="flex items-center gap-2 text-[12px] text-[#666666]">
+                        <MapPin className="w-3 h-3 text-[#888888]" /> {lead.location}
+                        <span className="w-1 h-1 bg-[#CCCCCC] rounded-full mx-1"></span>
+                        <span>Budget: {lead.budget}</span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="text-[13px] text-[#111111] font-medium">{lead.date}</div>
+                      <div className="text-[11px] text-[#888888] font-mono mt-1">{lead.id}</div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className={`inline-flex items-center px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider rounded-[6px] ${getStatusStyle(lead.status)}`}>
+                        {lead.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              ) : (
                 <tr>
-                  <td colSpan={4} className="px-6 py-12 text-center text-[#888888] text-[14px]">
-                    No leads found for this filter.
+                  <td colSpan={4} className="px-6 py-10 text-center text-[#888888] text-[13px]">
+                    No leads found.
                   </td>
                 </tr>
               )}
@@ -158,12 +159,13 @@ export default function LeadsPage() {
 
       {/* LEADS MOBILE CARDS */}
       <div className="lg:hidden space-y-3">
-        {filteredLeads.map((lead) => (
-          <div 
-            key={lead.id}
-            onClick={() => setSelectedLead(lead)}
-            className="bg-white border border-black/10 rounded-[12px] p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)] active:scale-[0.98] transition-transform cursor-pointer"
-          >
+        {filteredLeads.length > 0 ? (
+          filteredLeads.map((lead) => (
+            <div 
+              key={lead.id}
+              onClick={() => setSelectedLead(lead)}
+              className="bg-white border border-black/10 rounded-[12px] p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)] active:scale-[0.98] transition-transform cursor-pointer"
+            >
             <div className="flex justify-between items-start mb-3">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-[#111111] text-white flex items-center justify-center font-serif text-[16px] shrink-0">
@@ -191,7 +193,8 @@ export default function LeadsPage() {
               View Lead Details <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
-        ))}
+          ))
+        ) : null}
         {filteredLeads.length === 0 && (
           <div className="bg-white border border-black/10 rounded-[12px] p-8 text-center shadow-sm">
             <h3 className="text-[15px] font-semibold text-[#111111] mb-2">No leads found</h3>

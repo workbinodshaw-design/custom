@@ -212,42 +212,49 @@ export default function DashboardOverview() {
           
           {/* Desktop Table View */}
           <div className="hidden lg:block overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr>
-                  <th className="px-5 py-3 text-[10px] font-bold tracking-widest text-[#888888] uppercase border-b border-black/5">Customer</th>
-                  <th className="px-5 py-3 text-[10px] font-bold tracking-widest text-[#888888] uppercase border-b border-black/5">Service</th>
-                  <th className="px-5 py-3 text-[10px] font-bold tracking-widest text-[#888888] uppercase border-b border-black/5">Date</th>
-                  <th className="px-5 py-3 text-[10px] font-bold tracking-widest text-[#888888] uppercase border-b border-black/5">Status</th>
-                  <th className="px-5 py-3 text-[10px] font-bold tracking-widest text-[#888888] uppercase border-b border-black/5 text-right">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {state.leads.slice(0, 4).map((lead) => (
-                  <tr key={lead.id} className="hover:bg-[#F5F5F5] transition-colors border-b border-black/5 last:border-0">
-                    <td className="px-5 py-3.5 text-[13px] font-semibold text-[#111111]">{lead.name}</td>
-                    <td className="px-5 py-3.5 text-[13px] text-[#666666]">{lead.service}</td>
-                    <td className="px-5 py-3.5 text-[13px] text-[#888888]">{lead.date}</td>
-                    <td className="px-5 py-3.5">
-                      <span className={`inline-flex items-center px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-[4px] ${getStatusStyle(lead.status)}`}>
-                        {lead.status}
-                      </span>
-                    </td>
-                    <td className="px-5 py-3.5 text-right">
-                      <Link href="/vendor/dashboard/leads">
-                        <button className="text-[12px] font-semibold text-[#A67C00] hover:text-[#111111] transition-colors">View</button>
-                      </Link>
-                    </td>
+            {state.leads.length > 0 ? (
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr>
+                    <th className="px-5 py-3 text-[10px] font-bold tracking-widest text-[#888888] uppercase border-b border-black/5">Customer</th>
+                    <th className="px-5 py-3 text-[10px] font-bold tracking-widest text-[#888888] uppercase border-b border-black/5">Service</th>
+                    <th className="px-5 py-3 text-[10px] font-bold tracking-widest text-[#888888] uppercase border-b border-black/5">Date</th>
+                    <th className="px-5 py-3 text-[10px] font-bold tracking-widest text-[#888888] uppercase border-b border-black/5">Status</th>
+                    <th className="px-5 py-3 text-[10px] font-bold tracking-widest text-[#888888] uppercase border-b border-black/5 text-right">Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {state.leads.slice(0, 4).map((lead) => (
+                    <tr key={lead.id} className="hover:bg-[#F5F5F5] transition-colors border-b border-black/5 last:border-0">
+                      <td className="px-5 py-3.5 text-[13px] font-semibold text-[#111111]">{lead.name}</td>
+                      <td className="px-5 py-3.5 text-[13px] text-[#666666]">{lead.service}</td>
+                      <td className="px-5 py-3.5 text-[13px] text-[#888888]">{lead.date}</td>
+                      <td className="px-5 py-3.5">
+                        <span className={`inline-flex items-center px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-[4px] ${getStatusStyle(lead.status)}`}>
+                          {lead.status}
+                        </span>
+                      </td>
+                      <td className="px-5 py-3.5 text-right">
+                        <Link href="/vendor/dashboard/leads">
+                          <button className="text-[12px] font-semibold text-[#A67C00] hover:text-[#111111] transition-colors">View</button>
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <div className="p-8 text-center text-[#888888] text-[13px]">
+                No leads yet. When customers contact you, they will appear here.
+              </div>
+            )}
           </div>
 
           {/* Mobile Cards View */}
           <div className="lg:hidden p-4 space-y-3">
-            {state.leads.slice(0, 4).map((lead) => (
-              <div key={lead.id} className="bg-white border border-black/10 rounded-[10px] p-4 shadow-sm">
+            {state.leads.length > 0 ? (
+              state.leads.slice(0, 4).map((lead) => (
+                <div key={lead.id} className="bg-white border border-black/10 rounded-[10px] p-4 shadow-sm">
                 <div className="flex justify-between items-start mb-2">
                   <span className="font-medium text-[14px] text-[#111111]">{lead.name}</span>
                   <span className={`inline-flex items-center px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-[4px] ${getStatusStyle(lead.status)}`}>
@@ -265,7 +272,12 @@ export default function DashboardOverview() {
                   </button>
                 </Link>
               </div>
-            ))}
+              ))
+            ) : (
+              <div className="text-center text-[#888888] text-[13px] py-4">
+                No leads yet.
+              </div>
+            )}
           </div>
 
         </div>
