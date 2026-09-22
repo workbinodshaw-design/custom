@@ -405,7 +405,7 @@ export default function Page() {
 
         <div className="flex lg:grid lg:grid-cols-4 gap-6 overflow-x-auto overflow-y-hidden snap-x snap-mandatory pb-8 pt-4 -mx-6 px-6 lg:mx-0 lg:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {approvedTailors.map((t, i) => (
-            <Link href={`/tailor/${t.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} key={i} className="shrink-0 w-[75vw] md:w-[45vw] lg:w-auto snap-center lg:snap-align-none block">
+            <Link href={`/tailor/${t.id}`} key={i} className="shrink-0 w-[75vw] md:w-[45vw] lg:w-auto snap-center lg:snap-align-none block">
               <motion.div initial={{ opacity: 0, y: 50, scale: 0.95 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1.2, delay: i * 0.1, ease }} className="group cursor-pointer flex flex-col p-4 -m-4 rounded-[32px] lg:hover:bg-white lg:hover:shadow-[0_24px_48px_rgba(0,0,0,0.05)] lg:hover:-translate-y-2 transition-all duration-[0.8s] ease-[0.16,1,0.3,1] h-full">
               <div className="relative mb-8">
                 <div className="w-full h-[280px] rounded-[24px] overflow-hidden relative" style={{ WebkitMaskImage: 'radial-gradient(circle at calc(100% - 56px) calc(100% - 16px), transparent 38px, black 39px)', maskImage: 'radial-gradient(circle at calc(100% - 56px) calc(100% - 16px), transparent 38px, black 39px)' }}>
