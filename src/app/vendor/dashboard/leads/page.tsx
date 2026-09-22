@@ -284,12 +284,12 @@ export default function LeadsPage() {
                 <div className="bg-white p-4 lg:p-5 rounded-[12px] lg:rounded-[16px] border border-black/5 shadow-sm">
                   <h3 className="text-[10px] lg:text-[11px] font-bold tracking-widest text-[#888888] uppercase mb-4">Internal Notes</h3>
                   <div className="space-y-3 mb-4">
-                    {selectedLead.notes.map((note, idx) => (
+                    {(selectedLead.notes || []).map((note: string, idx: number) => (
                       <div key={idx} className="bg-[#FAFAF9] p-3 border border-black/5 rounded-[8px] text-[12px] lg:text-[13px] text-[#444444]">
                         {note}
                       </div>
                     ))}
-                    {selectedLead.notes.length === 0 && (
+                    {(!selectedLead.notes || selectedLead.notes.length === 0) && (
                       <p className="text-[12px] text-[#888888] italic">No internal notes.</p>
                     )}
                   </div>
